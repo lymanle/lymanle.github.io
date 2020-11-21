@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>递归和动态规划 - LymanLife</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyman" /><meta name="description" content="递归和动态规划 介绍递归和动态规划 暴力递归 把问题转化为规模小了的同类问题的子问题 有明确的不需要继续进行递归的条件(base case) 有当得到了子问题的" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.78.2 with theme even" />
+
+
+<link rel="canonical" href="http://lyman.fun/post/8.-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="递归和动态规划" />
+<meta property="og:description" content="递归和动态规划 介绍递归和动态规划 暴力递归 把问题转化为规模小了的同类问题的子问题 有明确的不需要继续进行递归的条件(base case) 有当得到了子问题的" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://lyman.fun/post/8.-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" />
+<meta property="article:published_time" content="2019-07-18T10:26:30+00:00" />
+<meta property="article:modified_time" content="2019-07-18T10:26:30+00:00" />
+<meta itemprop="name" content="递归和动态规划">
+<meta itemprop="description" content="递归和动态规划 介绍递归和动态规划 暴力递归 把问题转化为规模小了的同类问题的子问题 有明确的不需要继续进行递归的条件(base case) 有当得到了子问题的">
+<meta itemprop="datePublished" content="2019-07-18T10:26:30+00:00" />
+<meta itemprop="dateModified" content="2019-07-18T10:26:30+00:00" />
+<meta itemprop="wordCount" content="4585">
+
+
+
+<meta itemprop="keywords" content="算法," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="递归和动态规划"/>
+<meta name="twitter:description" content="递归和动态规划 介绍递归和动态规划 暴力递归 把问题转化为规模小了的同类问题的子问题 有明确的不需要继续进行递归的条件(base case) 有当得到了子问题的"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LymanLife</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LymanLife</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">递归和动态规划</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-07-18 </span>
+        
+          <span class="more-meta"> 4585 words </span>
+          <span class="more-meta"> 10 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#递归和动态规划">递归和动态规划</a></li>
+            <li><a href="#介绍递归和动态规划">介绍递归和动态规划</a></li>
+            <li><a href="#动态规划-1">动态规划</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="递归和动态规划">递归和动态规划</h3>
+<h3 id="介绍递归和动态规划">介绍递归和动态规划</h3>
+<h4 id="暴力递归">暴力递归</h4>
+<ul>
+<li>把问题转化为规模小了的同类问题的子问题</li>
+<li>有明确的不需要继续进行递归的条件(base case)</li>
+<li>有当得到了子问题的结果之后的决策过程</li>
+<li><strong>不记录每一个子问题的解</strong></li>
+</ul>
+<h4 id="动态规划">动态规划</h4>
+<ul>
+<li>从暴力递归中来</li>
+<li>将每一个子问题的解记录下来,避免重复计算</li>
+<li>把暴力递归的过程,  抽象成了状态表达</li>
+<li>并且存中化简状态表达, 使其更加简洁的可能</li>
+</ul>
+<h4 id="题目一--求-n-的结果">题目一 : 求 n! 的结果</h4>
+<pre><code class="language-java">package class_08;
+
+public class Code_01_Factorial {
+    //递归	
+	public static long getFactorial1(int n) {
+		if (n == 1) {
+			return 1L;
+		}
+		return (long) n * getFactorial1(n - 1);
+	}
+	//非递归
+	public static long getFactorial2(int n) {
+		long result = 1L;
+		for (int i = 1; i &lt;= n; i++) {
+			result *= i;
+		}
+		return result;
+	}
+
+	public static void main(String[] args) {
+		int n = 5;
+		System.out.println(getFactorial1(n));
+		System.out.println(getFactorial2(n));
+	}
+
+}
+
+</code></pre>
+<h4 id="题目二--汉诺塔问题">题目二 : 汉诺塔问题</h4>
+<p>题目：在一根柱子上从下往上按照大小顺序摞着 n 片黄金圆盘。把圆盘从下面开始按大小顺序重新摆放在另一根柱子上。并且规定，任何时候，在小圆盘上都不能放大圆盘，且在三根柱子之间一次只能移动一个圆盘。打印出移动次数最少的全过程。</p>
+<p><strong>思路</strong> :给三根柱子分别命名为 “from”、“to”、“help”，from 代表此次需要移动的圆盘所在的位置，to 代表这些圆盘要去的地方，help 是用于辅助的，分三步走：</p>
+<ul>
+<li>n-1 个圆盘从 from 到 help；</li>
+<li>第 n 个圆盘从 from 到 to；</li>
+<li>把那 n-1个圆盘从 help 移动到 to 上面来。</li>
+</ul>
+<pre><code class="language-java">package class_08;
+
+public class Code_02_Hanoi {
+
+	public static void hanoi(int n) {
+		if (n &gt; 0) {
+			func(n, n, &quot;left&quot;, &quot;mid&quot;, &quot;right&quot;);
+		}
+	}
+
+	public static void func(int rest, int down, String from, String help, String to) {
+		if (rest == 1) {
+			System.out.println(&quot;move &quot; + down + &quot; from &quot; + from + &quot; to &quot; + to);
+		} else {
+			func(rest - 1, down - 1, from, to, help);
+			func(1, down, from, help, to);
+			func(rest - 1, down - 1, help, from, to);
+		}
+	}
+
+	public static void main(String[] args) {
+		int n = 3;
+		hanoi(n);
+	}
+
+}
+
+</code></pre>
+<h4 id="题目三--打印字符串所有的子串-包括空字符串">题目三 : 打印字符串所有的子串, 包括空字符串</h4>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E7%89%9B%E5%AE%A2%E7%AE%97%E6%B3%95/%E6%89%93%E5%8D%B0%E5%AD%97%E7%AC%A6%E4%B8%B2.png" alt="打印字符串"></p>
+<pre><code class="language-java">package class_08;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Code_03_Print_All_Subsquences {
+
+	public static void printAllSubsquence(String str) {
+		char[] chs = str.toCharArray();
+		process(chs, 0);
+	}
+
+	public static void process(char[] chs, int i) {
+		if (i == chs.length) {
+			System.out.println(String.valueOf(chs));
+			return;
+		}
+		process(chs, i + 1);
+		char tmp = chs[i];
+		chs[i] = 0;
+		process(chs, i + 1);
+		chs[i] = tmp;
+	}
+	
+	public static void function(String str) {
+		char[] chs = str.toCharArray();
+		process(chs, 0, new ArrayList&lt;Character&gt;());
+	}
+	
+	public static void process(char[] chs, int i, List&lt;Character&gt; res) {
+		if(i == chs.length) {
+			printList(res);
+		}
+		List&lt;Character&gt; resKeep = copyList(res);
+		resKeep.add(chs[i]);
+		process(chs, i+1, resKeep);
+		List&lt;Character&gt; resNoInclude = copyList(res);
+		process(chs, i+1, resNoInclude);
+	}
+	
+	public static void printList(List&lt;Character&gt; res) {
+		// ...;
+	}
+	
+	public static List&lt;Character&gt; copyList(List&lt;Character&gt; list){
+		return null;
+	}
+	
+    
+    
+    
+    
+// 现场
+    public static void printAllSub(char[] str, int i, String res){
+        if(i == str.length){//递归终止条件
+            System.out.println(res);
+            return;
+        }
+        printAllSub(str, i+1, res);
+        printAllSub(str, i+1, res + String.valueOf(str[i]));
+    }
+
+	public static void main(String[] args) {
+		String test = &quot;abc&quot;;
+		printAllSubsquence(test);
+	}
+
+}
+
+
+
+
+</code></pre>
+<h4 id="题目四--打印一个字符串的全部排列-不出现重复排列">题目四 : 打印一个字符串的全部排列, 不出现重复排列</h4>
+<ul>
+<li>你也可以同题目三一样用pre，思想是一样的，这里的i有 n-i 总选择，而题目三因为求的是子序列，只有 2 种选择【要或者不要】。</li>
+</ul>
+<ul>
+<li>差别：题目三不是所有字母都在，而且字母建不能乱序，所以不能用打印chars这种方法，而要用额外的pre来记录。</li>
+</ul>
+<pre><code class="language-java">package com.offer.foundation.class6;
+ 
+/**
+ * @author pengcheng
+ * @date 2019/4/4 - 16:00
+ * @content:
+ */
+public class PrintAllSort {
+ 
+    public static void printAllSort(String string){
+        if(string == null){
+            return;
+        }
+        char[] chars = string.toCharArray();
+        if(chars.length &gt; 0){
+            func(0, chars);
+        }
+    }
+ 
+    // 对i及i以后的字符进行全排序
+    public static void func(int i, char[] chars){
+        if(i == chars.length){
+            System.out.println(String.valueOf(chars));
+        }
+ 
+        for(int j = i; j &lt; chars.length; j++){
+            swap(i, j, chars);     // 第i个位置有i~n-1这些选择
+            func(i + 1, chars);  // 搞第i+1的位置
+            swap(i, j, chars);
+        }
+    }
+ 
+    public static void swap(int i, int j, char[] chars){
+        char temp = chars[i];
+        chars[i] = chars[j];
+        chars[j] = temp;
+    }
+ 
+    // 测试
+    public static void main(String[] args) {
+        printAllSort(&quot;abc&quot;);
+    }
+}
+</code></pre>
+<ul>
+<li>进阶：打印一个字符串的全部排列，要求不要出现重复的排列</li>
+</ul>
+<pre><code class="language-java">//上面打印认为两个相同字符是不同额,这里只是增加了一个hashset，用于保证重复字符不会被再次交换。
+
+
+package com.offer.foundation.class6;
+ 
+import java.util.HashSet;
+ 
+/**
+ * @author pengcheng
+ * @date 2019/4/4 - 16:00
+ * @content:
+ */
+public class PrintAllSort {
+ 
+    public static void printAllSort(String string){
+        if(string == null){
+            return;
+        }
+        char[] chars = string.toCharArray();
+        if(chars.length &gt; 0){
+            func2(0, chars);
+        }
+    }
+ 
+    // 对i及i以后的字符进行全排序
+    public static void func2(int i, char[] chars){
+        if(i == chars.length){
+            System.out.println(String.valueOf(chars));
+        }
+ 
+        // 用于保证每次交换的字符不存在重复字符
+        HashSet&lt;Character&gt; set = new HashSet&lt;&gt;();
+        for(int j = i; j &lt; chars.length; j++){
+            // 只有之前没有交换过这个字符才会交换
+            if(!set.contains(chars[j])) {
+                set.add(chars[j]);
+                swap(i, j, chars);      // 第i个位置有i~n-1这些选择
+                func2(i + 1, chars);  // 搞第i+1的位置
+                swap(i, j, chars);
+            }
+        }
+    }
+ 
+    public static void swap(int i, int j, char[] chars){
+        char temp = chars[i];
+        chars[i] = chars[j];
+        chars[j] = temp;
+    }
+ 
+    // 测试
+    public static void main(String[] args) {
+        printAllSort(&quot;acc&quot;);
+    }
+}
+</code></pre>
+<h4 id="题目五--母牛问题">题目五 : 母牛问题</h4>
+<p>母牛每年生一只母牛, 新生出的母牛三年后也能每年生一只母牛, 假设不会死, 求N年后, 母 牛的数量</p>
+<p>F(n) = F(n-1) + F(n-3)</p>
+<pre><code class="language-java">
+package com.offer.foundation.class6;
+ 
+/**
+ * @author pengcheng
+ * @date 2019/3/31 - 17:09
+ * @content: 母牛数量问题
+ */
+public class CowNum {
+ 
+    // 求第n年的牛的数量
+    public static int cowNum(int n){
+        if(n == 1){
+            return 1;
+        }
+ 
+        if(n == 2){
+            return 2;
+        }
+ 
+        if(n == 3){
+            return 3;
+        }
+        return cowNum(n - 1) + cowNum(n - 3);
+    }
+ 
+    // 测试
+    public static void main(String[] args) {
+        int num = cowNum(5);
+        System.out.println(num);
+    }
+}
+</code></pre>
+<ul>
+<li>如果每头母牛只能活10年:</li>
+<li>【分析】 cowNum(n) = cowNum(n-1) + cowNum(n-3) -cowNum(n-10)；即今年的牛等于去年的牛加上三年前的牛（因为三年前的牛能够生新牛了）,然后再减去十年前的牛。</li>
+</ul>
+<pre><code class="language-java">public static int cowNum2(int n){
+	if(n &lt;= 3){
+		return n;
+	}else if(n &lt;= 10){
+		return cowNum2(n - 1) + cowNum2(n - 3);
+	}else{
+		return cowNum2(n - 1) + cowNum2(n - 3) + cowNum2(n - 10);
+	}
+}
+</code></pre>
+<h3 id="动态规划-1">动态规划</h3>
+<p>动态规划是从base case往上推得到 n ，而递归是从 n 推到base case再一个一个的返回来得到 n 的结果</p>
+<h4 id="动态规划的特点">动态规划的特点</h4>
+<ul>
+<li>从暴力递归中来</li>
+<li>将每一个子问题的解记录下来，避免重复计算【记录每个子问题的解】</li>
+<li>把暴力递归的过程，抽象成了状态表达</li>
+<li>并且存在化简状态表达，使其更加简洁的可能</li>
+</ul>
+<h4 id="如何把暴力递归套路变为动态规划">如何把暴力递归套路变为动态规划</h4>
+<p>【前提】：问题必须是<strong>无后效性</strong>问题，即我怎么到达子状态的路径不影响子状态的返回值</p>
+<p><strong>套路化步骤</strong>：</p>
+<ul>
+<li>分析可变参数（解空间）【可变参数就是，当参数固定了，返回值（状态）就固定了】，可变参数是几维的就是几维状态表；</li>
+<li>确定最终状态（即目标状态）；</li>
+<li>根据base case确定确定初始状态；</li>
+<li>分析一个普遍位置依赖哪些位置；</li>
+<li>根据依赖顺序逆序求整个表。</li>
+</ul>
+<h4 id="题目一--矩阵最小路径和">题目一 : 矩阵最小路径和</h4>
+<p>给你一个二维数组, 二维数组中的每个数都是正数, 要求从左上角走到右下角, 每一步只能向右或者向下. 沿途经过的数字要累加起来, 返回最小的路径和.</p>
+<p><strong>思路</strong> : 面试中,没见过的动态规划, 有一个套路: 写出递归版本, 然后改成动态规划&hellip;</p>
+<p>但是有些问题改不出动态规划, 因为没有重复计算, 例如汉诺塔问题</p>
+<h5 id="递归版本">递归版本</h5>
+<pre><code class="language-java">package class_08;
+
+public class Code_07_MinPath {
+//递归版本
+	public static int minPath1(int[][] matrix) {
+		return process1(matrix, matrix.length - 1, matrix[0].length - 1);
+	}
+	//从(i, j)出发, 到达最右下角位置, 最小路径和是多少(返回)
+	public static int process1(int[][] matrix, int i, int j) {
+		int res = matrix[i][j];
+		if (i == 0 &amp;&amp; j == 0) {
+			return res;
+		}
+		if (i == 0 &amp;&amp; j != 0) {
+			return res + process1(matrix, i, j - 1);
+		}
+		if (i != 0 &amp;&amp; j == 0) {
+			return res + process1(matrix, i - 1, j);
+		}
+		return res + Math.min(process1(matrix, i, j - 1), process1(matrix, i - 1, j));
+	}
+    //现场手写, 枚举, 把所有答案都已经列出来了
+    public static voi walk(int[][] matrix, int i, int j ){
+        if(i == matrix.length &amp;&amp; j == matrix[0].length){
+            return matrix[i][j]; //如果来到了右下角
+        }
+        //如果是最后一行, 只能向右走了
+        if(i == matrix.length - 1){
+            return matrix[i][j] + walk(matrix, i, j+1);
+        }
+        //如果到了最后一列,只能向下走
+        if(j == matrix[0].length -1) {
+            return matrix[i][j] + walk(matrix, i+1, j);
+        }
+        //正常情况, 向右向下都可以
+        int right = walk(matrix, i, j+1);//向右的代价到右下角的最短路径和
+        int down = walk(matrix, i+1, j);向下的代价到右下角的最短路径和
+        return matrix[i][j] + Math.min(right, down);
+    }
+
+    //动态规划版本
+	public static int minPath2(int[][] m) {
+		if (m == null || m.length == 0 || m[0] == null || m[0].length == 0) {
+			return 0;
+		}
+		int row = m.length;
+		int col = m[0].length;
+		int[][] dp = new int[row][col];
+		dp[0][0] = m[0][0];
+		for (int i = 1; i &lt; row; i++) {
+			dp[i][0] = dp[i - 1][0] + m[i][0];
+		}
+		for (int j = 1; j &lt; col; j++) {
+			dp[0][j] = dp[0][j - 1] + m[0][j];
+		}
+		for (int i = 1; i &lt; row; i++) {
+			for (int j = 1; j &lt; col; j++) {
+				dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + m[i][j];
+			}
+		}
+		return dp[row - 1][col - 1];
+	}
+
+	// for test
+	public static int[][] generateRandomMatrix(int rowSize, int colSize) {
+		if (rowSize &lt; 0 || colSize &lt; 0) {
+			return null;
+		}
+		int[][] result = new int[rowSize][colSize];
+		for (int i = 0; i != result.length; i++) {
+			for (int j = 0; j != result[0].length; j++) {
+				result[i][j] = (int) (Math.random() * 10);
+			}
+		}
+		return result;
+	}
+
+	public static void main(String[] args) {
+		int[][] m = { { 1, 3, 5, 9 }, { 8, 1, 3, 4 }, { 5, 0, 6, 1 }, { 8, 8, 4, 0 } };
+		System.out.println(minPath1(m));
+		System.out.println(minPath2(m));
+
+		m = generateRandomMatrix(6, 7);
+		System.out.println(minPath1(m));
+		System.out.println(minPath2(m));
+	}
+}
+
+</code></pre>
+<h5 id="动态规划版本">动态规划版本</h5>
+<p>递归版本虽然简单，但是时间复杂度过高，显然是不行的。通过分析发现，在递归过程中，会有很多重复的计算，如下图所示：<img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E7%89%9B%E5%AE%A2%E7%AE%97%E6%B3%95/%E6%9C%80%E5%B0%8F%E5%92%8C3.png" alt=""></p>
+<p>在计算(1,0)位置的右元素和计算(0,1)位置的下元素时，发生了重复计算：都是计算（1,1）位置到右下角的最小距离和。这里只是分析了两步，如果继续分析，会出现很多类似的重复计算过程。</p>
+<blockquote>
+<p>1、<strong>无后效性</strong>：无论（1,1）位置是从（1,0）位置来的还是（0,1）位置来的，都不影响（1,1）位置到右下角的最小距离的结果，这就叫做无后效性，反之则是有后效性。</p>
+<p>2、无后效性一定可以改成递归版本。</p>
+<p>3、汉诺塔问题：每步需要打印出轨迹，所以是有后效性的, 不可改</p>
+<p>4、八皇后问题：前一步的选择会影响后一步的结果，是有后效性的。</p>
+</blockquote>
+<ul>
+<li>
+<p>那么我们是不是可以利用缓存将每次的计算结果存储起来，下一次再碰到相同元素计算的时候先去缓存中查找看是否已经计算过了，如果存在则直接使用，在没有计算过的时候再去计算，并将结果存储到缓存中。很明显这样的缓存可以用map实现，元素对应key，结果对应value。</p>
+</li>
+<li>
+<p>改递归思路：<img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E7%89%9B%E5%AE%A2%E7%AE%97%E6%B3%95/%E6%9C%80%E5%B0%8F%E5%92%8C2.png" alt=""></p>
+</li>
+<li>
+<p>利用basecase（即：i == matrix.length - 1 &amp;&amp; j == matrix[0].length - 1）可以直接得出图中状态表右下角的位置为6，然后再由6推出最后一行和最右一列的状态值，然后又可以利用刚才推出的值进行新的一轮推到&hellip;..最终将整个表的每个位置都填上其对应的状态值。如上图所示：左上角位置状态值为17，即代表从左上角到右下角位置最短路径值为：17。</p>
+</li>
+<li>
+<p>这个过程就盖楼一样，从地基开始，上层依赖下层。下层盖好了，上层就可以盖了。</p>
+</li>
+</ul>
+<pre><code class="language-java">package class_08;
+    //动态规划版本
+	public static int minPath2(int[][] m) {
+		if (m == null || m.length == 0 || m[0] == null || m[0].length == 0) {
+			return 0;
+		}
+		int row = m.length;
+		int col = m[0].length;
+		int[][] dp = new int[row][col];// 状态表
+        
+		dp[0][0] = m[0][0];
+        
+		for (int i = 1; i &lt; row; i++) {
+			dp[i][0] = dp[i - 1][0] + m[i][0];
+		}
+		for (int j = 1; j &lt; col; j++) {
+			dp[0][j] = dp[0][j - 1] + m[0][j];
+		}
+		for (int i = 1; i &lt; row; i++) {
+			for (int j = 1; j &lt; col; j++) {
+				dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + m[i][j];
+			}
+		}
+		return dp[row - 1][col - 1];
+	}
+
+	// for test
+	public static int[][] generateRandomMatrix(int rowSize, int colSize) {
+		if (rowSize &lt; 0 || colSize &lt; 0) {
+			return null;
+		}
+		int[][] result = new int[rowSize][colSize];
+		for (int i = 0; i != result.length; i++) {
+			for (int j = 0; j != result[0].length; j++) {
+				result[i][j] = (int) (Math.random() * 10);
+			}
+		}
+		return result;
+	}
+
+	public static void main(String[] args) {
+		int[][] m = { { 1, 3, 5, 9 }, { 8, 1, 3, 4 }, { 5, 0, 6, 1 }, { 8, 8, 4, 0 } };
+		System.out.println(minPath1(m));
+		System.out.println(minPath2(m));
+
+		m = generateRandomMatrix(6, 7);
+		System.out.println(minPath1(m));
+		System.out.println(minPath2(m));
+	}
+}
+
+</code></pre>
+<h4 id="题目八--背包问题">题目八 : 背包问题</h4>
+<p>给定一个数组arr, 和一个整数aim,  如果可以任意选择arr中的数字, 能不能累加得到aim, 返回true或者false</p>
+<h5 id="递归版本-1">递归版本</h5>
+<ul>
+<li>分析: 每个位置 i 有 要和不要 两种选择；叶节点会看自己这里的结果是不是 aim，从而向父结点返回 true 或 false，父结点比较子节点的结果，有一个为 true 就一直返回 true，否则返回 false。</li>
+</ul>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E7%89%9B%E5%AE%A2%E7%AE%97%E6%B3%95/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%981.png" alt=""></p>
+<ul>
+<li>如上图所示：数组 arr = {3, 2, 5} ，aim = 7：</li>
+<li>f(0, 0)：代表0位置处状态值为0的点；</li>
+<li>f(2, 5)：代表2位置处状态值为5的点。</li>
+<li>只要有叶节点的值等于 aim 的值，则会返回 true。</li>
+</ul>
+<pre><code class="language-java">package class_08;
+
+public class Code_08_Money_Problem {
+
+	public static boolean money1(int[] arr, int aim) {
+		return process1(arr, 0, 0, aim);
+	}
+	// pre:是 0 ~ （i - 1）随意相加产生的结果
+    // 用于判断pre+i及其后面的数字随意相加，是否能够得到aim
+	public static boolean process1(int[] arr, int i, int sum, int aim) {
+		if (sum == aim) {
+			return true;
+		}
+		// sum != aim
+		if (i == arr.length) {
+			return false;
+		}
+        // 位置i有两种选择：要或不要，有一个等于aim，即返回true
+		return process1(arr, i + 1, sum, aim) || process1(arr, i + 1, sum + arr[i], aim);
+	}
+
+	public static boolean money2(int[] arr, int aim) {
+		boolean[][] dp = new boolean[arr.length + 1][aim + 1];
+		for (int i = 0; i &lt; dp.length; i++) {
+			dp[i][aim] = true;
+		}
+		for (int i = arr.length - 1; i &gt;= 0; i--) {
+			for (int j = aim - 1; j &gt;= 0; j--) {
+				dp[i][j] = dp[i + 1][j];
+				if (j + arr[i] &lt;= aim) {
+					dp[i][j] = dp[i][j] || dp[i + 1][j + arr[i]];
+				}
+			}
+		}
+		return dp[0][0];
+	}
+    
+    public static boolean isSum(int[] arr, int i, int sum, int aim){
+        if(i == arr.length){
+            return sum == aim;
+        }
+        return isSum(arr, i+1, sum, aim) || isSum(arr, i+1, sum+arr[i], aim);
+    }
+
+	public static void main(String[] args) {
+		int[] arr = { 1, 4, 8 };
+		int aim = 12;
+		System.out.println(money1(arr, aim));
+		System.out.println(money2(arr, aim));
+	}
+
+}
+
+</code></pre>
+<h5 id="动态规划版本-1">动态规划版本</h5>
+<ul>
+<li>判断是否为无后效性：是无后效性的；</li>
+<li>确定可变参数：i 值，sum 值，aim 值是固定的；</li>
+<li>确定二维状态表（两个可变参数）。</li>
+</ul>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E7%89%9B%E5%AE%A2%E7%AE%97%E6%B3%95/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%982.png" alt=""></p>
+<ul>
+<li>
+<p>状态表如上图所示，横坐标为 m 的值，纵坐标为 i 的值。从 basecase 可以看出最后一行的状态值是可以确定的，所以从最后一行往上推导，一直推导到左上角的位置处，如果为 True，则返回 True（图中空白处都为false）。</p>
+</li>
+<li>
+<p>怎么通过下面一行的状态值得出上面一行的状态值呢？看递归的代码：</p>
+<p><code>process1(arr, i + 1, sum, aim) || process1(arr, i + 1, sum + arr[i], aim);</code></p>
+</li>
+<li>
+<p>因此：</p>
+<ul>
+<li>i 行为 True 的位置，其对应 i - 1 行正上方位置也为 True；</li>
+<li>i 行为 True 的位置处的值减去 i - 1 行对应的值，得到的在 sum 范围内的值对应的位置处为 True。</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-java">package class_08;
+
+public class Code_08_Money_Problem {
+
+	public static boolean money2(int[] arr, int aim) {
+        // 状态表：需要注意到底需要几行
+		boolean[][] dp = new boolean[arr.length + 1][aim + 1];
+        // 填好最后一行:i为横坐标，pre为纵坐标
+		for (int i = 0; i &lt; dp.length; i++) {
+			dp[i][aim] = true;
+		}
+        // 按照递归填好状态表中的每一个位置：从下一行推导出上一行的状态值
+		for (int i = arr.length - 1; i &gt;= 0; i--) {
+			for (int j = aim - 1; j &gt;= 0; j--) {
+				dp[i][j] = dp[i + 1][j];
+				if (j + arr[i] &lt;= aim) {
+                    // dp[i][sum]值为true的两种情况：
+                    //正下方值为true || dp[i+1][sum+arr[i]]的值为true，有一个为ture就行
+					dp[i][j] = dp[i][j] || dp[i + 1][j + arr[i]];
+				}
+			}
+		}
+		return dp[0][0];
+	}
+    
+    public static boolean isSum(int[] arr, int i, int sum, int aim){
+        if(i == arr.length){
+            return sum == aim;
+        }
+        return isSum(arr, i+1, sum, aim) || isSum(arr, i+1, sum+arr[i], aim);
+    }
+
+	public static void main(String[] args) {
+		int[] arr = { 1, 4, 8 };
+		int aim = 12;
+		System.out.println(money1(arr, aim));
+		System.out.println(money2(arr, aim));
+	}
+
+}
+</code></pre>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/more-effective-c/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">More Effective C&#43;&#43; 笔记</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/7.-%E5%89%8D%E7%BC%80%E6%A0%91%E5%92%8C%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/">
+            <span class="next-text nav-default">前缀树和贪心算法</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="lyman0522@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="http://lyman.fun/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>lyman</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

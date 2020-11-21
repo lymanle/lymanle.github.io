@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>C&#43;&#43; 面向对象高级编程上-侯捷 - LymanLife</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyman" /><meta name="description" content="Object Based vs. Object Oriented Object Based(基于对象):面对的是单一class的设计, 没有指针. Object Oriented(面向对象):面对的是多重classes的设计" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.78.2 with theme even" />
+
+
+<link rel="canonical" href="http://lyman.fun/post/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B8%8A-%E4%BE%AF%E6%8D%B7/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="C&#43;&#43; 面向对象高级编程上-侯捷" />
+<meta property="og:description" content="Object Based vs. Object Oriented Object Based(基于对象):面对的是单一class的设计, 没有指针. Object Oriented(面向对象):面对的是多重classes的设计" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://lyman.fun/post/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B8%8A-%E4%BE%AF%E6%8D%B7/" />
+<meta property="article:published_time" content="2019-05-20T10:25:00+00:00" />
+<meta property="article:modified_time" content="2019-05-20T10:25:00+00:00" />
+<meta itemprop="name" content="C&#43;&#43; 面向对象高级编程上-侯捷">
+<meta itemprop="description" content="Object Based vs. Object Oriented Object Based(基于对象):面对的是单一class的设计, 没有指针. Object Oriented(面向对象):面对的是多重classes的设计">
+<meta itemprop="datePublished" content="2019-05-20T10:25:00+00:00" />
+<meta itemprop="dateModified" content="2019-05-20T10:25:00+00:00" />
+<meta itemprop="wordCount" content="4568">
+
+
+
+<meta itemprop="keywords" content="C&#43;&#43;," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="C&#43;&#43; 面向对象高级编程上-侯捷"/>
+<meta name="twitter:description" content="Object Based vs. Object Oriented Object Based(基于对象):面对的是单一class的设计, 没有指针. Object Oriented(面向对象):面对的是多重classes的设计"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LymanLife</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LymanLife</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">C&#43;&#43; 面向对象高级编程上-侯捷</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-05-20 </span>
+        <div class="post-category">
+            <a href="/categories/c&#43;&#43;/"> C&#43;&#43; </a>
+            </div>
+          <span class="more-meta"> 4568 words </span>
+          <span class="more-meta"> 10 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#object-based-vs-object-oriented">Object Based vs. Object Oriented</a></li>
+            <li><a href="#class-without-pointer-membercomplex">Class without pointer member(complex)</a></li>
+            <li><a href="#3-操作符重载与临时变量">3. 操作符重载与临时变量</a></li>
+            <li><a href="#class-with-pointer-memberstirng">Class with pointer member(stirng)</a></li>
+            <li><a href="#stack栈-与-heap堆">Stack(栈) 与 Heap(堆)</a></li>
+            <li><a href="#static">Static</a></li>
+            <li><a href="#三-object-oriented-programmingoop">三. Object Oriented Programming(OOP)</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="object-based-vs-object-oriented">Object Based vs. Object Oriented</h3>
+<ul>
+<li>Object Based(基于对象):面对的是单一class的设计, 没有指针.</li>
+<li>Object Oriented(面向对象):面对的是多重classes的设计，classes和classes之间的关系,有指针.</li>
+</ul>
+<h3 id="class-without-pointer-membercomplex">Class without pointer member(complex)</h3>
+<h4 id="1-头文件的防御式声明">1. 头文件的防御式声明</h4>
+<pre><code class="language-cpp">// 避免头文件重复include
+#ifndef __COMPLEX__
+#define __COMPLEX__
+....
+#endif
+</code></pre>
+<h5 id="header的布局">Header的布局</h5>
+<pre><code class="language-cpp">// forward declaration(前置声明)
+#include &lt;cmath&gt;
+class ostream;
+....
+
+// calss declarations(类-声明)
+class complex{
+	....
+};
+// class definition(类-定义)
+complex::function ....
+</code></pre>
+<h4 id="2-complex类设计">2. Complex类设计</h4>
+<pre><code class="language-cpp">template&lt;typename T&gt; 
+class complex { 
+public: 
+    complex (T r = 0, T i = 0) 
+        : re (r), im (i) 
+        { } 
+    complex&amp; operator += (const complex&amp;); 
+    T real () const { return re; } 
+    T imag () const { return im; } 
+private: 
+    T re, im; 
+    
+    friend complex&amp; __doapl (complex*, const complex&amp;); 
+};
+//使用
+complex&lt;double&gt; c1(2.5,1.5); 
+complex&lt;int&gt; c2(2,6); 
+</code></pre>
+<h5 id="inline内联函数">inline(内联)函数</h5>
+<ul>
+<li>函数若在class内定义完成，便自动成为inline候选人</li>
+<li>函数体外增加 <strong>inline</strong> 关键字定义<br>
+<code>inline double imag(const complex&amp; x){ return x.imag(); }</code></li>
+<li>最终是否成为 <em>inline function</em> 由编译器决定，一般来说复杂的函数无法成为inline function</li>
+<li>内联是以**代码膨胀（复制）**为代价，仅仅省去了函数调用的开销，从而提高函数的执行效率。 如果执行函数体内代码的时间，相比于函数调用的开销较大，那么效率的收获会很少。另一方面，每一处内联函数的调用都要复制代码，将使程序的总代码量增大，消耗更多的内存空间。</li>
+</ul>
+<h5 id="访问级别">访问级别</h5>
+<ul>
+<li><strong>public</strong>:函数部分(外界使用的)</li>
+<li><strong>private</strong>:数据部分&amp;函数部分(仅用于内部使用，不对外的)</li>
+<li><strong>protected</strong>:基类可以访问,而其他用户不可以访问</li>
+</ul>
+<h5 id="构造函数">构造函数</h5>
+<ul>
+<li>
+<p>语法 <code>complex (double r = 0, double i = 0) : re(r), im(i) {}</code></p>
+<ul>
+<li>名字与类名相同</li>
+<li>有参数</li>
+<li>可以有默认实参</li>
+<li>不需要返回类型</li>
+<li><strong>初值列</strong>-速度会更快，初始化时即赋值</li>
+</ul>
+</li>
+<li>
+<p>(overloading)重载</p>
+<ul>
+<li>编译器会将函数名称、参数个数、参数类型进行编码，用于区分</li>
+</ul>
+</li>
+<li>
+<p>构造函数放在 private</p>
+<ul>
+<li>一般情况不放在 private 里面，除非你不想让外界创建</li>
+<li>Singleton(单例)模式会放在 private 里面, 外面只能有一个对象</li>
+</ul>
+<pre><code class="language-cpp">//单例模式
+class A { 
+public: 
+    static A&amp; getInstance(); 
+    setup() { ... } 
+private: 
+    A(); 
+    A(const A&amp; rhs); 
+    ... 
+}; 
+A&amp; A::getInstance() { 
+    static A a; 
+    return a; 
+}
+  
+//外界调用
+A::getInstance().setup();
+</code></pre>
+</li>
+</ul>
+<h5 id="const-member-functions常量成员函数">Const Member Functions(常量成员函数)</h5>
+<ul>
+<li>凡是不会改变数据内容的，尽量都加上const</li>
+</ul>
+<pre><code class="language-cpp">// 不会改变数据内容的需要加上const
+double real() const { return re; }
+double imag() const { return im; }
+</code></pre>
+<ul>
+<li>如使用者创建了一个const型的complex对象，此时去获取它的实部和虚部，若前面的函数没有加上const，就会出现“使用者不允许改变实部和虚部，但调用的函数<strong>有可能</strong>改变实部和虚部的情况，导致调用失败，因此能加const的地方，一定要加上const</li>
+</ul>
+<pre><code class="language-cpp">const complex  c1(2,1);
+cout &lt;&lt; c1.real();
+cout &lt;&lt; c1.imag();
+</code></pre>
+<h5 id="pass-by-value-vs-pass-by-referenceto-const">Pass By Value vs. Pass By Reference(to const)</h5>
+<ul>
+<li>Reference 等同于指针，无论对象多大，传的都只有4个byte</li>
+<li>引用前可加 <strong>const</strong> ，避免接受者更改我的内存 :complex&amp; operator += (const complex&amp;);</li>
+<li>参数传递尽量都 By Reference</li>
+</ul>
+<h5 id="return-by-value-vs-return-by-referenceto-const">Return By Value vs. Return By Reference(to const)</h5>
+<ul>
+<li>
+<p>返回值的传递也尽量都 By Reference</p>
+</li>
+<li>
+<p>函数操作的结果不是由自己创建的内存空间，一般可用 return by reference</p>
+</li>
+<li>
+<p><strong>传递者无需知道接受者是以 reference 形式接收</strong></p>
+<ul>
+<li>返回的都是object，至于接收端是 value 还是 refrence，传递者无需在乎</li>
+</ul>
+</li>
+</ul>
+<h4 id="friend友元">Friend(友元)</h4>
+<ul>
+<li>
+<p>友元函数可以自由取得 private 成员</p>
+<p><code>friend complex&amp; __doapl(complex*, const complex&amp; r)</code></p>
+</li>
+<li>
+<p>friend 是直接拿，若不设计为友元，也可提供其余接口函数让外部获取数据，不过会<strong>慢一些</strong></p>
+</li>
+<li>
+<p><strong>相同 class 的各个 objects 互为 friends</strong></p>
+</li>
+</ul>
+<pre><code class="language-cpp">class complex{
+	....
+	int func(const complex&amp; param){
+		return param.re + param.im; // 直接取得了param的private成员
+	}
+	....
+}
+</code></pre>
+<h4 id="重点">重点:</h4>
+<ol>
+<li>构造函数要使用 initialization list</li>
+<li>函数本体内定义的函数需要加 const 的要加</li>
+<li>参数尽可能 by reference, 另需考虑加不加 const</li>
+<li>返回值尽可能 by reference</li>
+<li>数据放在 private中</li>
+</ol>
+<h4 id="扩展">扩展</h4>
+<ul>
+<li>Initialization List 为什么好？<a href="https://www.cnblogs.com/BlueTzar/articles/1223169.html">参考地址</a>
+<ul>
+<li>对于内置类型的成员初始化和赋值没有大的区别
+<ul>
+<li>在成员初始化列表和构造函数体内进行，在性能和结果上都是一样的</li>
+</ul>
+</li>
+<li>对于<strong>非内置类型</strong>的成员变量，初始化列表能够避免两次构造
+<ul>
+<li>类类型的数据成员对象在进入函数体前已经构造完成，也就是说在成员初始化列表处进行构造对象的工作，调用构造函数，在进入函数体之后，进行的是对已经构造好的类对象的赋值，又调用个拷贝赋值操作符才能完成</li>
+</ul>
+</li>
+<li>部分情况必须上进行显示的初始化
+<ul>
+<li>成员类型是没有默认构造函数的类。若没有提供显示初始化式，则编译器隐式使用成员类型的默认构造函数，若类没有默认构造函数，则编译器尝试使用默认构造函数将会失败</li>
+<li>const成员或引用类型的成员。因为const对象或引用类型只能初始化，不能对他们赋值。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Protected 访问权限
+<ul>
+<li>public 和 private 代表类的封装，protected 代表类的继承</li>
+<li>成员能被派生类对象访问，不能被类外访问</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-操作符重载与临时变量">3. 操作符重载与临时变量</h3>
+<h4 id="成员函数">成员函数</h4>
+<ul>
+<li>所有的成员都隐含一个参数 this，谁调用谁就是 this</li>
+</ul>
+<pre><code class="language-cpp">inline complex&amp; complex::operator +=(const complex&amp; r){
+    return __doapl(this, r);
+}
+</code></pre>
+<h4 id="非成员函数">非成员函数</h4>
+<ul>
+<li>没有 this 指针</li>
+<li>为了应付 client 的多种可能用法，需对应开发多个函数</li>
+</ul>
+<pre><code class="language-cpp">inline complex operator + (const complex&amp; x, const complex&amp; y){
+	....
+}
+inline complex operator + (const complex&amp; x, double y){
+	....
+}
+inline complex operator + (double x, const complex&amp; y){
+	....
+}
+</code></pre>
+<ul>
+<li><strong>上述函数不可 return by reference. 因为它们返回的必定是个 local object.</strong></li>
+</ul>
+<h4 id="temp-object临时对象">Temp Object(临时对象)</h4>
+<ul>
+<li>typename(); <code>complex();</code></li>
+<li>临时生成的，无需命名，生命到下一行就结束了</li>
+</ul>
+<h4 id="return-void-vs-return-objects">Return Void vs. Return Objects&amp;</h4>
+<ul>
+<li>当使用者是的用法是需要连续使用时需要Return Object&amp;</li>
+</ul>
+<pre><code class="language-cpp">ostream&amp; operator &lt;&lt; (ostream&amp; os, const complex&amp; x){
+	....
+}
+cout &lt;&lt; c1 &lt;&lt; conj(c1); 
+// cout &lt;&lt; c1 执行结果，要能够接受 conj(c1)，因此返回的需要是ostream&amp;
+</code></pre>
+<h3 id="class-with-pointer-memberstirng">Class with pointer member(stirng)</h3>
+<h4 id="1-big-three">1. Big three</h4>
+<ul>
+<li>拷贝构造 <code>String(const String&amp; str);</code></li>
+<li>拷贝赋值 <code>String&amp; operator=(const String&amp; str);</code></li>
+<li>析构函数 <code>~String();</code></li>
+</ul>
+<h5 id="构造函数和析构函数">构造函数和析构函数</h5>
+<ul>
+<li>
+<p>构造函数</p>
+<ul>
+<li><code>String(const char* cstr = 0);</code></li>
+<li>字符串构造要注意检查是否为 <strong>nullptr</strong></li>
+</ul>
+</li>
+<li>
+<p>析构函数</p>
+<ul>
+<li>带有指针的 Class 多半会动态分配内存，因此在析构函数中要主动将动态分配的内存 delete</li>
+</ul>
+<pre><code class="language-cpp">inline String::~String(){
+  delete[] m_data;
+}
+</code></pre>
+</li>
+</ul>
+<ul>
+<li>
+<p>Class with pointer members 必须要有 copy ctor 和 copy op=</p>
+</li>
+<li>
+<p>默认的copy ctor 和 copy op= 只会进行浅拷贝，会导致两个指针指向同一内存块，形成 alias 和 memory leak</p>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/C%2B%2B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/%E6%B5%85%E6%8B%B7%E8%B4%9D.png" alt="浅拷贝"></p>
+</li>
+</ul>
+<h4 id="拷贝构造">拷贝构造</h4>
+<pre><code class="language-cpp">inline String::String(const String&amp; str){
+  m_data = new char[ strlen(str.m_data) + 1 ];
+  strcpy(m_data, str.m_data);
+}
+</code></pre>
+<ul>
+<li>String s2(s1) &lt;===&gt; String s2 = s1  <em>两者调用的都是拷贝构造函数</em></li>
+</ul>
+<h4 id="拷贝赋值">拷贝赋值</h4>
+<pre><code class="language-cpp">inline String&amp; String::operator=(const String&amp; str){
+  if (this == &amp;str)
+    return *this;           // 检测自我赋值
+  delete[] m_data;
+  m_data = new char[ strlen(str.m_data) + 1 ];
+  strcpy(m_data, str.m_data);
+  return *this;
+}
+</code></pre>
+<ul>
+<li>步骤:
+<ul>
+<li>先释放自己 <code>delete[] m_data</code></li>
+<li>分配足够的内存 <code>m_data = new char[ strlen(str.m_data) + 1 ];</code></li>
+<li>拷贝数据 <code>strcpy(m_data, str.m_data);</code></li>
+</ul>
+</li>
+<li>要点:
+<ul>
+<li>返回类型要是String&amp;,用于s1 = s2 = s3的使用情景</li>
+<li>一定要检测<strong>自我赋值</strong>,否则会造成undefined behavior</li>
+</ul>
+</li>
+</ul>
+<h3 id="stack栈-与-heap堆">Stack(栈) 与 Heap(堆)</h3>
+<ul>
+<li><strong>stack</strong>
+<ul>
+<li><code>Complex c1(1,2);</code></li>
+<li>内存由编译器在需要时自动分配和释放。通常用来存储局部变量和函数参数。（为运行函数而分配的局部变量、函数参数、返回地址等存放在栈区）。</li>
+<li>栈运算分配内置于处理器的<strong>指令集</strong>中，效率很高，但是分配的内存容量有限。</li>
+<li>Stack 对象的生命在作用域 Scope 结束之际结束，自动调用其析构函数</li>
+</ul>
+</li>
+<li><strong>heap</strong>
+<ul>
+<li>Complex* p = new Comples(3);`</li>
+<li>System Heap, 由操作系统提供的一块 global 内存空间，程序可动态分配从中获得若干区块</li>
+<li><strong>要配合使用 delete 或 delete[] 进行释放</strong>,否则会造成内存泄漏</li>
+</ul>
+</li>
+<li><strong>对象</strong>
+<ul>
+<li>Stack Odbjects
+<ol>
+<li><code>Complex c1(1,2);</code></li>
+<li>生命在作用域(Scope)结束之际结束</li>
+<li>编译器自动调用其析构函数，因此又称为 auto object</li>
+</ol>
+</li>
+<li>Static Stack Objects
+<ol>
+<li><code>static Complex c2(1,2);</code></li>
+<li>生命在作用域(Scope)结束之后仍存在，直至<strong>整个程序</strong>结束</li>
+</ol>
+</li>
+<li>Global Object
+<ol>
+<li><code>Complex c3(1,2);</code> <br>
+<code>int main(){</code> <br>
+<code>...</code> <br>
+<code>}</code></li>
+<li>生命在作用域(Scope)结束之后仍存在，直至<strong>整个程序</strong>结束</li>
+</ol>
+</li>
+<li>Heap Objects
+<ol>
+<li><code>Complex* p = new Complex;</code></li>
+<li>生命在它被 delete 之际结束，调用其析构函数</li>
+<li>若未 delete 则会造成 memory leak(指针p的生命已经结束了，但所致的heap object仍存在)</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="new--delete">new &amp; delete</h4>
+<p><strong>new</strong></p>
+<ul>
+<li>先分配 memory, 再调用 ctor</li>
+<li><code>Complex* pc = new Complex(1,2);</code></li>
+</ul>
+<pre><code class="language-cpp">void* mem = operator new(sizeof(Complex)); // 分配内存，内部调用 malloc(n)
+pc = static_cast&lt;Complex*&gt;(mem);           // 转型
+pc-&gt;Complex::Complex(1,2);                 // 调用构造函数
+</code></pre>
+<p><strong>delete</strong></p>
+<ul>
+<li>先调用 dtor, 再释放 memory</li>
+<li><code>delete pc;</code></li>
+</ul>
+<pre><code class="language-cpp">Complex::~Complex(pc);                    // 析构函数
+operator delete(pc);                      // 释放内存，内部调用 free(pc)
+</code></pre>
+<h4 id="补充-内存详情">补充: 内存详情</h4>
+<p><em>Single Object</em></p>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/C%2B%2B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/%E5%86%85%E5%AD%981.png" alt="实际内存分配大小"></p>
+<ul>
+<li>灰色部分为Debug模式额外添加的信息</li>
+<li>绿色部分为对象数据所占空间，此处需要满足内存4字节对齐（青绿色标出）</li>
+<li>内存块收尾为标记为，其值代表整个内存块大小。最后1位用于指示内存块的用途，1：送出 0：回收
+<em>Array Object</em></li>
+</ul>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/C%2B%2B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/%E5%86%85%E5%AD%982.png" alt="实际内存分配大小"></p>
+<p><strong>Array new 一定要搭配 Array Delete</strong></p>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/C%2B%2B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/delete%20array.png" alt="array delete"></p>
+<ul>
+<li>Array new 分配的内存的使用 delete 释放时，编译器仅会施放申请的内存，且只调用<strong>1次析构函数</strong>，会导致部分对象未正确析构</li>
+</ul>
+<h3 id="static">Static</h3>
+<p><strong>Static Data Member</strong></p>
+<ul>
+<li>将数据与对象分离，与类绑定</li>
+<li>一定要在类外初始化（真正的分配内存），赋不赋值均可
+<ul>
+<li><code>class Account {</code>
+<code>public:</code>
+<code>static double m_rate;</code>
+<code>static void set_rate(const double&amp; x) { m_rate =x; };</code>
+<code>}</code>
+<code>double Accont::m_rate = 8.0;</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>Static Function Member</strong></p>
+<ul>
+<li>没有 This Pointer，只能用于处理Static Data</li>
+<li>调用方式：
+<ul>
+<li>通过 object 调用 <code>Accout a; a.set_rate(7.0);</code></li>
+<li>通过 class name 调用 <code>Account::set_rate(5.0);</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>Singleton(单例)</strong> <a href="http://blog.yangyubo.com/2009/06/04/best-cpp-singleton-pattern/">[参考]</a> &mdash; 把 ctor 放在 private 区</p>
+<pre><code class="language-cpp">class Singleton {
+  public:
+    static Singleton&amp; Instance() {
+      static Singleton theSingleton;
+      return theSingleton;
+  }
+
+/* more (non-static) functions here */
+
+private:
+  Singleton();                            // ctor hidden
+  Singleton(Singleton const&amp;);            // copy ctor hidden
+  Singleton&amp; operator=(Singleton const&amp;); // assign op. hidden
+  ~Singleton();                           // dtor hidden
+};
+</code></pre>
+<ul>
+<li>在 Instance() 调用前，不会存在 theSingleton对象，没有内存的浪费</li>
+<li>Static 全局变量 vs. 普通全局变量
+<ul>
+<li>全局变量本身就是静态存储方式， 静态全局变量当然也是静态存储方式。 这两者在存储方式上并无不同</li>
+<li>非静态的全局变量在各个源文件中都是有效的</li>
+<li>而静态全局变量则限制了其作用域， 只在定义该变量的源文件内有效， 在同一源程序的其它源文件中不能使用它</li>
+<li><strong>全局变量改为静态后改变了它的作用域</strong></li>
+</ul>
+</li>
+<li>Static 局部变量 vs. 普通局部变量
+<ul>
+<li>Static 局部变量存储在<strong>静态区</strong>，生命直至整个程序结束</li>
+<li>普通局部变量存储在<strong>栈区</strong>，生命仅在 Scope 内有效</li>
+<li><strong>局部变量改为静态后改变了它的生命期</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="三-object-oriented-programmingoop">三. Object Oriented Programming(OOP)</h3>
+<h4 id="类与类的关系">类与类的关系</h4>
+<ul>
+<li>Inheritance(继承)</li>
+<li>Composition(复合)</li>
+<li>Delegation(委托)</li>
+</ul>
+<h4 id="1-composition复合表示-has-a">1. Composition(复合)，表示 has-a</h4>
+<h5 id="adapter">Adapter</h5>
+<p><em>容器 A 包含实现多种功能的类 B, A 可选择性包含部分 B 中需要的部分</em></p>
+<ul>
+<li><img src="http://upload-images.jianshu.io/upload_images/9987091-0f199bfa65a0f12b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Composition"></li>
+</ul>
+<pre><code class="language-cpp">// queue 'has-a' deque
+template &lt;class T&gt;
+class queue{
+  ....
+  protected:
+    deque&lt;T&gt; c; //底层容器
+  public:
+    // 以下完全利用 c 的操作函数完成
+    bool empty() const { retrun c.empty;}
+    size_type size() const { return c.size(); }
+    ....
+}
+void push(const value_type&amp; x) { c.push_back(x); }
+void pop() { c.pop_front(); }
+</code></pre>
+<h4 id="大小计算">大小计算</h4>
+<p><strong>复合类的大小由复合的类的大小决定,计算式逐个相加</strong></p>
+<pre><code class="language-cpp">// Sizeof: 40
+template&lt;clss T&gt;
+class queue {
+  protected:
+    deque&lt;T&gt; c;
+    ...
+};
+
+// Sizeof: 16 * 2 + 4 + 4
+template &lt;class T&gt;
+class deque {
+  protected:
+    Itr&lt;T&gt; start;
+    Itr&lt;T&gt; finish;
+    T** map;
+    unsigned int map_size;
+};
+
+// Sizeof: 4 * 4
+template &lt;class T&gt;
+struct Itr{
+  T* cur;
+  T* first;
+  T* last;
+  T* node;
+....
+};
+</code></pre>
+<h4 id="构造和析构-的过程">构造和析构 的过程</h4>
+<ul>
+<li><strong>构造由内而外</strong>
+<em>由内而外基础才稳定，要做一个东西，要先弄地基</em></li>
+</ul>
+<pre><code class="language-cpp">// Container 的构造函数首先调用 Component 的 default 构造函数，然后才执行自己
+// &quot;Component()&quot;由编译器
+Container::Container(...): Component() {}; 
+
+// 如果 default 的构造函数不满足要求，需要手动写明需要调用的构造函数
+Container::Container(...): Component(...) {}; 
+</code></pre>
+<ul>
+<li><strong>析构由外而内</strong>
+<em>想象在拆掉一个东西的时候需要由外而内一层层的拆</em></li>
+</ul>
+<pre><code class="language-cpp">// Container 的析构函数首先执行自己，然后才调用 Component 的析构// 
+// &quot;~Component()&quot;由编译器添加
+Container::~Container(...): {.... ~Component() }; 
+</code></pre>
+<h4 id="2-delegation委托--composition-by-reference">2. Delegation(委托) = Composition By Reference</h4>
+<h4 id="handle--body">Handle / Body</h4>
+<p><strong>容器 A 中只包含指向功能 B 的指针，需要使用时才实例化 B 对象（可在任何时候将任务“委托”）。“编译防火墙”，需要修改时修改 B 即可。</strong></p>
+<pre><code class="language-cpp">class StringRep;
+class String {
+  public:
+    String();
+    ...
+  private:
+    StringRep* rep;  //pimpl (point to implementation)
+}
+</code></pre>
+<p><img src="http://upload-images.jianshu.io/upload_images/9987091-348821d1b596641f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Delegation"></p>
+<ul>
+<li>Reference Counting(共享技术)
+<img src="http://upload-images.jianshu.io/upload_images/9987091-0c3a75954b5c03bf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Reference Counting"></li>
+</ul>
+<h4 id="3inheritance继承表示-is-a">3.Inheritance(继承)，表示 is-a</h4>
+<pre><code class="language-cpp">struct _List_node_base{
+  _List_node_base* _M_next;
+  _List_node_base* _M_prev;
+};
+
+template&lt;typename _Tp&gt;
+struct _List_node: public _List_node_base {
+  _Tp _M_data;
+}
+</code></pre>
+<h5 id="构造和析构">构造和析构</h5>
+<ul>
+<li><img src="http://upload-images.jianshu.io/upload_images/9987091-9d1306c73b105ebb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Inheritance"></li>
+<li><strong>构造由内而外</strong>
+<ul>
+<li>Derived 的构造函数首先调用 Base 的 default 构造函数，然后才执行自己。</li>
+<li><code>Derived::Derived(...): Base() { ... };</code></li>
+</ul>
+</li>
+<li><strong>析构由外而内</strong>
+<ul>
+<li>Derived 的析构函数首先执行自己，然后才调用 Base 的析构函数。</li>
+<li><code>Derived::~Derived(...): { ... ~Base(); };</code></li>
+</ul>
+</li>
+<li><strong>Base 的析构函数一定要是 virtual 的，否则会出现 undefined behavior</strong></li>
+<li>(扩展)用基类指针去操作子类对象时，若基类的析构函数不是虚函数，则在施放内存时<strong>只会调用基类的析构函数</strong>，造成内存泄漏。</li>
+</ul>
+<h4 id="inheritance-with-virtual-function">inheritance With Virtual Function</h4>
+<pre><code class="language-cpp">class Shape {
+  public:
+    virtual void draw() const = 0;                // pure virtual
+    virtual void error(const std::string&amp; msg);   // impure virtual
+    int objectID() const;                         // non-virtual
+    ...
+}
+</code></pre>
+<ul>
+<li>pure virtual 函数： 你希望 derived class 一定要重新定义它，你对它没有默认定义。</li>
+<li>virtual 函数：你希望 derived class 重新定义它，且你对它已有默认定义。</li>
+<li>non-virtual 函数：你不希望 derived class 重新定义它。</li>
+</ul>
+<h5 id="应用">应用</h5>
+<ul>
+<li>Template Method
+<img src="http://upload-images.jianshu.io/upload_images/9987091-ddbae53b1789427a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Template Method"></li>
+</ul>
+<h4 id="对象组合">对象组合</h4>
+<h4 id="inheritance--composition">Inheritance + Composition</h4>
+<ul>
+<li><img src="http://upload-images.jianshu.io/upload_images/9987091-bde0c287468ca9de.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Inheritance + Composition"></li>
+<li><strong>构造由内而外</strong>
+<ul>
+<li>Derived 的构造函数首先调用 Base 的 default 构造函数，然后调用 Component 的 default 构造函数，最后才调用自己。</li>
+<li><code>Derived::Derived(...): Base(), Component() { ... };</code></li>
+</ul>
+</li>
+<li><strong>析构由外而内</strong>
+<ul>
+<li>Derived 的析构函数首先执行自己，然后调用 Component 的析构函数，最后调用 Base 的析构函数。</li>
+<li><code>Derived::~Derived(...): { ...~Component(), ~Base(); };</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="delegation--inheritance">Delegation + Inheritance</h4>
+<p><strong>1.Observer</strong>
+<img src="http://upload-images.jianshu.io/upload_images/9987091-779ba74acbff0187.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Observer"></p>
+<ul>
+<li>Subject 包含一个委托容器 Observer</li>
+<li>Observer 类可继承</li>
+<li>Subject 控制流程，让 Observer 的子类根据需求来注册、注销</li>
+</ul>
+<p><strong>2. Composite</strong>
+<img src="http://upload-images.jianshu.io/upload_images/9987091-3749f5eb1ed257b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="103.png"></p>
+<ul>
+<li>Composite&mdash;add不能写成纯虚函数，因为Primitive没有add的动作，如文件是不能有+的动作的，只有文件夹才有</li>
+</ul>
+<p><strong>3. Prototype</strong> (Design Patterns Explained Simply)
+<img src="http://upload-images.jianshu.io/upload_images/9987091-f935b85c4b628ea3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Prototype"></p>
+<ul>
+<li>创建未来的对象，需要每个子类自己创建一个自己给父类，让父类可以看到</li>
+<li>LandSatImage(子类) 创建静态的自己挂接到框架中-addPrototype</li>
+<li>Image(框架)用于创建未知的子类-findAndClone</li>
+</ul>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/c&#43;&#43;/">C&#43;&#43;</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B8%8B-%E4%BE%AF%E6%8D%B7/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">C&#43;&#43; 面向对象高级编程下-侯捷</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="lyman0522@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="http://lyman.fun/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>lyman</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

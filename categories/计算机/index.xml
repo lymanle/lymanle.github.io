@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>计算机 on LymanLife</title>
+    <link>http://lyman.fun/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/</link>
+    <description>Recent content in 计算机 on LymanLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 25 Aug 2019 10:22:00 +0000</lastBuildDate><atom:link href="http://lyman.fun/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>线程和进程</title>
+      <link>http://lyman.fun/post/%E7%BA%BF%E7%A8%8B%E8%BF%9B%E7%A8%8B/</link>
+      <pubDate>Sun, 25 Aug 2019 10:22:00 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/%E7%BA%BF%E7%A8%8B%E8%BF%9B%E7%A8%8B/</guid>
+      <description>&lt;h3 id=&#34;多线程&#34;&gt;多线程&lt;/h3&gt;
+&lt;p&gt;进程是包含指令和相关资源的集合. 每个进程和其他进程一起参与调度, 竞争CPU, 内存等系统资源. 每次进程切换都存在进程资源的保存和恢复动作, 称为上下文切换.  当进程越来越多时, 产生了新的问题: 进程的频繁切换引起的额外开销可能会严重影响系统性能; 进程间通信要求复杂的系统级实现.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

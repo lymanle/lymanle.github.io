@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>c&#43;&#43; 设计模式 - LymanLife</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyman" /><meta name="description" content="学习目标 理解松耦合设计思想 掌握面向对象设计原则 掌握重构技法改善设计 掌握GOF核心设计模式 so, 什么是设计模式: 每个模式描述了一个不断重复发生的问" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.78.2 with theme even" />
+
+
+<link rel="canonical" href="http://lyman.fun/post/0.-%E4%BD%95%E4%B8%BA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="c&#43;&#43; 设计模式" />
+<meta property="og:description" content="学习目标 理解松耦合设计思想 掌握面向对象设计原则 掌握重构技法改善设计 掌握GOF核心设计模式 so, 什么是设计模式: 每个模式描述了一个不断重复发生的问" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://lyman.fun/post/0.-%E4%BD%95%E4%B8%BA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" />
+<meta property="article:published_time" content="2019-06-15T21:22:18+00:00" />
+<meta property="article:modified_time" content="2019-06-15T21:22:18+00:00" />
+<meta itemprop="name" content="c&#43;&#43; 设计模式">
+<meta itemprop="description" content="学习目标 理解松耦合设计思想 掌握面向对象设计原则 掌握重构技法改善设计 掌握GOF核心设计模式 so, 什么是设计模式: 每个模式描述了一个不断重复发生的问">
+<meta itemprop="datePublished" content="2019-06-15T21:22:18+00:00" />
+<meta itemprop="dateModified" content="2019-06-15T21:22:18+00:00" />
+<meta itemprop="wordCount" content="1438">
+
+
+
+<meta itemprop="keywords" content="设计模式," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="c&#43;&#43; 设计模式"/>
+<meta name="twitter:description" content="学习目标 理解松耦合设计思想 掌握面向对象设计原则 掌握重构技法改善设计 掌握GOF核心设计模式 so, 什么是设计模式: 每个模式描述了一个不断重复发生的问"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LymanLife</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LymanLife</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">c&#43;&#43; 设计模式</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-06-15 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
+            </div>
+          <span class="more-meta"> 1438 words </span>
+          <span class="more-meta"> 3 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#学习目标">学习目标</a></li>
+            <li><a href="#深入理解面向对象">深入理解面向对象</a></li>
+            <li><a href="#如何解决复杂性">如何解决复杂性?</a></li>
+            <li><a href="#面向对象设计">面向对象设计</a></li>
+            <li><a href="#面向对象设计原则">面向对象设计原则</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="学习目标">学习目标</h3>
+<ul>
+<li>理解松耦合设计思想</li>
+<li>掌握面向对象设计原则</li>
+<li>掌握重构技法改善设计</li>
+<li>掌握GOF核心设计模式</li>
+</ul>
+<p>so, 什么是设计模式: 每个模式描述了一个不断重复发生的问题,以及改问题解决方案的核心.</p>
+<p>重点: 1. 可复用; 2. 面向对象.</p>
+<h3 id="深入理解面向对象">深入理解面向对象</h3>
+<p>向下:深入理解三大面向对象机制</p>
+<ul>
+<li>封装, 隐藏内部实现</li>
+<li>继承, 复用现有代码</li>
+<li>多态, 改写对象行为</li>
+</ul>
+<p>向上:  深刻把握面向对象机制所带来的抽象意义,理解如何使用这些机制来表达现实世界,掌握什么是&quot;好的面向对象设计&quot;</p>
+<h3 id="如何解决复杂性">如何解决复杂性?</h3>
+<ul>
+<li>分解
+<ul>
+<li>分而治之,分解为多个小问题, 例如如下的把各个功能分开</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-cpp">class Point{
+public:
+	int x;
+	int y;
+};
+
+class Line{
+public:
+	Point start;
+    Point end;
+
+	Line(const Point&amp; start, const Point&amp; end){
+        this-&gt;start = start;
+        this-&gt;end = end;
+    }
+};
+
+class Rect{
+public:
+	Point leftUp;
+    int width;
+	int height;
+
+	Rect(const Point&amp; leftUp, int width, int height){
+        this-&gt;leftUp = leftUp;
+        this-&gt;width = width;
+		this-&gt;height = height;
+    }
+};
+</code></pre>
+<pre><code class="language-cpp">
+class MainForm : public Form {
+private:
+	Point p1;
+	Point p2;
+
+	vector&lt;Line&gt; lineVector;
+	vector&lt;Rect&gt; rectVector;
+public:
+	MainForm(){
+		//...
+	}
+protected:
+
+	virtual void OnMouseDown(const MouseEventArgs&amp; e);
+	virtual void OnMouseUp(const MouseEventArgs&amp; e);
+	virtual void OnPaint(const PaintEventArgs&amp; e);
+};
+
+
+void MainForm::OnMouseDown(const MouseEventArgs&amp; e){
+	p1.x = e.X;
+	p1.y = e.Y;
+
+	//...
+	Form::OnMouseDown(e);
+}
+
+void MainForm::OnMouseUp(const MouseEventArgs&amp; e){
+	p2.x = e.X;
+	p2.y = e.Y;
+
+	if (rdoLine.Checked){
+		Line line(p1, p2);
+		lineVector.push_back(line);
+	}
+	else if (rdoRect.Checked){
+		int width = abs(p2.x - p1.x);
+		int height = abs(p2.y - p1.y);
+		Rect rect(p1, width, height);
+		rectVector.push_back(rect);
+	}
+	//...
+	this-&gt;Refresh();
+
+	Form::OnMouseUp(e);
+}
+
+void MainForm::OnPaint(const PaintEventArgs&amp; e){
+
+	//针对直线
+	for (int i = 0; i &lt; lineVector.size(); i++){
+		e.Graphics.DrawLine(Pens.Red,
+			lineVector[i].start.x, 
+			lineVector[i].start.y,
+			lineVector[i].end.x,
+			lineVector[i].end.y);
+	}
+
+	//针对矩形
+	for (int i = 0; i &lt; rectVector.size(); i++){
+		e.Graphics.DrawRectangle(Pens.Red,
+			rectVector[i].leftUp,
+			rectVector[i].width,
+			rectVector[i].height);
+	}
+
+	Form::OnPaint(e);
+}
+
+
+</code></pre>
+<ul>
+<li>抽象
+<ul>
+<li>选择忽视非本质的细节而去处理泛化和理想化的对象模型</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-cpp">class Shape{
+public:
+	virtual void Draw(const Graphics&amp; g)=0;
+	virtual ~Shape() { }
+};
+
+
+class Point{
+public:
+	int x;
+	int y;
+};
+
+class Line: public Shape{
+public:
+	Point start;
+	Point end;
+
+	Line(const Point&amp; start, const Point&amp; end){
+		this-&gt;start = start;
+		this-&gt;end = end;
+	}
+
+	//实现自己的Draw，负责画自己
+	virtual void Draw(const Graphics&amp; g){
+		g.DrawLine(Pens.Red, 
+			start.x, start.y,end.x, end.y);
+	}
+
+};
+class Rect: public Shape{
+public:
+	Point leftUp;
+	int width;
+	int height;
+
+	Rect(const Point&amp; leftUp, int width, int height){
+		this-&gt;leftUp = leftUp;
+		this-&gt;width = width;
+		this-&gt;height = height;
+	}
+	//实现自己的Draw，负责画自己
+	virtual void Draw(const Graphics&amp; g){
+		g.DrawRectangle(Pens.Red,
+			leftUp,width,height);
+	}
+
+};
+</code></pre>
+<pre><code class="language-cpp">class MainForm : public Form {
+private:
+	Point p1;
+	Point p2;
+
+	//针对所有形状
+	vector&lt;Shape*&gt; shapeVector;
+
+public:
+	MainForm(){
+		//...
+	}
+protected:
+
+	virtual void OnMouseDown(const MouseEventArgs&amp; e);
+	virtual void OnMouseUp(const MouseEventArgs&amp; e);
+	virtual void OnPaint(const PaintEventArgs&amp; e);
+};
+
+void MainForm::OnMouseDown(const MouseEventArgs&amp; e){
+	p1.x = e.X;
+	p1.y = e.Y;
+
+	//...
+	Form::OnMouseDown(e);
+}
+
+void MainForm::OnMouseUp(const MouseEventArgs&amp; e){
+	p2.x = e.X;
+	p2.y = e.Y;
+
+	if (rdoLine.Checked){
+		shapeVector.push_back(new Line(p1,p2));
+	}
+	else if (rdoRect.Checked){
+		int width = abs(p2.x - p1.x);
+		int height = abs(p2.y - p1.y);
+		shapeVector.push_back(new Rect(p1, width, height));
+	}
+	//...
+	this-&gt;Refresh();
+
+	Form::OnMouseUp(e);
+}
+
+void MainForm::OnPaint(const PaintEventArgs&amp; e){
+
+	//针对所有形状
+	for (int i = 0; i &lt; shapeVector.size(); i++){
+
+		shapeVector[i]-&gt;Draw(e.Graphics); //多态调用，各负其责
+	}
+
+	//...
+	Form::OnPaint(e);
+}
+
+
+</code></pre>
+<h3 id="面向对象设计">面向对象设计</h3>
+<ol>
+<li>认识面向对象</li>
+</ol>
+<ul>
+<li>
+<p>理解隔离变化</p>
+<ul>
+<li>从宏观层面来看，面向对象的构建方式更能适应软件的变化，能将变化所带来的影响减为最小</li>
+</ul>
+</li>
+<li>
+<p>各司其职</p>
+<ul>
+<li>从微观层面来看，面向对象的方式更强调各个类的“责任”</li>
+<li>由于需求变化导致的新增类型不应该影响原来类型的实现——是所谓各负其责</li>
+</ul>
+</li>
+<li>
+<p>对象是什么？</p>
+<ul>
+<li>从语言实现层面来看，对象封装了代码和数据。</li>
+<li>从规格层面讲，对象是一系列可被使用的公共接口。</li>
+<li>从概念层面讲，对象是某种拥有责任的抽象。</li>
+</ul>
+</li>
+</ul>
+<h3 id="面向对象设计原则">面向对象设计原则</h3>
+<ul>
+<li>依赖倒置原则(DIP)
+<ul>
+<li>高层模块(稳定)不应该依赖于底层模块(变化), 二者都依赖于抽象</li>
+<li>抽象(稳定)不应该依赖于实现细节(变化) ，实现细节应该依赖于抽象(稳定)。</li>
+</ul>
+</li>
+<li>开放封闭原则(OCP)
+<ul>
+<li>对扩展开放,对更改封闭.</li>
+<li>类模块应该是可扩展的, 但是不可以修改.</li>
+</ul>
+</li>
+<li>单一职责原则(SRP)
+<ul>
+<li>一个类应该仅有一个引起它变化的原因.</li>
+<li>变化的方向隐含着类的责任</li>
+</ul>
+</li>
+<li>Liskov 替换原则（LSP）
+<ul>
+<li>子类必须能够替换它们的基类(IS-A)。</li>
+<li>继承表达类型抽象</li>
+</ul>
+</li>
+<li>接口隔离原则（ISP）
+<ul>
+<li>不应该强迫客户程序依赖它们不用的方法。</li>
+<li>接口应该小而完备。</li>
+</ul>
+</li>
+<li>优先使用对象组合，而不是类继承
+<ul>
+<li>类继承通常为“白箱复用”，对象组合通常为“黑箱复用”。</li>
+<li>继承在某种程度上破坏了封装性，子类父类耦合度高。</li>
+<li>而对象组合则只要求被组合的对象具有良好定义的接口，耦合度低。</li>
+</ul>
+</li>
+<li>封装变化点
+<ul>
+<li>使用封装来创建对象之间的分界层，让设计者可以在分界层的一侧进行修改，而不会对另一侧产生不良的影响，从而实现层次间的松耦合。</li>
+</ul>
+</li>
+<li>针对接口编程，而不是针对实现编程
+<ul>
+<li>不将变量类型声明为某个特定的具体类，而是声明为某个接口。</li>
+<li>客户程序无需获知对象的具体类型，只需要知道对象所具有的接口。</li>
+<li>减少系统中各部分的依赖关系，从而实现“高内聚、松耦合” 的类型设计方案。</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/1.-%E7%BB%84%E4%BB%B6%E5%8D%8F%E4%BD%9C%E6%A8%A1%E5%BC%8F/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">组件协作模式</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/stl%E4%B8%8E%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8Bgp/">
+            <span class="next-text nav-default">「STL」与泛型编程（GP）</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="lyman0522@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="http://lyman.fun/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>lyman</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>单一职责模式 - LymanLife</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyman" /><meta name="description" content="&amp;ldquo;单一职责&amp;quot;模式: 在软件组件的设计中，如果责任划分的不清晰，使用继承得到的结果往往是随着需求的变化，子类急剧膨胀，同时" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.78.2 with theme even" />
+
+
+<link rel="canonical" href="http://lyman.fun/post/4.-%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E6%A8%A1%E5%BC%8F/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="单一职责模式" />
+<meta property="og:description" content="&ldquo;单一职责&quot;模式: 在软件组件的设计中，如果责任划分的不清晰，使用继承得到的结果往往是随着需求的变化，子类急剧膨胀，同时" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://lyman.fun/post/4.-%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E6%A8%A1%E5%BC%8F/" />
+<meta property="article:published_time" content="2019-06-19T21:41:55+00:00" />
+<meta property="article:modified_time" content="2019-06-19T21:41:55+00:00" />
+<meta itemprop="name" content="单一职责模式">
+<meta itemprop="description" content="&ldquo;单一职责&quot;模式: 在软件组件的设计中，如果责任划分的不清晰，使用继承得到的结果往往是随着需求的变化，子类急剧膨胀，同时">
+<meta itemprop="datePublished" content="2019-06-19T21:41:55+00:00" />
+<meta itemprop="dateModified" content="2019-06-19T21:41:55+00:00" />
+<meta itemprop="wordCount" content="3255">
+
+
+
+<meta itemprop="keywords" content="设计模式," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="单一职责模式"/>
+<meta name="twitter:description" content="&ldquo;单一职责&quot;模式: 在软件组件的设计中，如果责任划分的不清晰，使用继承得到的结果往往是随着需求的变化，子类急剧膨胀，同时"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LymanLife</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LymanLife</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">单一职责模式</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-06-19 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
+            </div>
+          <span class="more-meta"> 3255 words </span>
+          <span class="more-meta"> 7 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#单一职责模式">&ldquo;单一职责&quot;模式:</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="单一职责模式">&ldquo;单一职责&quot;模式:</h3>
+<ul>
+<li>在软件组件的设计中，如果责任划分的不清晰，使用继承得到的结果往往是随着需求的变化，子类急剧膨胀，同时充斥着重复代码，这时候的关键是划清责任。</li>
+<li>典型模式
+<ul>
+<li>Decorator(装饰模式)</li>
+<li>Bridge(桥模式)</li>
+</ul>
+</li>
+</ul>
+<h4 id="decorator-装饰模式">Decorator 装饰模式</h4>
+<h5 id="动机">动机</h5>
+<ul>
+<li>
+<p>在某些情况下我们可能会“过度地使用继承来扩展对象的功能”，由于继承为类型引入的静态特质,使得这种扩展方式缺乏灵活性；并且随着子类的增多（扩展功能的增多），各种子类的组合（扩展功能的组合）会导致更多子类的膨胀。</p>
+</li>
+<li>
+<p>如何使“对象功能的扩展”能够根据需要来动态地实现？同时避免“扩展功能的增多”带来的子类膨胀问题？从而使得任何“功能扩展变化”所导致的影响将为最低？</p>
+</li>
+</ul>
+<h5 id="定义">定义</h5>
+<ul>
+<li>动态（组合）地给一个对象增加一些额外的职责。就增加功能而言，Decorator模式比生成子类（继承）更为灵活（消除重复代码 &amp; 减少子类个数）。</li>
+</ul>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A3%85%E9%A5%B0.png" alt="代码图例"></p>
+<pre><code class="language-cpp">//业务操作
+class Stream{
+public：
+    virtual char Read(int number)=0;
+    virtual void Seek(int position)=0;
+    virtual void Write(char data)=0;
+    
+    virtual ~Stream(){}
+};
+
+//主体类
+class FileStream: public Stream{
+public:
+    virtual char Read(int number){
+        //读文件流
+    }
+    virtual void Seek(int position){
+        //定位文件流
+    }
+    virtual void Write(char data){
+        //写文件流
+    }
+
+};
+
+class NetworkStream :public Stream{
+public:
+    virtual char Read(int number){
+        //读网络流
+    }
+    virtual void Seek(int position){
+        //定位网络流
+    }
+    virtual void Write(char data){
+        //写网络流
+    }
+    
+};
+
+class MemoryStream :public Stream{
+public:
+    virtual char Read(int number){
+        //读内存流
+    }
+    virtual void Seek(int position){
+        //定位内存流
+    }
+    virtual void Write(char data){
+        //写内存流
+    }
+    
+};
+
+//扩展操作
+class CryptoFileStream :public FileStream{
+public:
+    virtual char Read(int number){
+       
+        //额外的加密操作...
+        FileStream::Read(number);//读文件流
+        
+    }
+    virtual void Seek(int position){
+        //额外的加密操作...
+        FileStream::Seek(position);//定位文件流
+        //额外的加密操作...
+    }
+    virtual void Write(byte data){
+        //额外的加密操作...
+        FileStream::Write(data);//写文件流
+        //额外的加密操作...
+    }
+};
+
+class CryptoNetworkStream : :public NetworkStream{
+public:
+    virtual char Read(int number){
+        
+        //额外的加密操作...
+        NetworkStream::Read(number);//读网络流
+    }
+    virtual void Seek(int position){
+        //额外的加密操作...
+        NetworkStream::Seek(position);//定位网络流
+        //额外的加密操作...
+    }
+    virtual void Write(byte data){
+        //额外的加密操作...
+        NetworkStream::Write(data);//写网络流
+        //额外的加密操作...
+    }
+};
+
+class CryptoMemoryStream : public MemoryStream{
+public:
+    virtual char Read(int number){
+        
+        //额外的加密操作...
+        MemoryStream::Read(number);//读内存流
+    }
+    virtual void Seek(int position){
+        //额外的加密操作...
+        MemoryStream::Seek(position);//定位内存流
+        //额外的加密操作...
+    }
+    virtual void Write(byte data){
+        //额外的加密操作...
+        MemoryStream::Write(data);//写内存流
+        //额外的加密操作...
+    }
+};
+
+class BufferedFileStream : public FileStream{
+    //...
+};
+
+class BufferedNetworkStream : public NetworkStream{
+    //...
+};
+
+class BufferedMemoryStream : public MemoryStream{
+    //...
+}
+
+class CryptoBufferedFileStream :public FileStream{
+public:
+    virtual char Read(int number){
+        
+        //额外的加密操作...
+        //额外的缓冲操作...
+        FileStream::Read(number);//读文件流
+    }
+    virtual void Seek(int position){
+        //额外的加密操作...
+        //额外的缓冲操作...
+        FileStream::Seek(position);//定位文件流
+        //额外的加密操作...
+        //额外的缓冲操作...
+    }
+    virtual void Write(byte data){
+        //额外的加密操作...
+        //额外的缓冲操作...
+        FileStream::Write(data);//写文件流
+        //额外的加密操作...
+        //额外的缓冲操作...
+    }
+};
+
+void Process(){
+
+        //编译时装配
+    CryptoFileStream *fs1 = new CryptoFileStream();
+
+    BufferedFileStream *fs2 = new BufferedFileStream();
+
+    CryptoBufferedFileStream *fs3 =new CryptoBufferedFileStream();
+
+}
+</code></pre>
+<p>进行改进</p>
+<pre><code class="language-cpp">//业务操作
+class Stream{
+
+public：
+    virtual char Read(int number)=0;
+    virtual void Seek(int position)=0;
+    virtual void Write(char data)=0;
+    
+    virtual ~Stream(){}
+};
+
+//主体类
+class FileStream: public Stream{
+public:
+    virtual char Read(int number){
+        //读文件流
+    }
+    virtual void Seek(int position){
+        //定位文件流
+    }
+    virtual void Write(char data){
+        //写文件流
+    }
+
+};
+
+class NetworkStream :public Stream{
+public:
+    virtual char Read(int number){
+        //读网络流
+    }
+    virtual void Seek(int position){
+        //定位网络流
+    }
+    virtual void Write(char data){
+        //写网络流
+    }
+    
+};
+
+class MemoryStream :public Stream{
+public:
+    virtual char Read(int number){
+        //读内存流
+    }
+    virtual void Seek(int position){
+        //定位内存流
+    }
+    virtual void Write(char data){
+        //写内存流
+    }
+    
+};
+
+//扩展操作
+
+
+class CryptoStream: public Stream {
+    
+    Stream* stream;//...
+
+public:
+    CryptoStream(Stream* stm):stream(stm){
+    
+    }
+    
+    
+    virtual char Read(int number){
+       
+        //额外的加密操作...
+        stream-&gt;Read(number);//读文件流
+    }
+    virtual void Seek(int position){
+        //额外的加密操作...
+        stream::Seek(position);//定位文件流
+        //额外的加密操作...
+    }
+    virtual void Write(byte data){
+        //额外的加密操作...
+        stream::Write(data);//写文件流
+        //额外的加密操作...
+    }
+};
+
+
+
+class BufferedStream : public Stream{
+    
+    Stream* stream;//...
+    
+public:
+    BufferedStream(Stream* stm):stream(stm){
+        
+    }
+    //...
+};
+
+
+
+
+
+void Process(){
+
+    //运行时装配
+    FileStream* s1=new FileStream();
+    CryptoStream* s2=new CryptoStream(s1);
+    
+    BufferedStream* s3=new BufferedStream(s1);
+    
+    BufferedStream* s4=new BufferedStream(s2);
+    
+    
+
+}
+</code></pre>
+<pre><code class="language-cpp">//业务操作
+class Stream{
+
+public：
+    virtual char Read(int number)=0;
+    virtual void Seek(int position)=0;
+    virtual void Write(char data)=0;
+    
+    virtual ~Stream(){}
+};
+
+//主体类
+class FileStream: public Stream{
+public:
+    virtual char Read(int number){
+        //读文件流
+    }
+    virtual void Seek(int position){
+        //定位文件流
+    }
+    virtual void Write(char data){
+        //写文件流
+    }
+
+};
+
+class NetworkStream :public Stream{
+public:
+    virtual char Read(int number){
+        //读网络流
+    }
+    virtual void Seek(int position){
+        //定位网络流
+    }
+    virtual void Write(char data){
+        //写网络流
+    }
+    
+};
+
+class MemoryStream :public Stream{
+public:
+    virtual char Read(int number){
+        //读内存流
+    }
+    virtual void Seek(int position){
+        //定位内存流
+    }
+    virtual void Write(char data){
+        //写内存流
+    }
+    
+};
+
+//扩展操作
+
+DecoratorStream: public Stream{
+protected:
+    Stream* stream;//...
+    
+    DecoratorStream(Stream * stm):stream(stm){
+    
+    }
+    
+};
+
+class CryptoStream: public DecoratorStream {
+ 
+
+public:
+    CryptoStream(Stream* stm):DecoratorStream(stm){
+    
+    }
+    
+    
+    virtual char Read(int number){
+       
+        //额外的加密操作...
+        stream-&gt;Read(number);//读文件流
+    }
+    virtual void Seek(int position){
+        //额外的加密操作...
+        stream::Seek(position);//定位文件流
+        //额外的加密操作...
+    }
+    virtual void Write(byte data){
+        //额外的加密操作...
+        stream::Write(data);//写文件流
+        //额外的加密操作...
+    }
+};
+
+
+
+class BufferedStream : public DecoratorStream{
+    
+    Stream* stream;//...
+    
+public:
+    BufferedStream(Stream* stm):DecoratorStream(stm){
+        
+    }
+    //...
+};
+
+
+
+
+void Process(){
+
+    //运行时装配
+    FileStream* s1=new FileStream();
+    
+    CryptoStream* s2=new CryptoStream(s1);
+    
+    BufferedStream* s3=new BufferedStream(s1);
+    
+    BufferedStream* s4=new BufferedStream(s2);
+    
+    
+
+}
+</code></pre>
+<ol>
+<li>
+<p>具体结构图</p>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A3%85%E9%A5%B0%E6%A8%A1%E5%BC%8F1.png%22%E7%BA%A2%E8%89%B2%E4%B8%BA%E7%A8%B3%E5%AE%9A%E9%83%A8%E5%88%86,%E8%93%9D%E8%89%B2%E4%B8%BA%E4%B8%8D%E7%A8%B3%E5%AE%9A%E9%83%A8%E5%88%86%22" alt="装饰模式结构图"></p>
+</li>
+<li>
+<p>要点总结</p>
+<ol>
+<li>通过采用组合而非继承的手法， Decorator模式实现了在运行时动态扩展对象功能的能力，而且可以根据需要扩展多个功能。避免了使用继承带来的“灵活性差”和“多子类衍生问题”。</li>
+<li>Decorator类在接口上表现为is-a Component的继承关系，即Decorator类继承了Component类所具有的接口。但在实现上又表现为has-a Component的组合关系，即Decorator类又使用了另外一个Component类。</li>
+<li>Decorator模式的目的并非解决“多子类衍生的多继承”问题，Decorator模式应用的要点在于解决“主体类在多个方向上的扩展功能”——是为“装饰”的含义。</li>
+</ol>
+</li>
+</ol>
+<h4 id="bridge-桥模式">Bridge 桥模式</h4>
+<h5 id="动机-1">动机:</h5>
+<ul>
+<li>由于某些类型的固有的实现逻辑，使得它们具有两个变化的维度，乃至多个纬度的变化。如何应对这种“多维度的变化”？如何利用面向对象技术来使得类型可以轻松地沿着两个乃至多个方向变化，而不引入额外的复杂度？</li>
+</ul>
+<h5 id="模式定义">模式定义:</h5>
+<ul>
+<li>将抽象部分(业务功能)与实现部分(平台实现)分离，使它们都可以独立地变化。</li>
+</ul>
+<pre><code class="language-cpp">class Messager{
+public:
+    virtual void Login(string username, string password)=0;
+    virtual void SendMessage(string message)=0;
+    virtual void SendPicture(Image image)=0;
+
+    virtual void PlaySound()=0;
+    virtual void DrawShape()=0;
+    virtual void WriteText()=0;
+    virtual void Connect()=0;
+    
+    virtual ~Messager(){}
+};
+
+
+//平台实现
+
+class PCMessagerBase : public Messager{
+public:
+    
+    virtual void PlaySound(){
+        //**********
+    }
+    virtual void DrawShape(){
+        //**********
+    }
+    virtual void WriteText(){
+        //**********
+    }
+    virtual void Connect(){
+        //**********
+    }
+};
+
+class MobileMessagerBase : public Messager{
+public:
+    
+    virtual void PlaySound(){
+        //==========
+    }
+    virtual void DrawShape(){
+        //==========
+    }
+    virtual void WriteText(){
+        //==========
+    }
+    virtual void Connect(){
+        //==========
+    }
+};
+
+
+
+//业务抽象
+
+class PCMessagerLite : public PCMessagerBase {
+public:
+    
+    virtual void Login(string username, string password){
+        
+        PCMessagerBase::Connect();
+        //........
+    }
+    virtual void SendMessage(string message){
+        
+        PCMessagerBase::WriteText();
+        //........
+    }
+    virtual void SendPicture(Image image){
+        
+        PCMessagerBase::DrawShape();
+        //........
+    }
+};
+
+
+
+class PCMessagerPerfect : public PCMessagerBase {
+public:
+    
+    virtual void Login(string username, string password){
+        
+        PCMessagerBase::PlaySound();
+        //********
+        PCMessagerBase::Connect();
+        //........
+    }
+    virtual void SendMessage(string message){
+        
+        PCMessagerBase::PlaySound();
+        //********
+        PCMessagerBase::WriteText();
+        //........
+    }
+    virtual void SendPicture(Image image){
+        
+        PCMessagerBase::PlaySound();
+        //********
+        PCMessagerBase::DrawShape();
+        //........
+    }
+};
+
+
+class MobileMessagerLite : public MobileMessagerBase {
+public:
+    
+    virtual void Login(string username, string password){
+        
+        MobileMessagerBase::Connect();
+        //........
+    }
+    virtual void SendMessage(string message){
+        
+        MobileMessagerBase::WriteText();
+        //........
+    }
+    virtual void SendPicture(Image image){
+        
+        MobileMessagerBase::DrawShape();
+        //........
+    }
+};
+
+
+class MobileMessagerPerfect : public MobileMessagerBase {
+public:
+    
+    virtual void Login(string username, string password){
+        
+        MobileMessagerBase::PlaySound();
+        //********
+        MobileMessagerBase::Connect();
+        //........
+    }
+    virtual void SendMessage(string message){
+        
+        MobileMessagerBase::PlaySound();
+        //********
+        MobileMessagerBase::WriteText();
+        //........
+    }
+    virtual void SendPicture(Image image){
+        
+        MobileMessagerBase::PlaySound();
+        //********
+        MobileMessagerBase::DrawShape();
+        //........
+    }
+};
+
+
+void Process(){
+        //编译时装配
+        Messager *m =
+            new MobileMessagerPerfect();
+}
+
+
+
+</code></pre>
+<pre><code class="language-cpp">class Messager{
+protected:
+     MessagerImp* messagerImp;//...
+public:
+    virtual void Login(string username, string password)=0;
+    virtual void SendMessage(string message)=0;
+    virtual void SendPicture(Image image)=0;
+    
+    virtual ~Messager(){}
+};
+
+class MessagerImp{
+public:
+    virtual void PlaySound()=0;
+    virtual void DrawShape()=0;
+    virtual void WriteText()=0;
+    virtual void Connect()=0;
+    
+    virtual MessagerImp(){}
+};
+
+
+//平台实现 n
+class PCMessagerImp : public MessagerImp{
+public:
+    
+    virtual void PlaySound(){
+        //**********
+    }
+    virtual void DrawShape(){
+        //**********
+    }
+    virtual void WriteText(){
+        //**********
+    }
+    virtual void Connect(){
+        //**********
+    }
+};
+
+class MobileMessagerImp : public MessagerImp{
+public:
+    
+    virtual void PlaySound(){
+        //==========
+    }
+    virtual void DrawShape(){
+        //==========
+    }
+    virtual void WriteText(){
+        //==========
+    }
+    virtual void Connect(){
+        //==========
+    }
+};
+
+
+
+//业务抽象 m
+
+//类的数目：1+n+m
+
+class MessagerLite :public Messager {
+
+    
+public:
+    
+    virtual void Login(string username, string password){
+        
+        messagerImp-&gt;Connect();
+        //........
+    }
+    virtual void SendMessage(string message){
+        
+        messagerImp-&gt;WriteText();
+        //........
+    }
+    virtual void SendPicture(Image image){
+        
+        messagerImp-&gt;DrawShape();
+        //........
+    }
+};
+
+
+
+class MessagerPerfect  :public Messager {
+    
+   
+public:
+    
+    virtual void Login(string username, string password){
+        
+        messagerImp-&gt;PlaySound();
+        //********
+        messagerImp-&gt;Connect();
+        //........
+    }
+    virtual void SendMessage(string message){
+        
+        messagerImp-&gt;PlaySound();
+        //********
+        messagerImp-&gt;WriteText();
+        //........
+    }
+    virtual void SendPicture(Image image){
+        
+        messagerImp-&gt;PlaySound();
+        //********
+        messagerImp-&gt;DrawShape();
+        //........
+    }
+};
+
+
+
+
+void Process(){
+    //运行时装配
+    MessagerImp* mImp=new PCMessagerImp();
+    Messager *m =new Messager(mImp);
+}
+
+
+
+</code></pre>
+<h5 id="桥模式结构图">桥模式结构图</h5>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E6%A1%A5%E6%A8%A1%E5%BC%8F.png%22%E7%BA%A2%E8%89%B2%E4%B8%BA%E7%A8%B3%E5%AE%9A%E9%83%A8%E5%88%86,%E8%93%9D%E8%89%B2%E4%B8%BA%E4%B8%8D%E7%A8%B3%E5%AE%9A%E9%83%A8%E5%88%86%22" alt="桥模式"></p>
+<ol>
+<li>
+<p>要点总结:</p>
+<ol>
+<li>Bridge模式使用“对象间的组合关系”解耦了抽象和实现之间固有的绑定关系，使得抽象和实现可以沿着各自的维度来变化。所谓抽象和实现沿着各自纬度的变化，即“子类化”它们。</li>
+<li>Bridge模式有时候类似于多继承方案，但是多继承方案往往违背单一职责原则（即一个类只有一个变化的原因），复用性比较差。Bridge模式是比多继承方案更好的解决方法。</li>
+<li>Bridge模式的应用一般在“两个非常强的变化维度”，有时一个类也有多于两个的变化维度，这时可以使用Bridge的扩展模式。</li>
+</ol>
+</li>
+</ol>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%BC%8F/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">对象创建模式</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/1.-%E7%BB%84%E4%BB%B6%E5%8D%8F%E4%BD%9C%E6%A8%A1%E5%BC%8F/">
+            <span class="next-text nav-default">组件协作模式</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="lyman0522@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="http://lyman.fun/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>lyman</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

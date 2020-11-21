@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>前缀树和贪心算法 - LymanLife</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyman" /><meta name="description" content="介绍前缀树 何为前缀树？ 如何生成前缀树？ 前缀树 又叫字典树、Trie 树，单词查找树或键树，是一种多叉树结构, 读的SuRF : Practical Range Query Filtering with Fast Succinct Tries 论文就" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.78.2 with theme even" />
+
+
+<link rel="canonical" href="http://lyman.fun/post/7.-%E5%89%8D%E7%BC%80%E6%A0%91%E5%92%8C%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="前缀树和贪心算法" />
+<meta property="og:description" content="介绍前缀树 何为前缀树？ 如何生成前缀树？ 前缀树 又叫字典树、Trie 树，单词查找树或键树，是一种多叉树结构, 读的SuRF : Practical Range Query Filtering with Fast Succinct Tries 论文就" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://lyman.fun/post/7.-%E5%89%8D%E7%BC%80%E6%A0%91%E5%92%8C%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/" />
+<meta property="article:published_time" content="2019-07-17T22:12:55+00:00" />
+<meta property="article:modified_time" content="2019-07-17T22:12:55+00:00" />
+<meta itemprop="name" content="前缀树和贪心算法">
+<meta itemprop="description" content="介绍前缀树 何为前缀树？ 如何生成前缀树？ 前缀树 又叫字典树、Trie 树，单词查找树或键树，是一种多叉树结构, 读的SuRF : Practical Range Query Filtering with Fast Succinct Tries 论文就">
+<meta itemprop="datePublished" content="2019-07-17T22:12:55+00:00" />
+<meta itemprop="dateModified" content="2019-07-17T22:12:55+00:00" />
+<meta itemprop="wordCount" content="3526">
+
+
+
+<meta itemprop="keywords" content="算法," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="前缀树和贪心算法"/>
+<meta name="twitter:description" content="介绍前缀树 何为前缀树？ 如何生成前缀树？ 前缀树 又叫字典树、Trie 树，单词查找树或键树，是一种多叉树结构, 读的SuRF : Practical Range Query Filtering with Fast Succinct Tries 论文就"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LymanLife</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LymanLife</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">前缀树和贪心算法</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-07-17 </span>
+        
+          <span class="more-meta"> 3526 words </span>
+          <span class="more-meta"> 8 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li></li>
+            <li><a href="#贪心策略正确使用">贪心策略正确使用</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h4 id="介绍前缀树">介绍前缀树</h4>
+<p>何为前缀树？ 如何生成前缀树？</p>
+<p><strong>前缀树</strong> 又叫字典树、Trie 树，单词查找树或键树，是一种多叉树结构,</p>
+<p>读的SuRF : Practical Range Query Filtering with Fast Succinct Tries 论文就是利用这个结构来过滤KV store中的range查询</p>
+<p>前缀树的功能很强大，比如有一个字符串数据，我们要从查找其中以“hell”开头的(设置一个passN)，或者以&quot;ive&quot;结尾的字符的个数等等操作。我们只需要在定义前缀树的时候加上相应得数据项就可以了。</p>
+<p>建议：字母用边表示，不要塞到节点里【具体看代码实现】</p>
+<h4 id="例1-一个字符串类型的数组arr1另一个字符串类型的数组arr2">例1: 一个字符串类型的数组arr1，另一个字符串类型的数组arr2。</h4>
+<p>题目1、 arr2中有哪些字符，是arr1中出现的？请打印。</p>
+<ul>
+<li>返回树中有多少个要求查找的单词 public int search(String word) 的变体。</li>
+</ul>
+<p>题目2、arr2中有哪些字符，是作为arr1中某个字符串前缀出现的？请打印。</p>
+<ul>
+<li>有多少单词以pre为前缀  public int prefixNumber(String pre)的变体。</li>
+</ul>
+<p>题目3、arr2中有哪些字符，是作为arr1中某个字符串前缀出现的？请打印arr2中出现次数最大的前缀。</p>
+<ul>
+<li>有多少单词以pre为前缀   public int prefixNumber(String pre)，找最大的个。</li>
+</ul>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E7%89%9B%E5%AE%A2%E7%AE%97%E6%B3%95/trie.png" alt="前缀树插入abc字符串"></p>
+<pre><code class="language-java">package class_07;
+
+public class Code_01_TrieTree {
+
+	public static class TrieNode {
+		public int path;//path有多少个节点到达过这个节点
+		public int end;//有多少字符串以该节点结尾
+		public TrieNode[] nexts; 
+
+		public TrieNode() {
+			path = 0;
+			end = 0;
+			nexts = new TrieNode[26];//每个节点有26条路
+		}
+	}
+
+	public static class Trie {
+		private TrieNode root;// 不管什么操作，都是从根节点开始的，所以要记录根节点
+
+		public Trie() { // Trie树的初始化
+			root = new TrieNode();
+		}
+		// 往trie树中插入一个字符串
+		public void insert(String word) {
+			if (word == null) {
+				return;
+			}
+			char[] chs = word.toCharArray();//转成char的数组
+			TrieNode node = root;
+			int index = 0;// index值：0-25 对应 a-z
+			for (int i = 0; i &lt; chs.length; i++) {// 计算该字符在当前节点的那条路径上
+				index = chs[i] - 'a';
+				if (node.nexts[index] == null) {
+					node.nexts[index] = new TrieNode();// 如果路径不存在，则创建它
+				} 
+                // 路径已经存在的话，就继续向下走
+				node = node.nexts[index];// 划过当前节点的字符串数+1
+				node.path++;
+			}
+			node.end++;// 遍历结束了，记录下以该字母结束的字符串数+1
+		}
+
+		public void delete(String word) {
+			if (search(word) != 0) {// 删除之前，先判断有没有
+				char[] chs = word.toCharArray();
+				TrieNode node = root;
+				int index = 0;
+				for (int i = 0; i &lt; chs.length; i++) {
+					index = chs[i] - 'a';
+                    // 如果遍历到某个节点时，将其index处passNum减1后等于0，则说明没有其他字符串经过					//它了，直接将其设置为null
+					if (--node.nexts[index].path == 0) {//如果path=0,直接全部删除
+						node.nexts[index] = null;
+						return;
+					}
+					node = node.nexts[index];// 继续向下遍历
+				}
+				node.end--;// 遍历完了，删除了整个单词，
+			}
+		}
+
+		public int search(String word) {
+			if (word == null) {
+				return 0;
+			}
+			char[] chs = word.toCharArray();
+			TrieNode node = root;
+			int index = 0;
+			for (int i = 0; i &lt; chs.length; i++) {
+				index = chs[i] - 'a';
+				if (node.nexts[index] == null) {
+					return 0;
+				}
+				node = node.nexts[index];// 到达了该字母记录的节点路径，继续往下走
+			}
+            // 整个单词的所有字母都在树中，说明单词在树中，返回该单词最后一个字符的endNum
+			return node.end;
+		}
+
+		public int prefixNumber(String pre) {//查一个字符串前缀的数量
+			if (pre == null) {
+				return 0;
+			}
+			char[] chs = pre.toCharArray();
+			TrieNode node = root;
+			int index = 0;
+			for (int i = 0; i &lt; chs.length; i++) {
+				index = chs[i] - 'a';
+				if (node.nexts[index] == null) {
+					return 0;// 不存在
+				}
+				node = node.nexts[index];// 继续向下找
+			}
+			return node.path;
+		}
+	}
+
+	public static void main(String[] args) {
+		Trie trie = new Trie();
+		System.out.println(trie.search(&quot;zuo&quot;));
+		trie.insert(&quot;zuo&quot;);
+		System.out.println(trie.search(&quot;zuo&quot;));
+		trie.delete(&quot;zuo&quot;);
+		System.out.println(trie.search(&quot;zuo&quot;));
+		trie.insert(&quot;zuo&quot;);
+		trie.insert(&quot;zuo&quot;);
+		trie.delete(&quot;zuo&quot;);
+		System.out.println(trie.search(&quot;zuo&quot;));
+		trie.delete(&quot;zuo&quot;);
+		System.out.println(trie.search(&quot;zuo&quot;));
+		trie.insert(&quot;zuoa&quot;);
+		trie.insert(&quot;zuoac&quot;);
+		trie.insert(&quot;zuoab&quot;);
+		trie.insert(&quot;zuoad&quot;);
+		trie.delete(&quot;zuoa&quot;);
+		System.out.println(trie.search(&quot;zuoa&quot;));
+		System.out.println(trie.prefixNumber(&quot;zuo&quot;));
+
+	}
+
+}
+
+</code></pre>
+<h3 id="贪心策略正确使用">贪心策略正确使用</h3>
+<p><strong>你自己想出贪心策略，但只能感觉它对不对，理论证明放弃吧！重点在于想很多的贪心策略，用对数器去证明对不对。</strong></p>
+<ul>
+<li>
+<p>所谓贪心算法是指，在对问题求解时，总是做出在当前看来是最好的选择(最小，最大，最优等等)。也就是说，不从整体最优上加以考虑，它所做出的仅是在某种意义上的局部最优解。</p>
+</li>
+<li>
+<p>**贪心策略适用的前提是：局部最优策略能导致产生全局最优解。 **【不要去理论证明你选择的贪心策略的正确性，因为太复杂，你最好直接看结果对不对就好】</p>
+</li>
+<li>
+<p>贪心算法的基本思路：</p>
+<ul>
+<li>建立数学模型来描述问题；</li>
+<li>把求解的问题分成若干个子问题；</li>
+<li>对每一子问题求解，得到子问题的局部最优解；</li>
+<li>把子问题的解局部最优解合成原来解问题的一个解。</li>
+</ul>
+</li>
+</ul>
+<h4 id="题目二--求最低字典序">题目二 : 求最低字典序</h4>
+<h6 id="给定一个字符串类型的数组strs找到一种拼接方式使得把所有字符串拼起来之后形成的字符串具有最低的字典序">给定一个字符串类型的数组strs，找到一种拼接方式，使得把所有字符串拼起来之后形成的字符串具有最低的字典序。</h6>
+<ul>
+<li>【分析】贪心：你定一个指标，按这个指标来，对每个样本分出个优先，优先级大的先处理，优先级小的后处理。
+<ul>
+<li>本题的贪心策略就是你选择的比较策略
+<ul>
+<li>str1.str2 &lt;= str2.str1，则 str1 放前面，否则 str2 放前面【根据两个字符串拼接的结果的大小来决定排序】，不能直接根据str1和str2的大小比较决定位置排放，比如：b和ba，最小的字典序应该是bab而不是bba。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-java">package class_07;
+
+import java.util.Arrays;
+import java.util.Comparator;
+
+public class Code_05_LowestLexicography {
+	 // 自定义比较器：给字符串按照自定义的规则排序
+	public static class MyComparator implements Comparator&lt;String&gt; {
+		@Override
+		public int compare(String a, String b) {
+			return (a + b).compareTo(b + a);
+		}
+	}
+
+	public static String lowestString(String[] strs) {
+		if (strs == null || strs.length == 0) {
+			return &quot;&quot;;
+		}
+        // 给字符串数组按照自己定义的规则排序
+        // 对于制定的贪心策略，先直观分析下对不对，不要去试图证明，可以使用对数器证明
+		Arrays.sort(strs, new MyComparator());
+		String res = &quot;&quot;;
+		for (int i = 0; i &lt; strs.length; i++) {
+			res += strs[i];
+		}
+		return res;
+	}
+
+	public static void main(String[] args) {
+		String[] strs1 = { &quot;jibw&quot;, &quot;ji&quot;, &quot;jp&quot;, &quot;bw&quot;, &quot;jibw&quot; };
+		System.out.println(lowestString(strs1));
+
+		String[] strs2 = { &quot;ba&quot;, &quot;b&quot; };
+		System.out.println(lowestString(strs2));
+
+	}
+
+}
+
+</code></pre>
+<h4 id="题目三--切分金条总代价最小">题目三 : 切分金条总代价最小</h4>
+<p>一块金条切成两半，是需要花费和长度数值一样的铜板的。比如 长度为20的金条，不管切成长度多大的两半，都要花费20个铜 板。一群人想整分整块金 条，怎么分最省铜板？</p>
+<p>例如,给定数组{10,20,30}，代表一共三个人，整块金条长度为 10+20+30=60. 金条要分成10,20,30三个部分。 如果， 先把长度60的金条分成10和50，花费60 &hellip;再把长度50的金条分成20和30， 花费50 &hellip;一共花费110铜板。 但是如果， 先把长度60的金条分成30和30，花费60&hellip; 再把长度30 金条分成10和20，花费30 一共花费90铜板。 输入一个数组，返回分割的最小代价。</p>
+<p><strong>本质</strong> : 标准的哈夫曼编码问题</p>
+<p><strong>做法</strong> : 生成一个小根堆, 把数组放入小根堆,然后取出两个数, 加起来放入小根堆, 然后再拿出两个数, 如此反复, 当堆中只有一个数的时候,那个数就是代价</p>
+<pre><code class="language-java">package class_07;
+
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
+public class Code_02_Less_Money {
+
+	public static int lessMoney(int[] arr) {
+         // 优先级队列是小根堆，谁在前面，就把谁的优先级设置小点
+		PriorityQueue&lt;Integer&gt; pQ = new PriorityQueue&lt;&gt;();
+		for (int i = 0; i &lt; arr.length; i++) {
+			pQ.add(arr[i]);
+		}
+		int sum = 0;
+		int cur = 0;
+        // 等于1的时候，说明堆里面只有一个元素了，即已经合并完成
+		while (pQ.size() &gt; 1) {
+			cur = pQ.poll() + pQ.poll();
+			sum += cur;
+			pQ.add(cur);
+		}
+		return sum;
+	}
+
+	public static class MinheapComparator implements Comparator&lt;Integer&gt; {
+
+		@Override
+		public int compare(Integer o1, Integer o2) {
+			return o1 - o2; // &lt; 0  o1 &lt; o2  负数
+		}
+
+	}
+
+	public static class MaxheapComparator implements Comparator&lt;Integer&gt; {
+
+		@Override
+		public int compare(Integer o1, Integer o2) {
+			return o2 - o1; // &lt;   o2 &lt; o1
+		}
+
+	}
+
+	public static void main(String[] args) {
+		// solution
+		int[] arr = { 6, 7, 8, 9 };
+		System.out.println(lessMoney(arr));
+
+		int[] arrForHeap = { 3, 5, 2, 7, 0, 1, 6, 4 };
+
+		// min heap
+		PriorityQueue&lt;Integer&gt; minQ1 = new PriorityQueue&lt;&gt;();
+		for (int i = 0; i &lt; arrForHeap.length; i++) {
+			minQ1.add(arrForHeap[i]);
+		}
+		while (!minQ1.isEmpty()) {
+			System.out.print(minQ1.poll() + &quot; &quot;);
+		}
+		System.out.println();
+
+		// min heap use Comparator
+		PriorityQueue&lt;Integer&gt; minQ2 = new PriorityQueue&lt;&gt;(new MinheapComparator());
+		for (int i = 0; i &lt; arrForHeap.length; i++) {
+			minQ2.add(arrForHeap[i]);
+		}
+		while (!minQ2.isEmpty()) {
+			System.out.print(minQ2.poll() + &quot; &quot;);
+		}
+		System.out.println();
+
+		// max heap use Comparator
+		PriorityQueue&lt;Integer&gt; maxQ = new PriorityQueue&lt;&gt;(new MaxheapComparator());
+		for (int i = 0; i &lt; arrForHeap.length; i++) {
+			maxQ.add(arrForHeap[i]);
+		}
+		while (!maxQ.isEmpty()) {
+			System.out.print(maxQ.poll() + &quot; &quot;);
+		}
+
+	}
+
+}
+
+</code></pre>
+<h4 id="题目四--求做项目的最大利润">题目四 : 求做项目的最大利润</h4>
+<p>输入： 参数1，正数数组costs ..参数2，正数数组profits&hellip; 参数3， 正数k &hellip;参数4，正数m</p>
+<p>**costs[i] **  表示i号项目的花费 ..</p>
+<p>**profits[i] **  表示i号项目在扣除花费之后还能挣到的钱(利润)</p>
+<p><strong>k</strong>  表示你不能并行、只能串行的最多 做k个项目</p>
+<p><strong>m</strong>   表示你初始的资金</p>
+<p>说明：你每做完一个项目，马上获得的收益，可以支持你去做下一个项目。</p>
+<p>输出： 你最后获得的最大钱数。</p>
+<p><strong>思路</strong> :</p>
+<ul>
+<li>
+<p>贪心：每次总是做能够做的项目中利润最大的。</p>
+</li>
+<li>
+<p>准备一个小根堆, 里面放cost, 一个大根堆, 里面放入每个项目的利润..把小根堆中,所有小于w的项目拿出放入大根堆</p>
+</li>
+<li>
+<p>把 m 加上利润，初始资金增加，再重复步骤</p>
+</li>
+</ul>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E7%89%9B%E5%AE%A2%E7%AE%97%E6%B3%95/%E6%9C%80%E5%A4%A7%E5%88%A9%E6%B6%A6.png" alt=""></p>
+<pre><code class="language-java">package class_07;
+
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
+public class Code_03_IPO {
+	public static class Node {
+		public int p;
+		public int c;
+
+		public Node(int p, int c) {
+			this.p = p;
+			this.c = c;
+		}
+	}
+	//成本小顶堆：成本最小的在堆顶
+	public static class MinCostComparator implements Comparator&lt;Node&gt; {
+
+		@Override
+		public int compare(Node o1, Node o2) {
+			return o1.c - o2.c;
+		}
+
+	}
+	// 利润大顶堆：利润最大的在堆顶
+	public static class MaxProfitComparator implements Comparator&lt;Node&gt; {
+
+		@Override
+		public int compare(Node o1, Node o2) {
+			return o2.p - o1.p;
+		}
+
+	}
+
+	public static int findMaximizedCapital(int k, int W, int[] Profits, int[] Capital) {
+        // 初始化每个项目节点信息
+		Node[] nodes = new Node[Profits.length];
+		for (int i = 0; i &lt; Profits.length; i++) {
+			nodes[i] = new Node(Profits[i], Capital[i]);
+		}
+		// 优先级队列是谁小谁放在前面，比较器决定谁小
+		PriorityQueue&lt;Node&gt; minCostQ = new PriorityQueue&lt;&gt;(new MinCostComparator());
+		PriorityQueue&lt;Node&gt; maxProfitQ = new PriorityQueue&lt;&gt;(new MaxProfitComparator());
+		for (int i = 0; i &lt; nodes.length; i++) {
+			minCostQ.add(nodes[i]);
+		}
+        // 开始解锁项目，赚取利润
+		for (int i = 0; i &lt; k; i++) {
+            // 解锁项目的前提条件：成本堆中还有项目未被解锁并且该项目的成本小于当前的总资金
+			while (!minCostQ.isEmpty() &amp;&amp; minCostQ.peek().c &lt;= W) {
+				maxProfitQ.add(minCostQ.poll());// 将当前成本最小的项目解锁
+			}
+			if (maxProfitQ.isEmpty()) {
+     // 如果maxProfitQ为空，则说明没有当前资金能够解锁的新项目了，之前解锁的项目也做完了，即无项目可做了   
+				return W;// 最后的总金额
+			}
+			W += maxProfitQ.poll().p;
+		}
+		return W;
+	}
+
+}
+
+</code></pre>
+<h4 id="题目五--返回最多宣讲场">题目五 : 返回最多宣讲场</h4>
+<p>一些项目要占用一个会议室宣讲，会议室不能同时容纳两个项目 的宣讲。 给你每一个项目开始的时间和结束的时间(给你一个数组，里面是一个个具体的项目)，你来安排宣讲的日程，要求会议室进行的宣讲的场次最多。返回这个最多的宣讲场</p>
+<p><strong>思路</strong>:</p>
+<ul>
+<li>贪心, 按照时间开始时间, 不可以</li>
+<li>按照持续的时间短, 不可以</li>
+<li>那个早结束 , ok</li>
+</ul>
+<pre><code class="language-java">
+package class_07;
+
+import java.util.Arrays;
+import java.util.Comparator;
+
+public class Code_06_BestArrange {
+
+	public static class Program {
+		public int start; // 项目开始时间
+		public int end; // 项目结束时间
+
+		public Program(int start, int end) {
+			this.start = start;
+			this.end = end;
+		}
+	}
+
+	public static class ProgramComparator implements Comparator&lt;Program&gt; {
+
+		@Override
+		public int compare(Program o1, Program o2) {
+			return o1.end - o2.end;
+		}
+
+	}
+
+	public static int bestArrange(Program[] programs, int cur) {
+		Arrays.sort(programs, new ProgramComparator());
+		int result = 0;
+		for (int i = 0; i &lt; programs.length; i++) {
+			if (cur &lt;= programs[i].start) {
+				result++;
+				cur = programs[i].end;
+			}
+		}
+		return result;
+	}
+
+	public static void main(String[] args) {
+
+	}
+
+}
+
+</code></pre>
+<p><strong>总结：贪心策略靠的是经验，靠刷题积累经验。不要试图去证明贪心策略的正确性，可以用对数器去验证。</strong></p>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/8.-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">递归和动态规划</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/6.-%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C-%E5%B9%B6%E6%9F%A5%E9%9B%86-%E5%B2%9B%E9%97%AE%E9%A2%98/">
+            <span class="next-text nav-default">一致性哈希, 并查集以及岛问题</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="lyman0522@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="http://lyman.fun/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>lyman</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

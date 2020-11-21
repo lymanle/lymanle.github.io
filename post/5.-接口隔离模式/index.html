@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>接口隔离模式 - LymanLife</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyman" /><meta name="description" content="&amp;ldquo;接口隔离&amp;quot;模式 在组件构建过程中，某些接口之间直接的依赖常常会带来很多问题..采用添加一层间接欸(稳定)接口,来隔离本" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.78.2 with theme even" />
+
+
+<link rel="canonical" href="http://lyman.fun/post/5.-%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E6%A8%A1%E5%BC%8F/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="接口隔离模式" />
+<meta property="og:description" content="&ldquo;接口隔离&quot;模式 在组件构建过程中，某些接口之间直接的依赖常常会带来很多问题..采用添加一层间接欸(稳定)接口,来隔离本" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://lyman.fun/post/5.-%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E6%A8%A1%E5%BC%8F/" />
+<meta property="article:published_time" content="2019-07-13T20:51:46+00:00" />
+<meta property="article:modified_time" content="2019-07-13T20:51:46+00:00" />
+<meta itemprop="name" content="接口隔离模式">
+<meta itemprop="description" content="&ldquo;接口隔离&quot;模式 在组件构建过程中，某些接口之间直接的依赖常常会带来很多问题..采用添加一层间接欸(稳定)接口,来隔离本">
+<meta itemprop="datePublished" content="2019-07-13T20:51:46+00:00" />
+<meta itemprop="dateModified" content="2019-07-13T20:51:46+00:00" />
+<meta itemprop="wordCount" content="1644">
+
+
+
+<meta itemprop="keywords" content="设计模式," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="接口隔离模式"/>
+<meta name="twitter:description" content="&ldquo;接口隔离&quot;模式 在组件构建过程中，某些接口之间直接的依赖常常会带来很多问题..采用添加一层间接欸(稳定)接口,来隔离本"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LymanLife</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LymanLife</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">接口隔离模式</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-07-13 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
+            </div>
+          <span class="more-meta"> 1644 words </span>
+          <span class="more-meta"> 4 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#接口隔离模式">&ldquo;接口隔离&quot;模式</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="接口隔离模式">&ldquo;接口隔离&quot;模式</h3>
+<ul>
+<li>在组件构建过程中，某些接口之间直接的依赖常常会带来很多问题..采用添加一层间接欸(稳定)接口,来隔离本来相互紧密关联的接口是一种常见的解决方案</li>
+<li>典型模式
+<ul>
+<li>facade: 解决系统的内和外</li>
+<li>proxy: 解决两个对象, 因为某些原因(性能,安全,分布式)不能直接依赖, 必须隔离,拆开,然后建立B的代理, A去访问B的proxy, 在proxy中实现对B的控制,完成对B的使用</li>
+<li>adapter: 老接口和新接口不match, 对老接口进行转换</li>
+<li>mediator: 多个对象直接相互交互,有一个复杂的引用关系</li>
+</ul>
+</li>
+</ul>
+<h4 id="facade模式门面模式">facade模式(门面模式)</h4>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/duixiangzhijian.png" alt="对象之间"></p>
+<p>如上图A, 对象之间耦合太紧密,,通过添加一个接口来松耦合</p>
+<h5 id="模式定义">模式定义</h5>
+<ul>
+<li>为子系统中的一组接口提供一个一致的(稳定)的界面facade模式定义了一个高层接口,这个接口使得这一子系统更加易用</li>
+</ul>
+<h5 id="结构图">结构图</h5>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/dacade.png" alt="facade模式"></p>
+<h5 id="要点总结">要点总结</h5>
+<ul>
+<li>从客户程序看,facade模式简化了整个组件系统的接口, 对于内部与外部程序来说,达到了一种解耦的效果</li>
+<li>更加注重从架构的层次来看整个系统,而不是单一类的层次, 所以facade更多的是架构设计模式</li>
+<li>facade并非集装箱,不可以任意的放进任何多个对象&hellip;&hellip;只有相互耦合关系大的一系列组件</li>
+</ul>
+<h4 id="proxy代理模式">proxy(代理)模式</h4>
+<h5 id="动机">动机</h5>
+<ul>
+<li>有些对象由于某种原因( 创建开销很大, 某些操作需要安全控制, 需要进程外访问等), 直接访问会给使用者或系统结构带来很多麻烦</li>
+<li>如何不失去透明操作对象的同时来管理/控制这些对象特有的复杂性? 增加一层间接层是常见的一种方式</li>
+</ul>
+<h5 id="模式定义-1">模式定义</h5>
+<ul>
+<li>为其他对象提供一种代理以控制(隔离, 使用接口) 对这个对象的访问</li>
+</ul>
+<pre><code class="language-cpp">class ISubject{
+public:
+    virtual void process();
+};
+
+
+class RealSubject: public ISubject{
+public:
+    virtual void process(){
+        //....
+    }
+};
+
+class ClientApp{
+    
+    ISubject* subject;
+    
+public:
+    
+    ClientApp(){
+        subject = new RealSubject();//有可能拿不到这个,性能,安全控制等等
+    }
+    
+    void DoTask(){
+        //...
+        subject-&gt;process();
+        
+        //....
+    }
+};
+</code></pre>
+<pre><code class="language-cpp">class ISubject{
+public:
+    virtual void process();
+};
+
+
+//Proxy的设计
+class SubjectProxy: public ISubject{
+    
+    
+public:
+    virtual void process(){
+        //对RealSubject的一种间接访问
+        //....
+    }
+};
+
+class ClientApp{
+    
+    ISubject* subject;
+    
+public:
+    
+    ClientApp(){
+        subject = new SubjectProxy();
+    }
+    
+    void DoTask(){
+        //...
+        subject-&gt;process();
+        
+        //....
+    }
+};
+</code></pre>
+<h5 id="结构图-1">结构图</h5>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/proxy.png" alt="proxy结构图"></p>
+<h5 id="要点总结-1">要点总结</h5>
+<ul>
+<li>增加一层间接层是一种常见解法,</li>
+<li>具体proxy设计模式的实现方法, 实现粒度相差很大, 有些可能对单个对象做细粒度控制, 例如copy on write 技术, 有些可能对组件模块提供抽象代理层,在架构层次对对象做proxy</li>
+</ul>
+<h4 id="adapter-适配器">Adapter 适配器</h4>
+<h5 id="动机-1">动机:</h5>
+<ul>
+<li>由于应用环境的变化, 常常需要将一些现存的对象放在一个新的环境中使用, 但是新环境要求的接口是这些现存对象所不满足的,,,例如使用deque实现stack</li>
+</ul>
+<h5 id="模式定义-2">模式定义</h5>
+<ul>
+<li>将一个类的接口转换成客户希望的另一个接口. adapter模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作</li>
+</ul>
+<pre><code class="language-cpp">//目标接口（新接口）
+class ITarget{
+public:
+    virtual void process()=0;
+};
+
+//遗留接口（老接口）
+class IAdaptee{
+public:
+    virtual void foo(int data)=0;
+    virtual int bar()=0;
+};
+
+//遗留类型
+class OldClass: public IAdaptee{
+    //....
+};
+
+//对象适配器
+class Adapter: public ITarget{ //继承
+protected:
+    IAdaptee* pAdaptee;//组合
+    
+public:
+    
+    Adapter(IAdaptee* pAdaptee){
+        this-&gt;pAdaptee=pAdaptee;
+    }
+    
+    virtual void process(){
+        int data=pAdaptee-&gt;bar();
+        pAdaptee-&gt;foo(data);
+        
+    }
+    
+    
+};
+
+//类适配器,,不是很好,不灵活,不推荐使用
+class Adapter: public ITarget,
+               protected OldClass{ //多继承
+               
+               
+}
+
+
+int main(){
+    IAdaptee* pAdaptee=new OldClass();
+    
+    
+    ITarget* pTarget=new Adapter(pAdaptee);
+    pTarget-&gt;process();
+    
+    
+}
+
+class stack{
+    deqeue container;
+    
+};
+
+class queue{
+    deqeue container;
+    
+};
+</code></pre>
+<h5 id="结构图-2">结构图</h5>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter.png" alt="adapter结构图"></p>
+<h5 id="要点总结-2">要点总结</h5>
+<ul>
+<li>主要应用于 <strong>希望复用现存的类</strong>,但是接口又与现在环境要求不一样, 所以在遗留代码复用,类库迁移等方面非常有用</li>
+<li>GOF 23 定义了两种adapter模式的实现结构:<strong>对象适配器</strong> 和<strong>类适配器</strong> &hellip; 类适配器采用<strong>多继承</strong>方式实现, 一般不推荐使用,,,对象适配器采用<strong>对象组合</strong>方式,更加复合松耦合精神</li>
+</ul>
+<h4 id="mediator-中介者">Mediator 中介者</h4>
+<h5 id="动机-2">动机</h5>
+<ul>
+<li>
+<p>多个对象相互关联交互, 维持一种非常复杂的引用关系,如果遇到一些需求变更,这些直接i也能用关系将面临不断地变化</p>
+</li>
+<li>
+<p>使用一个中介对象来管理对象间的交互关系</p>
+</li>
+</ul>
+<h5 id="模式定义-3">模式定义</h5>
+<ul>
+<li>使用中介对象来封装(封装变化)一系列的对象交互,中介者使各个对象不需要显式的相互引用**(编译时依赖&mdash;&gt; 运行时依赖)  ** 从而使其耦合松散.</li>
+</ul>
+<h5 id="结构图-3">结构图</h5>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/mediator1.png" alt="mediator结构图"></p>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/mediator.png" alt="mediator结构图"></p>
+<h5 id="要点总结-3">要点总结</h5>
+<ul>
+<li>
+<p>mediator将多个对象间的控制逻辑进行集中管理,变<strong>多个对象互相关联</strong> 为 <strong>多个对象和一个中介者关联</strong> 简化了系统的维护</p>
+</li>
+<li>
+<p>随着控制逻辑的复杂化,mediator具体对象的实现可能相当复杂,这时候可以对mediator对象进行分解处理</p>
+</li>
+<li>
+<p>facade是解耦系统间<strong>单向</strong>的对象关联关系; mediator是解耦系统内各个对象<strong>双向</strong>的关联关系</p>
+</li>
+</ul>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/8.-%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96%E6%A8%A1%E5%BC%8F/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">状态变化模式</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2.-%E5%AF%B9%E8%B1%A1%E6%80%A7%E8%83%BD-%E6%A8%A1%E5%BC%8F/">
+            <span class="next-text nav-default">对象性能 模式</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="lyman0522@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="http://lyman.fun/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>lyman</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

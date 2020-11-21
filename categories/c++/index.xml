@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>C&#43;&#43; on LymanLife</title>
+    <link>http://lyman.fun/categories/c&#43;&#43;/</link>
+    <description>Recent content in C&#43;&#43; on LymanLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 24 Jul 2019 14:05:46 +0000</lastBuildDate><atom:link href="http://lyman.fun/categories/c++/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>More Effective C&#43;&#43; 笔记</title>
+      <link>http://lyman.fun/post/more-effective-c/</link>
+      <pubDate>Wed, 24 Jul 2019 14:05:46 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/more-effective-c/</guid>
+      <description>条款1：指针与引用的区别 二者之间的区别是：在任何情况下都不能用指向空值的引用，而指针则可以；指针可以被重新赋值以指向另一个不同的对象，但是引</description>
+    </item>
+    
+    <item>
+      <title>effective C&#43;&#43; 笔记</title>
+      <link>http://lyman.fun/post/effective-c-%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sun, 07 Jul 2019 18:45:45 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/effective-c-%E7%AC%94%E8%AE%B0/</guid>
+      <description>1. 让自己习惯C++ 1. 视C++为一个语言联邦 C++是个多重泛型编程语言: C语言: 没有C++的面向对象，没有模板，没有异常，没有重载等。 Object-Oriented C++: 这部</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; 11 新特性</title>
+      <link>http://lyman.fun/post/c-2-0/</link>
+      <pubDate>Thu, 27 Jun 2019 22:18:25 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/c-2-0/</guid>
+      <description>目标: 较全面的认识c++ 2.0 新特性. 2.0的新特性包括语言和标准库两个层面 一. 语言部分 1. Variadic Template 数量不定的模板参数 void print() { // 最后调用的print } template&amp;lt;typename</description>
+    </item>
+    
+    <item>
+      <title>「STL」与泛型编程（GP）</title>
+      <link>http://lyman.fun/post/stl%E4%B8%8E%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8Bgp/</link>
+      <pubDate>Fri, 31 May 2019 10:43:04 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/stl%E4%B8%8E%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8Bgp/</guid>
+      <description>仿函数 functors 什么是仿函数? 就是一个class中有重载(), 这样的class创建的对象叫做函数对象,这个对象是一个对象,但是像函数 当算法需要一些独</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; 面向对象高级编程下-侯捷</title>
+      <link>http://lyman.fun/post/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B8%8B-%E4%BE%AF%E6%8D%B7/</link>
+      <pubDate>Tue, 21 May 2019 10:25:00 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B8%8B-%E4%BE%AF%E6%8D%B7/</guid>
+      <description>1. Conversion function, 转换函数 class Fraction { // 函数分数 public: Fraction(int num, int den = 1) : m_numerator(num), m_denominator(den) {} operator double() const { // 转换函数 return (double) (m_numerator / m_denominator) } private: int m_numerator; //分子 int m_denominator; // 分母 }; Fraction f(3, 5); double d = 4 + f; // 调用oper</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; 面向对象高级编程上-侯捷</title>
+      <link>http://lyman.fun/post/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B8%8A-%E4%BE%AF%E6%8D%B7/</link>
+      <pubDate>Mon, 20 May 2019 10:25:00 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B8%8A-%E4%BE%AF%E6%8D%B7/</guid>
+      <description>Object Based vs. Object Oriented Object Based(基于对象):面对的是单一class的设计, 没有指针. Object Oriented(面向对象):面对的是多重classes的设计</description>
+    </item>
+    
+  </channel>
+</rss>

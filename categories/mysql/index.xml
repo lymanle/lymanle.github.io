@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MySQL on LymanLife</title>
+    <link>http://lyman.fun/categories/mysql/</link>
+    <description>Recent content in MySQL on LymanLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 27 Jun 2019 22:18:25 +0000</lastBuildDate><atom:link href="http://lyman.fun/categories/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MySQL必知必会笔记</title>
+      <link>http://lyman.fun/post/mysql%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Thu, 27 Jun 2019 22:18:25 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/mysql%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>MySQL必知必会 开篇说明: 本文为&amp;quot;MySql必知必会&amp;quot; 的读书笔记 在记录到一半的时候发现已经有人做了很完整的笔记了,按照</description>
+    </item>
+    
+  </channel>
+</rss>

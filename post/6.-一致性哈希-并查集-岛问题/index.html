@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>一致性哈希, 并查集以及岛问题 - LymanLife</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyman" /><meta name="description" content="题目一 : 设计RandomPool结构 【题目】 设计一种结构，在该结构中有如下三个功能： insert(key)：将某个key加入到该结构，做到不" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.78.2 with theme even" />
+
+
+<link rel="canonical" href="http://lyman.fun/post/6.-%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C-%E5%B9%B6%E6%9F%A5%E9%9B%86-%E5%B2%9B%E9%97%AE%E9%A2%98/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="一致性哈希, 并查集以及岛问题" />
+<meta property="og:description" content="题目一 : 设计RandomPool结构 【题目】 设计一种结构，在该结构中有如下三个功能： insert(key)：将某个key加入到该结构，做到不" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://lyman.fun/post/6.-%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C-%E5%B9%B6%E6%9F%A5%E9%9B%86-%E5%B2%9B%E9%97%AE%E9%A2%98/" />
+<meta property="article:published_time" content="2019-07-16T09:47:11+00:00" />
+<meta property="article:modified_time" content="2019-07-16T09:47:11+00:00" />
+<meta itemprop="name" content="一致性哈希, 并查集以及岛问题">
+<meta itemprop="description" content="题目一 : 设计RandomPool结构 【题目】 设计一种结构，在该结构中有如下三个功能： insert(key)：将某个key加入到该结构，做到不">
+<meta itemprop="datePublished" content="2019-07-16T09:47:11+00:00" />
+<meta itemprop="dateModified" content="2019-07-16T09:47:11+00:00" />
+<meta itemprop="wordCount" content="1482">
+
+
+
+<meta itemprop="keywords" content="算法," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="一致性哈希, 并查集以及岛问题"/>
+<meta name="twitter:description" content="题目一 : 设计RandomPool结构 【题目】 设计一种结构，在该结构中有如下三个功能： insert(key)：将某个key加入到该结构，做到不"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LymanLife</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LymanLife</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">一致性哈希, 并查集以及岛问题</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-07-16 </span>
+        
+          <span class="more-meta"> 1482 words </span>
+          <span class="more-meta"> 3 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h4 id="题目一--设计randompool结构">题目一 : 设计RandomPool结构</h4>
+<p>【题目】 设计一种结构，在该结构中有如下三个功能：</p>
+<ul>
+<li>
+<p>insert(key)：将某个key加入到该结构，做到不重复加入。</p>
+</li>
+<li>
+<p>delete(key)：将原本在结构中的某个key移除。</p>
+</li>
+<li>
+<p>getRandom()： 等概率随机返回结构中的任何一个key。</p>
+</li>
+</ul>
+<p>【要求】 Insert、delete和getRandom方法的时间复杂度都是 O(1)</p>
+<p><strong>思路</strong> 这里主要的问题是getrandom() 要求返回一个key, 这里要准备两个Map, 一个key &ndash;&gt; number, 一个number&ndash;&gt;key.. 同时为了让getranom(), 不会因为删除太多, hashmap中空洞太多, 所以每次删除把最后一个拿出来放入删除的洞中</p>
+<pre><code class="language-java">package class_05;
+
+import java.util.HashMap;
+
+public class Code_02_RandomPool {
+
+	public static class Pool&lt;K&gt; {
+		private HashMap&lt;K, Integer&gt; keyIndexMap;
+		private HashMap&lt;Integer, K&gt; indexKeyMap;
+		private int size;
+
+		public Pool() {
+			this.keyIndexMap = new HashMap&lt;K, Integer&gt;();
+			this.indexKeyMap = new HashMap&lt;Integer, K&gt;();
+			this.size = 0;
+		}
+
+		public void insert(K key) {
+			if (!this.keyIndexMap.containsKey(key)) {
+				this.keyIndexMap.put(key, this.size);
+				this.indexKeyMap.put(this.size++, key);
+			}
+		}
+
+		public void delete(K key) {
+			if (this.keyIndexMap.containsKey(key)) {
+				int deleteIndex = this.keyIndexMap.get(key);
+				int lastIndex = --this.size;
+				K lastKey = this.indexKeyMap.get(lastIndex);
+				this.keyIndexMap.put(lastKey, deleteIndex);
+				this.indexKeyMap.put(deleteIndex, lastKey);
+				this.keyIndexMap.remove(key);
+				this.indexKeyMap.remove(lastIndex);
+			}
+		}
+
+		public K getRandom() {
+			if (this.size == 0) {
+				return null;
+			}
+			int randomIndex = (int) (Math.random() * this.size); // 0 ~ size -1
+			return this.indexKeyMap.get(randomIndex);
+		}
+
+	}
+
+	public static void main(String[] args) {
+		Pool&lt;String&gt; pool = new Pool&lt;String&gt;();
+		pool.insert(&quot;zuo&quot;);
+		pool.insert(&quot;cheng&quot;);
+		pool.insert(&quot;yun&quot;);
+		System.out.println(pool.getRandom());
+		System.out.println(pool.getRandom());
+		System.out.println(pool.getRandom());
+		System.out.println(pool.getRandom());
+		System.out.println(pool.getRandom());
+		System.out.println(pool.getRandom());
+
+	}
+
+}
+
+</code></pre>
+<h4 id="题目二--认识一致性哈希">题目二 : 认识一致性哈希</h4>
+<h4 id="题目三--认识并查集">题目三 : 认识并查集</h4>
+<p>本身不难,但是应用很难.比如 : 最小生成树.</p>
+<p>首先什么是并查集?</p>
+<ul>
+<li>查两个元素是否是一个集合</li>
+<li>两个元素各自所在的集合, 把它们合并到一起</li>
+</ul>
+<pre><code class="language-java">package class_05;
+
+import java.util.HashMap;
+import java.util.List;
+
+public class Code_04_UnionFind {
+
+	public static class Node {
+		// whatever you like
+	}
+
+	public static class UnionFindSet {
+		public HashMap&lt;Node, Node&gt; fatherMap;//key: child, value : father
+		public HashMap&lt;Node, Integer&gt; sizeMap;//一个节点, 它所在集合的节点数
+
+		public UnionFindSet() {//初始化
+			fatherMap = new HashMap&lt;Node, Node&gt;();
+			sizeMap = new HashMap&lt;Node, Integer&gt;();
+		}
+
+		public void makeSets(List&lt;Node&gt; nodes) {
+			fatherMap.clear();
+			sizeMap.clear();
+			for (Node node : nodes) {
+				fatherMap.put(node, node);//每一个node形成自己一个集合
+				sizeMap.put(node, 1);
+			}
+		}
+
+		private Node findHead(Node node) {//找一个集合的头头, 并改成一个扁平结构
+			Node father = fatherMap.get(node);
+			if (father != node) {//如果father不等于node,递归
+				father = findHead(father);//所谓的father就是它的父节点
+			}
+			fatherMap.put(node, father);//当找到node时, 回头把所有节点挂上node
+			return father;
+		}
+		//非递归版本
+        private Node findHead1(Node node){
+            Stack&lt;Node&gt; stack = new Stack&lt;Node&gt;();
+            Node cur = node;
+            Node parent = fatherMap.get(cur);//它的上一个节点命名为parent
+            while(cur != parent){//最后node节点就是自己
+                stack.push(cur);
+                cur = parent;
+                parent = fatherMap.get(cur);
+            }
+            while(!stack.isEmpty()){
+                fatherMap.put(stack.pop(), parent);
+            }
+            return parent;
+        }
+        
+        
+		public boolean isSameSet(Node a, Node b) {
+			return findHead(a) == findHead(b);
+		}
+		//两个集合合并
+		public void union(Node a, Node b) {
+			if (a == null || b == null) {
+				return;
+			}
+			Node aHead = findHead(a);
+			Node bHead = findHead(b);
+			if (aHead != bHead) {
+				int aSetSize= sizeMap.get(aHead);
+				int bSetSize = sizeMap.get(bHead);
+				if (aSetSize &lt;= bSetSize) {//谁更大谁当老大
+					fatherMap.put(aHead, bHead);
+					sizeMap.put(bHead, aSetSize + bSetSize);
+				} else {
+					fatherMap.put(bHead, aHead);
+					sizeMap.put(aHead, aSetSize + bSetSize);
+				}
+			}
+		}
+
+	}
+
+}
+
+</code></pre>
+<h4 id="题目四--岛问题">题目四 : 岛问题</h4>
+<p>一个矩阵中只有0和1两种值，每个位置都可以和自己的上、下、左、右 四个位置相连，如果有一片1连在一起，这个部分叫做一个岛，求一个 矩阵中有多少个岛？
+举例：
+0 0 1 0 1 0</p>
+<p>​			1 1 1 0 1 0</p>
+<p>​			1 0 0 1 0 0</p>
+<p>​			0 0 0 0 0 0
+这个矩阵中有三个岛。</p>
+<p><strong>思路</strong> 两个解法:</p>
+<ul>
+<li>传统: 有一个感染函数, 遇到1感染让一块1变成2,</li>
+<li>方法二: 把一个矩阵分块, 然后分别计算其岛函数, 然后利用并查集处理边界信息&hellip;</li>
+</ul>
+<pre><code class="language-Java">package class_05;
+
+public class Code_03_Islands {
+
+    
+    //传统解法
+	public static int countIslands(int[][] m) {
+		if (m == null || m[0] == null) {
+			return 0;
+		}
+		int N = m.length;
+		int M = m[0].length;
+		int res = 0;
+		for (int i = 0; i &lt; N; i++) {
+			for (int j = 0; j &lt; M; j++) {
+				if (m[i][j] == 1) {
+					res++;
+					infect(m, i, j, N, M);
+				}
+			}
+		}
+		return res;
+	}
+	//递归感染函数
+	public static void infect(int[][] m, int i, int j, int N, int M) {
+		if (i &lt; 0 || i &gt;= N || j &lt; 0 || j &gt;= M || m[i][j] != 1) {
+			return;
+		}
+		m[i][j] = 2;
+		infect(m, i + 1, j, N, M);
+		infect(m, i - 1, j, N, M);
+		infect(m, i, j + 1, N, M);
+		infect(m, i, j - 1, N, M);
+	}
+
+	public static void main(String[] args) {
+		int[][] m1 = {  { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 
+				        { 0, 1, 1, 1, 0, 1, 1, 1, 0 }, 
+				        { 0, 1, 1, 1, 0, 0, 0, 1, 0 },
+				        { 0, 1, 1, 0, 0, 0, 0, 0, 0 }, 
+				        { 0, 0, 0, 0, 0, 1, 1, 0, 0 }, 
+				        { 0, 0, 0, 0, 1, 1, 1, 0, 0 },
+				        { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, };
+		System.out.println(countIslands(m1));
+
+		int[][] m2 = {  { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 
+						{ 0, 1, 1, 1, 1, 1, 1, 1, 0 }, 
+						{ 0, 1, 1, 1, 0, 0, 0, 1, 0 },
+						{ 0, 1, 1, 0, 0, 0, 1, 1, 0 }, 
+						{ 0, 0, 0, 0, 0, 1, 1, 0, 0 }, 
+						{ 0, 0, 0, 0, 1, 1, 1, 0, 0 },
+						{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, };
+		System.out.println(countIslands(m2));
+
+	}
+
+}
+
+</code></pre>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/7.-%E5%89%8D%E7%BC%80%E6%A0%91%E5%92%8C%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">前缀树和贪心算法</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/5.-%E4%BA%8C%E5%8F%89%E6%A0%91/">
+            <span class="next-text nav-default">二叉树结构</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="lyman0522@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="http://lyman.fun/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>lyman</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

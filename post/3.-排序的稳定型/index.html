@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>排序的稳定性 - LymanLife</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyman" /><meta name="description" content="排序的稳定性以其汇总 稳定性: 就是相同的两个数字,排序完成会不会交换位置 稳定: 冒泡 插入 归并 基数排序 桶排序 计数排序 不稳定 选择 快排 堆排序 工程中综合" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.78.2 with theme even" />
+
+
+<link rel="canonical" href="http://lyman.fun/post/3.-%E6%8E%92%E5%BA%8F%E7%9A%84%E7%A8%B3%E5%AE%9A%E5%9E%8B/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="排序的稳定性" />
+<meta property="og:description" content="排序的稳定性以其汇总 稳定性: 就是相同的两个数字,排序完成会不会交换位置 稳定: 冒泡 插入 归并 基数排序 桶排序 计数排序 不稳定 选择 快排 堆排序 工程中综合" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://lyman.fun/post/3.-%E6%8E%92%E5%BA%8F%E7%9A%84%E7%A8%B3%E5%AE%9A%E5%9E%8B/" />
+<meta property="article:published_time" content="2019-07-14T20:24:26+00:00" />
+<meta property="article:modified_time" content="2019-07-14T20:24:26+00:00" />
+<meta itemprop="name" content="排序的稳定性">
+<meta itemprop="description" content="排序的稳定性以其汇总 稳定性: 就是相同的两个数字,排序完成会不会交换位置 稳定: 冒泡 插入 归并 基数排序 桶排序 计数排序 不稳定 选择 快排 堆排序 工程中综合">
+<meta itemprop="datePublished" content="2019-07-14T20:24:26+00:00" />
+<meta itemprop="dateModified" content="2019-07-14T20:24:26+00:00" />
+<meta itemprop="wordCount" content="1492">
+
+
+
+<meta itemprop="keywords" content="算法," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="排序的稳定性"/>
+<meta name="twitter:description" content="排序的稳定性以其汇总 稳定性: 就是相同的两个数字,排序完成会不会交换位置 稳定: 冒泡 插入 归并 基数排序 桶排序 计数排序 不稳定 选择 快排 堆排序 工程中综合"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LymanLife</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LymanLife</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">排序的稳定性</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-07-14 </span>
+        
+          <span class="more-meta"> 1492 words </span>
+          <span class="more-meta"> 3 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h4 id="排序的稳定性以其汇总">排序的稳定性以其汇总</h4>
+<p>稳定性: 就是相同的两个数字,排序完成会不会交换位置</p>
+<p>稳定:</p>
+<ul>
+<li>冒泡</li>
+<li>插入</li>
+<li>归并</li>
+<li>基数排序</li>
+<li>桶排序</li>
+<li>计数排序</li>
+</ul>
+<p>不稳定</p>
+<ul>
+<li>选择</li>
+<li>快排</li>
+<li>堆排序</li>
+</ul>
+<h4 id="工程中综合排序算法">工程中综合排序算法</h4>
+<ul>
+<li>如数组中是基础类型int float 等, 会用快排</li>
+<li>如果是自己定义的struct,会用归并排序</li>
+<li>如果数组很短, 不管其内是什么,用插入排序..(&lt;60)</li>
+</ul>
+<h4 id="认识比较器的使用">认识比较器的使用</h4>
+<p>就是在C++的函数对象(重载&lt;或者&gt;)</p>
+<h4 id="桶排序-计数排序-基数排序">桶排序, 计数排序, 基数排序</h4>
+<p>这几个不是基于比较的排序.</p>
+<h5 id="桶排序">桶排序</h5>
+<ul>
+<li>设计一个容器,把</li>
+</ul>
+<h4 id="补充问题">补充问题</h4>
+<ul>
+<li>给定一个数组，求如果排序之后，相邻两数的最大差值，要求时 间复杂度O(N)，且要求不能用非基于比较的排序。</li>
+<li>思想: 给N个数, 那出N+1个桶, 然后N个数中最小值放在桶的最小位, 最大值放在桶的最后面,然后,把中间所有的数按照排序放入桶中,,其中肯定有一个空桶, 最大值一定来自于两个桶的最大值减去最小值</li>
+</ul>
+<pre><code class="language-java">public static int maxGap(int[] nums) {
+		if (nums == null || nums.length &lt; 2) {
+			return 0;
+		}
+		int len = nums.length;
+		int min = Integer.MAX_VALUE;
+		int max = Integer.MIN_VALUE;
+		for (int i = 0; i &lt; len; i++) {
+			min = Math.min(min, nums[i]);
+			max = Math.max(max, nums[i]);
+		}
+		if (min == max) {
+			return 0;
+		}
+		boolean[] hasNum = new boolean[len + 1];
+		int[] maxs = new int[len + 1];
+		int[] mins = new int[len + 1];
+		int bid = 0;
+    //给每个桶更新它的最小最大值.
+		for (int i = 0; i &lt; len; i++) {
+			bid = bucket(nums[i], len, min, max);
+			mins[bid] = hasNum[bid] ? Math.min(mins[bid], nums[i]) : nums[i];
+			maxs[bid] = hasNum[bid] ? Math.max(maxs[bid], nums[i]) : nums[i];
+			hasNum[bid] = true;
+		}
+		int res = 0;
+		int lastMax = maxs[0];
+		int i = 1;
+		for (; i &lt;= len; i++) {
+			if (hasNum[i]) {
+				res = Math.max(res, mins[i] - lastMax);
+				lastMax = maxs[i];
+			}
+		}
+		return res;
+	}
+//确定一个数在那个桶
+	public static int bucket(long num, long len, long min, long max) {
+		return (int) ((num - min) * len / (max - min));
+	}
+</code></pre>
+<h5 id="题目一">题目一:</h5>
+<ul>
+<li>
+<p>用数组结构实现大小固定的队列和栈</p>
+</li>
+<li>
+<p>栈先进后出, 队列先进先出</p>
+</li>
+</ul>
+<pre><code class="language-java">//栈
+public static class ArrayStack {
+		private Integer[] arr;
+		private Integer size;
+
+		public ArrayStack(int initSize) {
+			if (initSize &lt; 0) {
+				throw new IllegalArgumentException(&quot;The init size is less than 0&quot;);
+			}
+			arr = new Integer[initSize];
+			size = 0;
+		}
+
+		public Integer peek() {
+			if (size == 0) {
+				return null;
+			}
+			return arr[size - 1];
+		}
+
+		public void push(int obj) {
+			if (size == arr.length) {
+				throw new ArrayIndexOutOfBoundsException(&quot;The queue is full&quot;);
+			}
+			arr[size++] = obj;
+		}
+
+		public Integer pop() {
+			if (size == 0) {
+				throw new ArrayIndexOutOfBoundsException(&quot;The queue is empty&quot;);
+			}
+			return arr[--size];
+		}
+}
+</code></pre>
+<pre><code class="language-java">//队列
+	public static class ArrayQueue {
+		private Integer[] arr;
+		private Integer size;
+		private Integer first;//start
+		private Integer last;//end
+
+		public ArrayQueue(int initSize) {
+			if (initSize &lt; 0) {
+				throw new IllegalArgumentException(&quot;The init size is less than 0&quot;);
+			}
+			arr = new Integer[initSize];
+			size = 0;
+			first = 0;
+			last = 0;
+		}
+
+		public Integer peek() {
+			if (size == 0) {
+				return null;
+			}
+			return arr[first];
+		}
+//入队
+		public void push(int obj) {
+			if (size == arr.length) {//满了
+				throw new ArrayIndexOutOfBoundsException(&quot;The queue is full&quot;);
+			}
+			size++;
+			arr[last] = obj;
+			last = last == arr.length - 1 ? 0 : last + 1;
+		}
+//出队列
+		public Integer poll() {
+			if (size == 0) {
+				throw new ArrayIndexOutOfBoundsException(&quot;The queue is empty&quot;);
+			}
+			size--;
+			int tmp = first;
+			first = first == arr.length - 1 ? 0 : first + 1;
+			return arr[tmp];
+		}
+	}
+</code></pre>
+<h5 id="题目二">题目二</h5>
+<ul>
+<li>
+<p>实现一个特殊的栈，在实现栈的基本功能的基础上，再实现返回栈中最小元素的操作</p>
+</li>
+<li>
+<p>【要求】</p>
+<ul>
+<li>1．pop、push、getMin操作的时间复杂度都是O(1)。</li>
+<li>2．设计的栈类型可以使用现成的栈结构。</li>
+</ul>
+</li>
+<li>
+<p>思路: 建立两个栈, 一个正常的进栈出栈, 另一个和进栈的数比较, 比它大, 则入栈自己, 比它小, 则入栈小的那个数</p>
+</li>
+</ul>
+<pre><code class="language-java">package class_03;
+
+import java.util.Stack;
+
+public class Code_02_GetMinStack {
+	public static class MyStack1 {
+		private Stack&lt;Integer&gt; stackData;
+		private Stack&lt;Integer&gt; stackMin;
+
+		public MyStack1() {
+			this.stackData = new Stack&lt;Integer&gt;();
+			this.stackMin = new Stack&lt;Integer&gt;();
+		}
+
+		public void push(int newNum) {
+			if (this.stackMin.isEmpty()) {
+				this.stackMin.push(newNum);
+			} else if (newNum &lt;= this.getmin()) {
+				this.stackMin.push(newNum);
+			}
+			this.stackData.push(newNum);
+		}
+
+		public int pop() {
+			if (this.stackData.isEmpty()) {
+				throw new RuntimeException(&quot;Your stack is empty.&quot;);
+			}
+			int value = this.stackData.pop();
+			if (value == this.getmin()) {
+				this.stackMin.pop();
+			}
+			return value;
+		}
+
+		public int getmin() {
+			if (this.stackMin.isEmpty()) {
+				throw new RuntimeException(&quot;Your stack is empty.&quot;);
+			}
+			return this.stackMin.peek();
+		}
+	}
+
+	public static class MyStack2 {
+		private Stack&lt;Integer&gt; stackData;
+		private Stack&lt;Integer&gt; stackMin;
+
+		public MyStack2() {
+			this.stackData = new Stack&lt;Integer&gt;();
+			this.stackMin = new Stack&lt;Integer&gt;();
+		}
+
+		public void push(int newNum) {
+			if (this.stackMin.isEmpty()) {
+				this.stackMin.push(newNum);
+			} else if (newNum &lt; this.getmin()) {
+				this.stackMin.push(newNum);
+			} else {
+				int newMin = this.stackMin.peek();
+				this.stackMin.push(newMin);
+			}
+			this.stackData.push(newNum);
+		}
+
+		public int pop() {
+			if (this.stackData.isEmpty()) {
+				throw new RuntimeException(&quot;Your stack is empty.&quot;);
+			}
+			this.stackMin.pop();
+			return this.stackData.pop();
+		}
+
+		public int getmin() {
+			if (this.stackMin.isEmpty()) {
+				throw new RuntimeException(&quot;Your stack is empty.&quot;);
+			}
+			return this.stackMin.peek();
+		}
+	}
+
+	public static void main(String[] args) {
+		MyStack1 stack1 = new MyStack1();
+		stack1.push(3);
+		System.out.println(stack1.getmin());
+		stack1.push(4);
+		System.out.println(stack1.getmin());
+		stack1.push(1);
+		System.out.println(stack1.getmin());
+		System.out.println(stack1.pop());
+		System.out.println(stack1.getmin());
+
+		System.out.println(&quot;=============&quot;);
+
+		MyStack1 stack2 = new MyStack1();
+		stack2.push(3);
+		System.out.println(stack2.getmin());
+		stack2.push(4);
+		System.out.println(stack2.getmin());
+		stack2.push(1);
+		System.out.println(stack2.getmin());
+		System.out.println(stack2.pop());
+		System.out.println(stack2.getmin());
+	}
+
+}
+</code></pre>
+<h5 id="题目三">题目三</h5>
+<ul>
+<li>如何仅用队列结构实现栈结构？ 如何仅用栈结构实现队列结构？</li>
+</ul>
+<p><strong>思路</strong> : 准备两个队列</p>
+<pre><code class="language-java">package class_03;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
+public class Code_03_StackAndQueueConvert {
+
+	public static class TwoStacksQueue {
+		private Stack&lt;Integer&gt; stackPush;
+		private Stack&lt;Integer&gt; stackPop;
+
+		public TwoStacksQueue() {
+			stackPush = new Stack&lt;Integer&gt;();
+			stackPop = new Stack&lt;Integer&gt;();
+		}
+
+		public void push(int pushInt) {
+			stackPush.push(pushInt);
+		}
+
+		public int poll() {
+			if (stackPop.empty() &amp;&amp; stackPush.empty()) {
+				throw new RuntimeException(&quot;Queue is empty!&quot;);
+			} else if (stackPop.empty()) {
+				while (!stackPush.empty()) {
+					stackPop.push(stackPush.pop());
+				}
+			}
+			return stackPop.pop();
+		}
+
+		public int peek() {
+			if (stackPop.empty() &amp;&amp; stackPush.empty()) {
+				throw new RuntimeException(&quot;Queue is empty!&quot;);
+			} else if (stackPop.empty()) {
+				while (!stackPush.empty()) {
+					stackPop.push(stackPush.pop());
+				}
+			}
+			return stackPop.peek();
+		}
+	}
+
+    //两个栈结构实现队列
+	public static class TwoQueuesStack {
+		private Queue&lt;Integer&gt; queue;
+		private Queue&lt;Integer&gt; help;
+
+		public TwoQueuesStack() {
+			queue = new LinkedList&lt;Integer&gt;();
+			help = new LinkedList&lt;Integer&gt;();
+		}
+
+		public void push(int pushInt) {
+			queue.add(pushInt);
+		}
+        //peek给用户返回,但是不删除
+		public int peek() {
+			if (queue.isEmpty()) {
+				throw new RuntimeException(&quot;Stack is empty!&quot;);
+			}
+			while (queue.size() != 1) {
+				help.add(queue.poll());
+			}
+			int res = queue.poll();
+			help.add(res);
+			swap();
+			return res;
+		}
+
+		public int pop() {
+			if (queue.isEmpty()) {
+				throw new RuntimeException(&quot;Stack is empty!&quot;);
+			}
+			while (queue.size() &gt; 1) {
+				help.add(queue.poll());
+			}
+			int res = queue.poll();
+			swap();
+			return res;
+		}
+
+		private void swap() {
+			Queue&lt;Integer&gt; tmp = help;
+			help = queue;
+			queue = tmp;
+		}
+
+	}
+
+}
+</code></pre>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/5.-%E4%BA%8C%E5%8F%89%E6%A0%91/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">二叉树结构</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/10.-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93/">
+            <span class="next-text nav-default">设计模式总结</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="lyman0522@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="http://lyman.fun/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>lyman</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

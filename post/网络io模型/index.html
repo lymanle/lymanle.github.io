@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>网络IO模型 - LymanLife</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyman" /><meta name="description" content="网络IO模型 IO是计算机体系中重要一部分. IO有两种操作 同步IO: 必须等到IO操作完成 ,控制权才返回给用户进程 异步IO: 无需等待IO操作完成" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.78.2 with theme even" />
+
+
+<link rel="canonical" href="http://lyman.fun/post/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="网络IO模型" />
+<meta property="og:description" content="网络IO模型 IO是计算机体系中重要一部分. IO有两种操作 同步IO: 必须等到IO操作完成 ,控制权才返回给用户进程 异步IO: 无需等待IO操作完成" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://lyman.fun/post/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/" />
+<meta property="article:published_time" content="2019-08-27T10:25:00+00:00" />
+<meta property="article:modified_time" content="2019-08-27T10:25:00+00:00" />
+<meta itemprop="name" content="网络IO模型">
+<meta itemprop="description" content="网络IO模型 IO是计算机体系中重要一部分. IO有两种操作 同步IO: 必须等到IO操作完成 ,控制权才返回给用户进程 异步IO: 无需等待IO操作完成">
+<meta itemprop="datePublished" content="2019-08-27T10:25:00+00:00" />
+<meta itemprop="dateModified" content="2019-08-27T10:25:00+00:00" />
+<meta itemprop="wordCount" content="5641">
+
+
+
+<meta itemprop="keywords" content="计算机网络," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="网络IO模型"/>
+<meta name="twitter:description" content="网络IO模型 IO是计算机体系中重要一部分. IO有两种操作 同步IO: 必须等到IO操作完成 ,控制权才返回给用户进程 异步IO: 无需等待IO操作完成"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LymanLife</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LymanLife</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">网络IO模型</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-08-27 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"> 计算机网络 </a>
+            </div>
+          <span class="more-meta"> 5641 words </span>
+          <span class="more-meta"> 12 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#网络io模型">网络IO模型</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="网络io模型">网络IO模型</h3>
+<p>IO是计算机体系中重要一部分.</p>
+<p>IO有两种操作</p>
+<ul>
+<li>同步IO: 必须等到IO操作完成 ,控制权才返回给用户进程</li>
+<li>异步IO: 无需等待IO操作完成, 就将控制权返给用户进程</li>
+</ul>
+<p>网络IO中, 由于不同的IO设备有不同的特点, 网络通信往往需要等待.</p>
+<p>最常见的4中情况</p>
+<ul>
+<li>输入操作: 等待数据到达套接字接受缓冲区</li>
+<li>输出操作: 等待套接字发送缓冲区有足够的空间容纳将要发送的数据.</li>
+<li>服务器接收连接请求</li>
+<li>客户端发送链接请求: 等待服务器回送客户发器的SYN所对应的ACK</li>
+</ul>
+<!-- more -->
+<h4 id="四种网络模型">四种网络模型</h4>
+<ul>
+<li>阻塞IO模型</li>
+<li>非阻塞IO模型</li>
+<li>多路IO复用模型</li>
+<li>异步IO模型</li>
+</ul>
+<h4 id="阻塞io模型">阻塞IO模型</h4>
+<p>在Linux中, 默认情况下所有的socket都是阻塞的,</p>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/TCP/zhuse.png" alt="阻塞IO模型"></p>
+<p>除非特别指定, 几乎所有的IO接口都是阻塞型的, 这个给网络编程带来很大的问题, 例如在调用send()同时, 线程处于阻塞状态, 无法响应任何网络请求.</p>
+<p><strong>改进:</strong></p>
+<ul>
+<li>多线程或多进程.</li>
+</ul>
+<p>让服务器同时为多个客户端提供一问一答的服务, 主线程持续等待客户端的连接请求, 当有连接, 创建新的线程, 并在新线程中提供一样的服务. 一个socket可以accept多次.</p>
+<p>还可以使用线程池和连接池来降低创建和销毁线程的频率 和降低创建和关闭连接的频率.但是还是有上限的. 必须考虑面临的响应规模.</p>
+<h4 id="非阻塞io模型">非阻塞IO模型</h4>
+<p>在Linux中,可以对socket设置, 让它为非阻塞IO模型. 对一个非阻塞的socket执行read操作时</p>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/TCP/feizhuse.png" alt=""></p>
+<p>我们可以看到, 当用户进程发起read操作时, 内核如果没准备好, 不会block用户进程而是立刻返回一个错误.一旦准备好了数据, 下次收到用户的read请求, 就可以立马返回正确值.</p>
+<p>如下的函数可以将句柄fd设为非阻塞型<code>fcntl( fd, F_SETFL, O_NONBLOCK);</code></p>
+<p>在非阻塞状态下, <code>recv()</code>返回值代表不同的含义</p>
+<ul>
+<li>返回值大于0, 数据接收完毕, 返回值就是字节数</li>
+<li>返回0, 表示连接正常断开</li>
+<li>返回-1, 且errno等于EAGAIN, 表示recv没有执行完成</li>
+<li>返回-1, 且errno不等于EAGAIN, 表示recv操作遇到了系统错误.</li>
+</ul>
+<p>可以看到系统不断的循环调用recv()接口, 大幅占用CPU. 实际操作系统提供了更为高效的检测, 例如select()多路复用模式, 可以一次检测多个连接是否活跃.</p>
+<h4 id="多路io复用模型">多路IO复用模型.</h4>
+<p>多路IO复用, 也称为事件驱动IO, 基本原理就是有个函数(如select)会不断轮询所负责的socket, 当某个socket有数据到达了, 通知用户进程</p>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/TCP/duolu.png" alt=""></p>
+<p>当用户进程调用了select, 那么整个进程会被阻塞, 同时内核会监视所有的select负责的socket, 当任何一个socket数据准备好了, select就会返回, 这个时候用户进程在调用read, 将数据从内核中拷贝到用户进程.</p>
+<p>select的优势是可以同时处理多个连接, 如果连接不是很高的话, 性能不一定比多线程的阻塞IO好.</p>
+<p>因为select使用了两个系统调用(select和recvfrom)</p>
+<p>在多路复用IO中, 对于每一个socket, 一般都设置为非阻塞型的, 上图用户进程其实是一直阻塞的.</p>
+<pre><code class="language-cpp">//select 接口的原型：
+FD_ZERO(int fd, fd_set * fds);
+FD_SET(int fd, fd_set* fds);
+FD_ISSET(int fd, fd_set * fds); 
+FD_CLR(int fd, fd_set* fds); 
+int select(int nfdp, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct tirneval*tirneout) ; 
+</code></pre>
+<p>fd_set 类型可以简单理解为按 bit 位标记句柄的队列，例如要在某 fd_set 中标记 一个值为 16 的句柄，则fd_set 的第 16 个 bit 位被标记为 l</p>
+<p>在 select（）函数中， readfds、 writefds 和 exceptfds 同时作为输入 参数和输出参数。 如果用输入的 readfds 标记了 16 号句柄，则 select（）将检测 16 号句柄是否 可读。 在 select（）返回后，可以通过检查 readfds 有否标记 16 号句柄，来判断该“可读事件” 是否发生。 另外，用户可以自行设置 timeout 时间。</p>
+<p>使用 select 函数时，最关键的地方是如何动态维护 select（）的 3 个参数 readfds、 writefds 和 exceptfds。 作为输入参数， readfds 应该标记所有的需要检测的“可读事件”的句柄，其中 永远包括那个检测 connect（）的那个“母”句柄；同时， writefds 和 exceptfds 应该标记所有需 要检测的“可写事件”和“错误事件” 的句柄（使用 FD_SET（）标记）。</p>
+<p>现某句柄捕捉到了“可读事件”，服务器程序应及时做 recv（）操作，并根 据接收到的数据准备好待发送数据，并将对应的句柄值加入 writefds，准备下一次的“可写 事件”的 select（）检测。 同样，如果 select（）发现某句柄捕捉到“可写事件”，则程序应及时 做 send（）操作，并准备好下</p>
+<p><strong>缺点</strong></p>
+<ul>
+<li>select（）接口并不是实现“事件驱动”的最好选择。 因为当需要探测的句柄值较大时， select（）接口本身需要消耗大量时间去轮询各个句柄。</li>
+<li>该模型将事件探测和事件响应夹 杂在一起，一旦事件响应的执行体过于庞大， 则对整个模型是灾难性的</li>
+</ul>
+<h4 id="异步io模型">异步IO模型</h4>
+<p>用户进程发起 read 操作之后，立刻就可以开始去做其他的事；而另一方面，从内核的角 度，当它收到一个异步的 read 请求操作之后，首先会立刻返回，所以不会对用户进程产生任 何阻塞。 然后，内核会等待数据准备完成，然后将数据拷贝到用户内存中，当这一切都完成 之后，内核会给用户进程发送一个信号，返回 read 操作已完成的信息</p>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/TCP/yibu.png" alt=""></p>
+<p>阻塞 IO、非阻塞 IO 及多路 IO 复用都属于同步 IO</p>
+<p>异步IO, 当进程发起 IO 操作之后，就直接返回，直到内核发送一个信号，告诉进程 IO 已完成</p>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/TCP/bijiao.png" alt=""></p>
+<p>####　select</p>
+<p>select能够监视需要被监视的文件描述符的变化情况一一读、写或异常。</p>
+<p>select 的函数原型</p>
+<pre><code class="language-cpp">int select(int maxfdp, fd_set *readfds, fd_set *writefds, fd_set *errorfds, struct tirneval*tirneout) ; 
+</code></pre>
+<p>fd_set: 是一个文件描述符集合, 可以通过一些宏由人为来操作</p>
+<pre><code class="language-cpp">fd_set set; 
+FD_ZERO(&amp;set) ; //将 set 清零 
+FD_SET(fd, &amp;set) ; //／将 fd 加入 set 
+FD_CLR(fd, &amp;set) ; //将 fd 从 set 中清除
+FD_ISSET(fd, &amp;set) ; //如果 fd 在 set 中则真 
+</code></pre>
+<p>timeval是一个常用结构, 代表时间值，有两个成员，一个是秒数，另一 个是毫秒数。</p>
+<p><strong>select中参数的含义</strong></p>
+<ol>
+<li>maxfdp 是一个整数值，是指集合中所有文件描述符的范围，即所有文件描述符的最大值加 1。</li>
+<li>readfds 是指向 fd_set 结构的指针，这个集合中应该包括文件描述符。 因为要监视文件描述符的读变化的，即关心是否可以从这些文件中<strong>读取数据</strong>，如果这个集合中有一个文 件可读， select 就会返回一个大于 0 的值，表示有文件可读。 如果没有可读的文件，则根据timeout参数再判断是否超时：若超出 timeout 的时间， select 返回 O ；若发生错误返回负值； 也可以传入 NULL 值，表示不关心任何文件的读变化。</li>
+<li>writefds 是指向 fd_set 结构的指针，这个集合中应该包括文件描述符。 因为要监视文件描述符的写变化的，即关心是否可以向这些文件中<strong>写入数据</strong>，如果这个集合中有一个文件可写， select 就会返回一个大于 0 的值，表示有文件可写。 如果没有可写的文件，则根据 timeout 参数再判断是否超时：若超出 timeout 的时间， select 返回 O ；若发生错误返回负值； 也可以传入 NULL 值，表示不关心任何文件的写变化。</li>
+<li>errorfds 同上面两个参数的意图，用来监视文件错误异常。</li>
+<li>timeout 是 select 的超时时间 ， 这个参数至关重要，它可以使 select 处于 3 种状态：
+<ol>
+<li>若将 NULL 以形参传入，即不传入时间结构，就是将 select 置于阻塞状态， 一定等到监视文件描述符集合中某个文件描述符发生变化为止；</li>
+<li>若将<strong>时间值设为 0，就变成一个纯粹的非阻塞函数</strong>，不管文件描述是否有变化，都立刻返回继续执行，文件无变化返回 0，有 变化返回一个正值；</li>
+<li>timeout 的值大于 0，这就是等待的超时时间，即 select 在 timeout 时间内阻塞，超时时间之内有事件到来就返回了，否则在超时后不管怎样一定返回，返回值 同上述。</li>
+</ol>
+</li>
+</ol>
+<h4 id="poll">poll</h4>
+<p>和 select 函数一样， poll 函数也可以用于执行多路复用 IO。</p>
+<p>poll所需要的头文件和函数原型如下</p>
+<pre><code class="language-cpp">#include&lt;poll.h&gt;
+int poll(struct pollfd * fds, unsigned int nfds ，int timeout);
+</code></pre>
+<p>pollfd:是一个结构体</p>
+<pre><code class="language-cpp">struct pollfd { 
+    int fd; //文件描述符
+    short events //等待的事件
+    short revents //实际发生了的事件
+};
+</code></pre>
+<p>每一个 pollfd 结构体指定了一个被监视的文件描述符，可以传递多个结构体，指示 poll() 监视多个文件描述符。 每个结构体的 events 域是监视该文件描述符的事件掩码，由用户来设置这个域的属性。 reven ts 域是文件描述符的操作结果事件掩码，内核在调用返回时设置这个域； 并且 events 域中请求的任何事件都可能在 revents 域中返回。</p>
+<table>
+<thead>
+<tr>
+<th>事件分类</th>
+<th>事件代码</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>POLLIN</td>
+<td>有数据可读</td>
+</tr>
+<tr>
+<td>合法事件</td>
+<td>POLLRDNORM</td>
+<td>有普通数据可读</td>
+</tr>
+<tr>
+<td></td>
+<td>POLLRDBAND</td>
+<td>有优先数据可读</td>
+</tr>
+<tr>
+<td></td>
+<td>POLLPRI</td>
+<td>有紧迫数据可读</td>
+</tr>
+<tr>
+<td></td>
+<td>POLLOUT</td>
+<td>写数据不会导致阻塞</td>
+</tr>
+<tr>
+<td></td>
+<td>POLLWRNORM</td>
+<td>写普通数据不会导致阻塞</td>
+</tr>
+<tr>
+<td></td>
+<td>POLLWRBARD</td>
+<td>写优先数据不会导致阻塞</td>
+</tr>
+<tr>
+<td></td>
+<td>POLLMSGSIGPOLL</td>
+<td>消息可用</td>
+</tr>
+<tr>
+<td>非法</td>
+<td>POLLER</td>
+<td>指定的文件描述符发生错误</td>
+</tr>
+<tr>
+<td>非法</td>
+<td>POLLUP</td>
+<td>指定的文件捎述符挂起事件</td>
+</tr>
+<tr>
+<td>非法</td>
+<td>POLLNVAL</td>
+<td>指定的文件捎述符非法</td>
+</tr>
+</tbody>
+</table>
+<p>**使用 poll() 和 select() 不一样，**不需要显式地请求异常情况报告。</p>
+<p>POLLIN | POLLPRI等价于 select() 的读事件， POLLOUT | POLLWRBAND 等 价于 select() 的写事件； POLLIN 等价于 POLLRDNORM | POLLRDBAND，而 POLLOUT 则等价 于 POLLWRNORM。 例如，要同时监视一个文件描述符是否可读或可写，可以设置 events 为 POLLIN | POLLOUT。 在 poll 返回时，只要检查 revents 中的标志， 获得对应于文件描述符请 求的 events 结构体。 如果 POLLIN 事件被设置，则文件描述符可以被读取而不阻塞；如果 POLLOUT 被设置， 则文件描述符可以写入而不导致阻塞。 这些标志并不是互斥的：它们可能被同时设置，表示这个文件描述符的读取和写人操作都会正常返回而不阻塞。</p>
+<p>timeout 参数指定等待的毫秒数，无论 IO 是否准备好， poll 都会返回。 timeout 指定为负 数值时表示无限超时，使 poll() 一直挂起直到一个指定事件发生； timeout 为 0 指示 poll 调用 立即返回并列出准备好 IO 的文件描述符，但并不等待其他的事件。 这种情况下， poll() 的返回值， 一旦被选举出来，立即返回。</p>
+<h4 id="epoll">epoll</h4>
+<p>epoll是之前 select 和 poll 的增强版本。 相对于 select 和 poll 来说， epoll 更加灵活，没有描述符限制。 epoll 使用一个文件描述符管理多个描述符，将 用户关系的文件描述符的事件存放到内核的一个事件表中，这样在用户空间和内核空间之间 的数据拷贝只需一次。</p>
+<p>epoll接口</p>
+<pre><code class="language-cpp">int epoll_create(int size); 
+int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event); 
+int epoll_wait(int epfd, struct epoll_event* events, int maxevents, int timeout); 
+</code></pre>
+<p>下面分别介绍这三个接口的功能, 入参和出参的含义</p>
+<p><code>epoll_create</code>创建一个 epoll 的句柄， size 用来告诉内核要监昕的数目 。 这个参数不同于 select() 中的 第一个参数，是最大监听的 fd＋1 的值。 需要注意的是，当创建好 epoll 句柄后，它就会占用 一个fd值，在 Linux 下如果查看／proc/ 进程的 id/fd/，是能够看到这个fd值的，所以在使用 完 epoll 后，必须调用 close（）关闭，否则可能导致“被耗尽。</p>
+<p><code>epoll_ctl</code>是epoll 的事件注册函数，它不同于 select（）在监昕事件时告诉内核要监昕什么类型的事 件，而是先注册要监昕的事件类型。</p>
+<ul>
+<li>第一个参数是 epoll_create（）的返回值，</li>
+<li>第二个参数表示 动作，用 3 个宏来表示：① EPOLL_CTL_ADD，注册新的fd到 epfd 中；② EPOLL_CTL_ MOD，修改已经注册的fd监昕事件；③ EPOLL_ CTL _DEL：从 epfd 中删除一个 fd。</li>
+<li>第 3 个参数是需要监昕的fd，</li>
+<li>第 4 个参数是告诉内核需要监昕什么事</li>
+</ul>
+<p><code>epoll_wait</code>  等待事件的产生， 类似于 select（）调用。参数 events 用来从内核得到事件的集合， maxevents 告诉内核这个 events 有多大，且 maxevents 的值不能大于创建 epoll_create() 时的 size，参数 timeout 是超时时间（ ms 为单位，0 会立即返回，-1 将不确定或称永久阻塞）。 该函数返回需要处理的事件数目 如返回 0 表示已超时.</p>
+<h4 id="select-poll-和-epoll-的区别">select、 poll 和 epoll 的区别</h4>
+<p>select、 poll 和 epoll 都是多路 IO 复用的机制。 多路 IO 复用就通过一种机制，可以监视 多个描述符， 一旦某个描述符就绪（一般是读就绪或者写就绪），能够通知程序进行相应的读 写操作。 但 select、 poll 和 epoll 本质上都是同步 IO，因为它们都需要在读写事件就绪后自己 负责进行读写，即是阻塞的，而异步 IO 则无须自己负责进行读写，异步 I/O 的实现会负责把 数据从内核拷贝到用户空间。</p>
+<p>下面对这 3 种多路 IO 复用进行对比。</p>
+<ol>
+<li>
+<p>首先还是来看常见的 select() 和 poll() 。 对于网络编程来说， 一般认为 poll() 比 select() 要高级一些，这主要源于以下几个原因。</p>
+<ol>
+<li>poll() 不要求开发者在计算最大文件描述符时进行＋1 的操作。</li>
+<li>poll() 在应付大数目的文件描述符的时候速度更快，因为对于 select() 来说内核需要 检查大量描述符对应的“ set 中的每一个比特位，比较费时。</li>
+<li>select() 可以监控的文件描述符数目是固定的，相对来说也较少(1024 或 2048 )。 如 果需要监控数值比较大的文件描述符，或是分布得很稀疏的较少的描述符，效率也会很低。 而对于 poll()函数来说，就可以创建特定大小的数组来保存监控的描述符，而不受文件描述 符值大小的影响，而且 poll() 可以监控的文件数目远大于 select() 。</li>
+<li>对于 select() 来说，所监控的 fd_set 在 select() 返回之后会发生变化，所以在下一次 进入 select() 之前都需要重新初始化需要监控的 fd_set, poll() 函数将监控的输入和输出事件分开，允许被监控的文件数组被复用而不需要重新初始化。 ,</li>
+<li>select() 函数的超时参数在返回时也是未定义的，考虑到可移植性，每次在超时之后 在下一次进入到 select() 之前都需要重新设置超时参数。</li>
+</ol>
+</li>
+<li>
+<p>select() 的优点如下所述。</p>
+<ol>
+<li>select() 的可移植性更好，在某些 UNIX 系统上不支持 poll()。</li>
+<li>select() 对于超时值提供了更好的精度，而 poll() 是精度较差。</li>
+</ol>
+</li>
+<li>
+<p>epoll 的优点如下所述。</p>
+<ol>
+<li>
+<p>支持一个进程打开大数目的 socket 描述符（FD）。 select() 均不能忍受的是一个进程所打开的 FD 是有一定限制的，由 FD_SETSIZE 的默认值是 1024/2048。 对于那些需要支持上万连接数目的 IM 服务器来说显然太少了。 这时候可以 选择修改这个宏然后重新编译内核。 不过 epoll 则没有这个限制，它所支持的 FD 上限是最大 可以打开文件的数目，这个数字一般远大于 2048。 举个例子，在 lGB 内存的空间中这个数 字一般是 10 万左右，具体数目可以使用 cat/proc/sys/fs/file-max 查看， 一般来说这个数目和 系统内存关系很大。</p>
+</li>
+<li>
+<p>IO 效率不随 FD 数目增加而线性下降。 传统的 selecνpoll 另一个致命弱点就是当你拥有一个很大的 socket 集合，不过由于网络 延迟，任一时间只有部分的 socket 是 “活跃” 的，但是 select/poll 每次调用都会线性扫描全 部的集合，导致效率呈现线性下降。 但是 epoll 不存在这个问题，它只会对“活跃”的 socket 进行操作一→主是因为在内核中实现 epoll 是根据每个 “ 上面的 callback 函数实现的。 那么， 只有“活跃”的 socket 才会主动去调用 callback 函数，其他 idle 状态 socket 则不会，在这点 上， epoll 实现了一个“伪” AIO，因为这时候推动力由 Linux 内核提供。</p>
+</li>
+<li>
+<p>使用 mmap 加速内核与用户空间的消息传递。 这点实际上涉及 epoll 的具体实现。 无论是 select、 poll 还是 epoll 都需要内核把“消息 通知给用户空间，如何避免不必要的内存拷贝就显得尤为重要。 在这点上， epoll 是通过内核 与用户空间 mmap 处于同一块内存实现的。</p>
+<p>对于 poll 来说需要将用户传入的 pollfd 数组拷贝到内核空间，因为拷贝操作和数组长度 相关，时间上来看，这是一个 O(n）操作，当事件发生后，poll 将获得的数据传送到用户空间， 并执行释放内存和剥离等待队列等工作，向用户空间拷贝数据与剥离等待队列等操作的时间 复杂度同样是 0 (n）。</p>
+</li>
+</ol>
+</li>
+</ol>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/%E7%BA%BF%E7%A8%8B%E8%BF%9B%E7%A8%8B/">
+            <span class="next-text nav-default">线程和进程</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="lyman0522@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="http://lyman.fun/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>lyman</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

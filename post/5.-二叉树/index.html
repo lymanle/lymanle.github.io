@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>二叉树结构 - LymanLife</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyman" /><meta name="description" content="题目一 : 二叉树遍历 实现二叉树的先序、中序、后序遍历，包括递归方式和非递归 方式 思考 在非递归版本中,为啥要用栈结构呢? 因为二叉树没有子节点指向父" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.78.2 with theme even" />
+
+
+<link rel="canonical" href="http://lyman.fun/post/5.-%E4%BA%8C%E5%8F%89%E6%A0%91/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="二叉树结构" />
+<meta property="og:description" content="题目一 : 二叉树遍历 实现二叉树的先序、中序、后序遍历，包括递归方式和非递归 方式 思考 在非递归版本中,为啥要用栈结构呢? 因为二叉树没有子节点指向父" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://lyman.fun/post/5.-%E4%BA%8C%E5%8F%89%E6%A0%91/" />
+<meta property="article:published_time" content="2019-07-15T21:19:15+00:00" />
+<meta property="article:modified_time" content="2019-07-15T21:19:15+00:00" />
+<meta itemprop="name" content="二叉树结构">
+<meta itemprop="description" content="题目一 : 二叉树遍历 实现二叉树的先序、中序、后序遍历，包括递归方式和非递归 方式 思考 在非递归版本中,为啥要用栈结构呢? 因为二叉树没有子节点指向父">
+<meta itemprop="datePublished" content="2019-07-15T21:19:15+00:00" />
+<meta itemprop="dateModified" content="2019-07-15T21:19:15+00:00" />
+<meta itemprop="wordCount" content="3261">
+
+
+
+<meta itemprop="keywords" content="算法," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="二叉树结构"/>
+<meta name="twitter:description" content="题目一 : 二叉树遍历 实现二叉树的先序、中序、后序遍历，包括递归方式和非递归 方式 思考 在非递归版本中,为啥要用栈结构呢? 因为二叉树没有子节点指向父"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LymanLife</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LymanLife</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">二叉树结构</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-07-15 </span>
+        
+          <span class="more-meta"> 3261 words </span>
+          <span class="more-meta"> 7 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h4 id="题目一--二叉树遍历">题目一 : 二叉树遍历</h4>
+<p>实现二叉树的先序、中序、后序遍历，包括递归方式和非递归 方式</p>
+<p><strong>思考</strong> 在非递归版本中,为啥要用栈结构呢?</p>
+<p>因为二叉树没有子节点指向父节点指针,所有想要回去必须用一个辅助容器</p>
+<pre><code class="language-java">package class_04;
+
+import java.util.Stack;
+
+public class Code_01_PreInPosTraversal {
+
+	public static class Node {
+		public int value;
+		public Node left;
+		public Node right;
+
+		public Node(int data) {
+			this.value = data;
+		}
+	}
+//先序遍历    递归
+	public static void preOrderRecur(Node head) {
+		if (head == null) {
+			return;
+		}
+		System.out.print(head.value + &quot; &quot;);
+		preOrderRecur(head.left);
+		preOrderRecur(head.right);
+	}
+//中序   递归
+	public static void inOrderRecur(Node head) {
+		if (head == null) {
+			return;
+		}
+		inOrderRecur(head.left);
+		System.out.print(head.value + &quot; &quot;);
+		inOrderRecur(head.right);
+	}
+//后续   递归
+	public static void posOrderRecur(Node head) {
+		if (head == null) {
+			return;
+		}
+		posOrderRecur(head.left);
+		posOrderRecur(head.right);
+		System.out.print(head.value + &quot; &quot;);
+	}
+//非递归  前序
+	public static void preOrderUnRecur(Node head) {
+		System.out.print(&quot;pre-order: &quot;);
+		if (head != null) {
+            //辅助栈
+			Stack&lt;Node&gt; stack = new Stack&lt;Node&gt;();
+			stack.add(head);
+			while (!stack.isEmpty()) {
+				head = stack.pop();
+				System.out.print(head.value + &quot; &quot;);
+                //先压右, 后压左
+				if (head.right != null) {
+					stack.push(head.right);
+				}
+				if (head.left != null) {
+					stack.push(head.left);
+				}
+			}
+		}
+		System.out.println();
+	}
+//非递归 中序遍历
+	public static void inOrderUnRecur(Node head) {
+		System.out.print(&quot;in-order: &quot;);
+		if (head != null) {
+			Stack&lt;Node&gt; stack = new Stack&lt;Node&gt;();
+			while (!stack.isEmpty() || head != null) {
+                //当前节点为空,从栈中弹出一个打印,当前向右; 不空,当前节点压入栈中,当前向左
+				if (head != null) {
+					stack.push(head);
+					head = head.left;
+				} else {
+					head = stack.pop();
+					System.out.print(head.value + &quot; &quot;);
+					head = head.right;
+				}
+			}
+		}
+		System.out.println();
+	}
+//非递归 后序遍历
+	public static void posOrderUnRecur1(Node head) {
+		System.out.print(&quot;pos-order: &quot;);
+		if (head != null) {
+			Stack&lt;Node&gt; s1 = new Stack&lt;Node&gt;();
+			Stack&lt;Node&gt; s2 = new Stack&lt;Node&gt;();
+			s1.push(head);
+			while (!s1.isEmpty()) {
+				head = s1.pop();
+				s2.push(head);
+				if (head.left != null) {
+					s1.push(head.left);
+				}
+				if (head.right != null) {
+					s1.push(head.right);
+				}
+			}
+			while (!s2.isEmpty()) {
+				System.out.print(s2.pop().value + &quot; &quot;);
+			}
+		}
+		System.out.println();
+	}
+//后续,, 只用了一个栈,不是必须懂
+	public static void posOrderUnRecur2(Node h) {
+		System.out.print(&quot;pos-order: &quot;);
+		if (h != null) {
+			Stack&lt;Node&gt; stack = new Stack&lt;Node&gt;();
+			stack.push(h);
+			Node c = null;
+			while (!stack.isEmpty()) {
+				c = stack.peek();
+				if (c.left != null &amp;&amp; h != c.left &amp;&amp; h != c.right) {
+					stack.push(c.left);
+				} else if (c.right != null &amp;&amp; h != c.right) {
+					stack.push(c.right);
+				} else {
+					System.out.print(stack.pop().value + &quot; &quot;);
+					h = c;
+				}
+			}
+		}
+		System.out.println();
+	}
+
+	public static void main(String[] args) {
+		Node head = new Node(5);
+		head.left = new Node(3);
+		head.right = new Node(8);
+		head.left.left = new Node(2);
+		head.left.right = new Node(4);
+		head.left.left.left = new Node(1);
+		head.right.left = new Node(7);
+		head.right.left.left = new Node(6);
+		head.right.right = new Node(10);
+		head.right.right.left = new Node(9);
+		head.right.right.right = new Node(11);
+
+		// recursive
+		System.out.println(&quot;==============recursive==============&quot;);
+		System.out.print(&quot;pre-order: &quot;);
+		preOrderRecur(head);
+		System.out.println();
+		System.out.print(&quot;in-order: &quot;);
+		inOrderRecur(head);
+		System.out.println();
+		System.out.print(&quot;pos-order: &quot;);
+		posOrderRecur(head);
+		System.out.println();
+
+		// unrecursive
+		System.out.println(&quot;============unrecursive=============&quot;);
+		preOrderUnRecur(head);
+		inOrderUnRecur(head);
+		posOrderUnRecur1(head);
+		posOrderUnRecur2(head);
+
+	}
+
+}
+
+</code></pre>
+<h4 id="如何直观的打印一颗二叉树">如何直观的打印一颗二叉树</h4>
+<pre><code class="language-java">package class_04;
+
+public class Code_02_PrintBinaryTree {
+
+	public static class Node {
+		public int value;
+		public Node left;
+		public Node right;
+
+		public Node(int data) {
+			this.value = data;
+		}
+	}
+
+	public static void printTree(Node head) {
+		System.out.println(&quot;Binary Tree:&quot;);
+		printInOrder(head, 0, &quot;H&quot;, 17);
+		System.out.println();
+	}
+
+	public static void printInOrder(Node head, int height, String to, int len) {
+		if (head == null) {
+			return;
+		}
+		printInOrder(head.right, height + 1, &quot;v&quot;, len);
+		String val = to + head.value + to;
+		int lenM = val.length();
+		int lenL = (len - lenM) / 2;
+		int lenR = len - lenM - lenL;
+		val = getSpace(lenL) + val + getSpace(lenR);
+		System.out.println(getSpace(height * len) + val);
+		printInOrder(head.left, height + 1, &quot;^&quot;, len);
+	}
+
+	public static String getSpace(int num) {
+		String space = &quot; &quot;;
+		StringBuffer buf = new StringBuffer(&quot;&quot;);
+		for (int i = 0; i &lt; num; i++) {
+			buf.append(space);
+		}
+		return buf.toString();
+	}
+
+	public static void main(String[] args) {
+		Node head = new Node(1);
+		head.left = new Node(-222222222);
+		head.right = new Node(3);
+		head.left.left = new Node(Integer.MIN_VALUE);
+		head.right.left = new Node(55555555);
+		head.right.right = new Node(66);
+		head.left.left.right = new Node(777);
+		printTree(head);
+
+		head = new Node(1);
+		head.left = new Node(2);
+		head.right = new Node(3);
+		head.left.left = new Node(4);
+		head.right.left = new Node(5);
+		head.right.right = new Node(6);
+		head.left.left.right = new Node(7);
+		printTree(head);
+
+		head = new Node(1);
+		head.left = new Node(1);
+		head.right = new Node(1);
+		head.left.left = new Node(1);
+		head.right.left = new Node(1);
+		head.right.right = new Node(1);
+		head.left.left.right = new Node(1);
+		printTree(head);
+
+	}
+
+}
+
+</code></pre>
+<h4 id="题目三--在二叉树中找到一个节点的后继节点">题目三 : 在二叉树中找到一个节点的后继节点</h4>
+<p><strong>所谓后继,</strong> 是指中序遍历中,节点的后一个节点, 所谓前序</p>
+<p>【题目】 现在有一种新的二叉树节点比普通二叉树节点结构多了一个指向<strong>父节点的parent指针</strong>。假 设有一 棵Node类型的节点组成的二叉树，树中每个节点的parent指针 都正确地指向 自己的父节点，头节点的parent指向null。只给一个在 二叉树中的某个节点 node，请实现返回node的后继节点的函数。在二 叉树的中序遍历的序列中， node的下一个节点叫作node的后继节点。</p>
+<p><strong>思路</strong> 找规律: 如果一个节点有右节点, 则后续节点一定是右子树中最左节点</p>
+<p>​					  如果没有右子树的, 找那个一直向上找,找到当前节点是它父节点的左孩子, 这个父节点就是要找的后继节点</p>
+<pre><code class="language-java">package class_04;
+
+public class Code_03_SuccessorNode {
+
+	public static class Node {
+		public int value;
+		public Node left;
+		public Node right;
+		public Node parent;
+
+		public Node(int data) {
+			this.value = data;
+		}
+	}
+
+	public static Node getSuccessorNode(Node node) {
+		if (node == null) {
+			return node;
+		}
+		if (node.right != null) {
+			return getLeftMost(node.right);
+		} else {
+			Node parent = node.parent;
+            //边界判断,,,如果是最后一个节点,肯定是没有左节点的
+			while (parent != null &amp;&amp; parent.left != node) {
+				node = parent;
+				parent = node.parent;
+			}
+			return parent;
+		}
+	}
+
+	public static Node getLeftMost(Node node) {
+		if (node == null) {
+			return node;
+		}
+		while (node.left != null) {
+			node = node.left;
+		}
+		return node;
+	}
+
+	public static void main(String[] args) {
+		Node head = new Node(6);
+		head.parent = null;
+		head.left = new Node(3);
+		head.left.parent = head;
+		head.left.left = new Node(1);
+		head.left.left.parent = head.left;
+		head.left.left.right = new Node(2);
+		head.left.left.right.parent = head.left.left;
+		head.left.right = new Node(4);
+		head.left.right.parent = head.left;
+		head.left.right.right = new Node(5);
+		head.left.right.right.parent = head.left.right;
+		head.right = new Node(9);
+		head.right.parent = head;
+		head.right.left = new Node(8);
+		head.right.left.parent = head.right;
+		head.right.left.left = new Node(7);
+		head.right.left.left.parent = head.right.left;
+		head.right.right = new Node(10);
+		head.right.right.parent = head.right;
+
+		Node test = head.left.left;
+		System.out.println(test.value + &quot; next: &quot; + getSuccessorNode(test).value);
+		test = head.left.left.right;
+		System.out.println(test.value + &quot; next: &quot; + getSuccessorNode(test).value);
+		test = head.left;
+		System.out.println(test.value + &quot; next: &quot; + getSuccessorNode(test).value);
+		test = head.left.right;
+		System.out.println(test.value + &quot; next: &quot; + getSuccessorNode(test).value);
+		test = head.left.right.right;
+		System.out.println(test.value + &quot; next: &quot; + getSuccessorNode(test).value);
+		test = head;
+		System.out.println(test.value + &quot; next: &quot; + getSuccessorNode(test).value);
+		test = head.right.left.left;
+		System.out.println(test.value + &quot; next: &quot; + getSuccessorNode(test).value);
+		test = head.right.left;
+		System.out.println(test.value + &quot; next: &quot; + getSuccessorNode(test).value);
+		test = head.right;
+		System.out.println(test.value + &quot; next: &quot; + getSuccessorNode(test).value);
+		test = head.right.right; // 10's next is null
+		System.out.println(test.value + &quot; next: &quot; + getSuccessorNode(test));
+	}
+
+}
+
+</code></pre>
+<h4 id="题目四--二叉树的序列化和反序列化">题目四 : 二叉树的序列化和反序列化</h4>
+<ul>
+<li>先序遍历序列化: 转成str</li>
+</ul>
+<pre><code class="language-java">package class_04;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class Code_04_SerializeAndReconstructTree {
+
+	public static class Node {
+		public int value;
+		public Node left;
+		public Node right;
+
+		public Node(int data) {
+			this.value = data;
+		}
+	}
+//序列化
+	public static String serialByPre(Node head) {
+		if (head == null) {
+			return &quot;#!&quot;;
+		}
+		String res = head.value + &quot;!&quot;;
+		res += serialByPre(head.left);
+		res += serialByPre(head.right);
+		return res;
+	}
+//反序列化
+	public static Node reconByPreString(String preStr) {
+		String[] values = preStr.split(&quot;!&quot;);
+		Queue&lt;String&gt; queue = new LinkedList&lt;String&gt;();
+		for (int i = 0; i != values.length; i++) {
+			queue.offer(values[i]);
+		}
+		return reconPreOrder(queue);
+	}
+//递归建树
+	public static Node reconPreOrder(Queue&lt;String&gt; queue) {
+		String value = queue.poll();
+		if (value.equals(&quot;#&quot;)) {
+			return null;
+		}
+		Node head = new Node(Integer.valueOf(value));
+		head.left = reconPreOrder(queue);
+		head.right = reconPreOrder(queue);
+		return head;
+	}
+
+	public static String serialByLevel(Node head) {
+		if (head == null) {
+			return &quot;#!&quot;;
+		}
+		String res = head.value + &quot;!&quot;;
+		Queue&lt;Node&gt; queue = new LinkedList&lt;Node&gt;();
+		queue.offer(head);
+		while (!queue.isEmpty()) {
+			head = queue.poll();
+			if (head.left != null) {
+				res += head.left.value + &quot;!&quot;;
+				queue.offer(head.left);
+			} else {
+				res += &quot;#!&quot;;
+			}
+			if (head.right != null) {
+				res += head.right.value + &quot;!&quot;;
+				queue.offer(head.right);
+			} else {
+				res += &quot;#!&quot;;
+			}
+		}
+		return res;
+	}
+
+	public static Node reconByLevelString(String levelStr) {
+		String[] values = levelStr.split(&quot;!&quot;);
+		int index = 0;
+		Node head = generateNodeByString(values[index++]);
+		Queue&lt;Node&gt; queue = new LinkedList&lt;Node&gt;();
+		if (head != null) {
+			queue.offer(head);
+		}
+		Node node = null;
+		while (!queue.isEmpty()) {
+			node = queue.poll();
+			node.left = generateNodeByString(values[index++]);
+			node.right = generateNodeByString(values[index++]);
+			if (node.left != null) {
+				queue.offer(node.left);
+			}
+			if (node.right != null) {
+				queue.offer(node.right);
+			}
+		}
+		return head;
+	}
+
+	public static Node generateNodeByString(String val) {
+		if (val.equals(&quot;#&quot;)) {
+			return null;
+		}
+		return new Node(Integer.valueOf(val));
+	}
+
+	// for test -- print tree
+	public static void printTree(Node head) {
+		System.out.println(&quot;Binary Tree:&quot;);
+		printInOrder(head, 0, &quot;H&quot;, 17);
+		System.out.println();
+	}
+
+	public static void printInOrder(Node head, int height, String to, int len) {
+		if (head == null) {
+			return;
+		}
+		printInOrder(head.right, height + 1, &quot;v&quot;, len);
+		String val = to + head.value + to;
+		int lenM = val.length();
+		int lenL = (len - lenM) / 2;
+		int lenR = len - lenM - lenL;
+		val = getSpace(lenL) + val + getSpace(lenR);
+		System.out.println(getSpace(height * len) + val);
+		printInOrder(head.left, height + 1, &quot;^&quot;, len);
+	}
+
+	public static String getSpace(int num) {
+		String space = &quot; &quot;;
+		StringBuffer buf = new StringBuffer(&quot;&quot;);
+		for (int i = 0; i &lt; num; i++) {
+			buf.append(space);
+		}
+		return buf.toString();
+	}
+
+	public static void main(String[] args) {
+		Node head = null;
+		printTree(head);
+
+		String pre = serialByPre(head);
+		System.out.println(&quot;serialize tree by pre-order: &quot; + pre);
+		head = reconByPreString(pre);
+		System.out.print(&quot;reconstruct tree by pre-order, &quot;);
+		printTree(head);
+
+		String level = serialByLevel(head);
+		System.out.println(&quot;serialize tree by level: &quot; + level);
+		head = reconByLevelString(level);
+		System.out.print(&quot;reconstruct tree by level, &quot;);
+		printTree(head);
+
+		System.out.println(&quot;====================================&quot;);
+
+		head = new Node(1);
+		printTree(head);
+
+		pre = serialByPre(head);
+		System.out.println(&quot;serialize tree by pre-order: &quot; + pre);
+		head = reconByPreString(pre);
+		System.out.print(&quot;reconstruct tree by pre-order, &quot;);
+		printTree(head);
+
+		level = serialByLevel(head);
+		System.out.println(&quot;serialize tree by level: &quot; + level);
+		head = reconByLevelString(level);
+		System.out.print(&quot;reconstruct tree by level, &quot;);
+		printTree(head);
+
+		System.out.println(&quot;====================================&quot;);
+
+		head = new Node(1);
+		head.left = new Node(2);
+		head.right = new Node(3);
+		head.left.left = new Node(4);
+		head.right.right = new Node(5);
+		printTree(head);
+
+		pre = serialByPre(head);
+		System.out.println(&quot;serialize tree by pre-order: &quot; + pre);
+		head = reconByPreString(pre);
+		System.out.print(&quot;reconstruct tree by pre-order, &quot;);
+		printTree(head);
+
+		level = serialByLevel(head);
+		System.out.println(&quot;serialize tree by level: &quot; + level);
+		head = reconByLevelString(level);
+		System.out.print(&quot;reconstruct tree by level, &quot;);
+		printTree(head);
+
+		System.out.println(&quot;====================================&quot;);
+
+		head = new Node(100);
+		head.left = new Node(21);
+		head.left.left = new Node(37);
+		head.right = new Node(-42);
+		head.right.left = new Node(0);
+		head.right.right = new Node(666);
+		printTree(head);
+
+		pre = serialByPre(head);
+		System.out.println(&quot;serialize tree by pre-order: &quot; + pre);
+		head = reconByPreString(pre);
+		System.out.print(&quot;reconstruct tree by pre-order, &quot;);
+		printTree(head);
+
+		level = serialByLevel(head);
+		System.out.println(&quot;serialize tree by level: &quot; + level);
+		head = reconByLevelString(level);
+		System.out.print(&quot;reconstruct tree by level, &quot;);
+		printTree(head);
+
+		System.out.println(&quot;====================================&quot;);
+
+	}
+}
+
+</code></pre>
+<h4 id="题目六--判断一棵二叉树是否是平衡二叉树">题目六 : 判断一棵二叉树是否是平衡二叉树</h4>
+<ul>
+<li>左树是否平衡</li>
+<li>右树是否平衡</li>
+<li>左右树都平衡, 拿到左树高度, 右树高度, 判断</li>
+</ul>
+<p><strong>接下来设计递归函数返回值</strong></p>
+<pre><code class="language-java">package class_04;
+
+public class Code_06_IsBalancedTree {
+
+	public static class Node {
+		public int value;
+		public Node left;
+		public Node right;
+
+		public Node(int data) {
+			this.value = data;
+		}
+	}
+    
+    public static class ReturnData{
+        public boolean isB;
+        public int h;
+        
+        public ReturnData(boolean isB, int h){
+            this.isB = isB;
+            this.h = h;
+        }
+    }
+    //主函数
+    public static boolean isB(Node head){
+        return process(head).isB;
+    }
+    
+    
+    //设计递归过程
+    public static ReturnData process(Node head) {
+        if(head == null){
+            return new ReturnData(true, 0);
+        }
+        ReturnData leftData = process(head.left);
+        if(!leftData.isB){
+            return new ReturnData(flase, 0);
+        }
+        ReturnData rightData = process(head.left);
+        if(!rightData.isB){
+            return new ReturnData(flase, 0);
+        }
+        
+        if(Math.abs(leftData.h - rightData.h) &gt;  1)
+            return new ReturnData(flase, 0);
+        
+        return new ReturnData(true, Math.max(leftData.h, rightData.h) + 1)
+ 
+    }
+
+	
+	public static void main(String[] args) {
+		Node head = new Node(1);
+		head.left = new Node(2);
+		head.right = new Node(3);
+		head.left.left = new Node(4);
+		head.left.right = new Node(5);
+		head.right.left = new Node(6);
+		head.right.right = new Node(7);
+
+		System.out.println(isBalance(head));
+
+	}
+
+}
+
+</code></pre>
+<h4 id="题目七--判断一棵树是否是搜索二叉树判断一棵树是否是完全二叉树">题目七 : 判断一棵树是否是搜索二叉树、判断一棵树是否是完全二叉树</h4>
+<p>如何判断搜索二叉树, 二叉树的中序遍历是依次升序的就是搜索二叉树, 自己根据中序遍历改</p>
+<p>如何判断是否完全二叉树: 二叉树层次遍历,</p>
+<ul>
+<li>如果一个节点有右孩子,没有左孩子, 直接返回 false</li>
+<li>如果一个节点只有左孩子,或者没有孩子, 则后面出现的所有节点都是<strong>叶节点</strong>&hellip;&hellip;..</li>
+</ul>
+<pre><code class="language-java">package class_04;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class Code_07_IsBSTAndCBT {
+
+	public static class Node {
+		public int value;
+		public Node left;
+		public Node right;
+
+		public Node(int data) {
+			this.value = data;
+		}
+	}
+
+	public static boolean isBST(Node head) {
+		if (head == null) {
+			return true;
+		}
+		boolean res = true;
+		Node pre = null;
+		Node cur1 = head;
+		Node cur2 = null;
+		while (cur1 != null) {
+			cur2 = cur1.left;
+			if (cur2 != null) {
+				while (cur2.right != null &amp;&amp; cur2.right != cur1) {
+					cur2 = cur2.right;
+				}
+				if (cur2.right == null) {
+					cur2.right = cur1;
+					cur1 = cur1.left;
+					continue;
+				} else {
+					cur2.right = null;
+				}
+			}
+			if (pre != null &amp;&amp; pre.value &gt; cur1.value) {
+				res = false;
+			}
+			pre = cur1;
+			cur1 = cur1.right;
+		}
+		return res;
+	}
+//完全二叉树
+	public static boolean isCBT(Node head) {
+		if (head == null) {
+			return true;
+		}
+		Queue&lt;Node&gt; queue = new LinkedList&lt;Node&gt;();
+		boolean leaf = false;
+		Node l = null;
+		Node r = null;
+		queue.offer(head);
+		while (!queue.isEmpty()) {
+			head = queue.poll();
+			l = head.left;
+			r = head.right;
+			if ((leaf &amp;&amp; (l != null || r != null)) || (l == null &amp;&amp; r != null)) {
+				return false;
+			}
+			if (l != null) {
+				queue.offer(l);
+			}
+			if (r != null) {
+				queue.offer(r);
+			} else {
+				leaf = true;
+			}
+		}
+		return true;
+	}
+
+	// for test -- print tree
+	public static void printTree(Node head) {
+		System.out.println(&quot;Binary Tree:&quot;);
+		printInOrder(head, 0, &quot;H&quot;, 17);
+		System.out.println();
+	}
+
+	public static void printInOrder(Node head, int height, String to, int len) {
+		if (head == null) {
+			return;
+		}
+		printInOrder(head.right, height + 1, &quot;v&quot;, len);
+		String val = to + head.value + to;
+		int lenM = val.length();
+		int lenL = (len - lenM) / 2;
+		int lenR = len - lenM - lenL;
+		val = getSpace(lenL) + val + getSpace(lenR);
+		System.out.println(getSpace(height * len) + val);
+		printInOrder(head.left, height + 1, &quot;^&quot;, len);
+	}
+
+	public static String getSpace(int num) {
+		String space = &quot; &quot;;
+		StringBuffer buf = new StringBuffer(&quot;&quot;);
+		for (int i = 0; i &lt; num; i++) {
+			buf.append(space);
+		}
+		return buf.toString();
+	}
+
+	public static void main(String[] args) {
+		Node head = new Node(4);
+		head.left = new Node(2);
+		head.right = new Node(6);
+		head.left.left = new Node(1);
+		head.left.right = new Node(3);
+		head.right.left = new Node(5);
+
+		printTree(head);
+		System.out.println(isBST(head));
+		System.out.println(isCBT(head));
+
+	}
+}
+</code></pre>
+<h4 id="题目八--已知一颗完全二叉树-求其节点的个数">题目八 : 已知一颗完全二叉树, 求其节点的个数</h4>
+<p>要求: 时间复杂度低于O(N)</p>
+<ul>
+<li>如果一棵树是满二叉树, 它的高度为L,   它的节点个数为 (2^L -1)</li>
+<li>用递归的方法去求,  不断的求root节点的</li>
+</ul>
+<pre><code class="language-java">package class_04;
+
+public class Code_08_CompleteTreeNodeNumber {
+
+	public static class Node {
+		public int value;
+		public Node left;
+		public Node right;
+
+		public Node(int data) {
+			this.value = data;
+		}
+	}
+//主函数, , 传root节点
+	public static int nodeNum(Node head) {
+		if (head == null) {
+			return 0;
+		}
+		return bs(head, 1, mostLeftLevel(head, 1));
+	}
+//node当前节点, level在第几层,,,h固定值, 总共的深度
+	public static int bs(Node node, int level, int h) {
+		if (level == h) {
+			return 1;
+		}
+		if (mostLeftLevel(node.right, level + 1) == h) {
+            //节点的右孩子的高度也到底
+			return (1 &lt;&lt; (h - level)) + bs(node.right, level + 1, h);
+		} else {
+            //节点的右孩子的高度没到底,说明右子树是完全二叉树
+			return (1 &lt;&lt; (h - level - 1)) + bs(node.left, level + 1, h);
+		}
+	}
+
+	public static int   (Node node, int level) {
+		while (node != null) {
+			level++;
+			node = node.left;
+		}
+		return level - 1;
+	}
+
+	public static void main(String[] args) {
+		Node head = new Node(1);
+		head.left = new Node(2);
+		head.right = new Node(3);
+		head.left.left = new Node(4);
+		head.left.right = new Node(5);
+		head.right.left = new Node(6);
+		System.out.println(nodeNum(head));
+
+	}
+
+}
+
+</code></pre>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/6.-%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C-%E5%B9%B6%E6%9F%A5%E9%9B%86-%E5%B2%9B%E9%97%AE%E9%A2%98/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">一致性哈希, 并查集以及岛问题</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/3.-%E6%8E%92%E5%BA%8F%E7%9A%84%E7%A8%B3%E5%AE%9A%E5%9E%8B/">
+            <span class="next-text nav-default">排序的稳定性</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="lyman0522@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="http://lyman.fun/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>lyman</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

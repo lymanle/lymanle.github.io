@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>对象性能 模式 - LymanLife</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyman" /><meta name="description" content="对象性能模式 面向对象很好地解决了“抽象” 的问题，但是必不可免地要付出一定的代价。对千通常情况来讲，面向对象的成本大都可以忽略不计。但是某些情" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.78.2 with theme even" />
+
+
+<link rel="canonical" href="http://lyman.fun/post/2.-%E5%AF%B9%E8%B1%A1%E6%80%A7%E8%83%BD-%E6%A8%A1%E5%BC%8F/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="对象性能 模式" />
+<meta property="og:description" content="对象性能模式 面向对象很好地解决了“抽象” 的问题，但是必不可免地要付出一定的代价。对千通常情况来讲，面向对象的成本大都可以忽略不计。但是某些情" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://lyman.fun/post/2.-%E5%AF%B9%E8%B1%A1%E6%80%A7%E8%83%BD-%E6%A8%A1%E5%BC%8F/" />
+<meta property="article:published_time" content="2019-07-13T20:19:07+00:00" />
+<meta property="article:modified_time" content="2019-07-13T20:19:07+00:00" />
+<meta itemprop="name" content="对象性能 模式">
+<meta itemprop="description" content="对象性能模式 面向对象很好地解决了“抽象” 的问题，但是必不可免地要付出一定的代价。对千通常情况来讲，面向对象的成本大都可以忽略不计。但是某些情">
+<meta itemprop="datePublished" content="2019-07-13T20:19:07+00:00" />
+<meta itemprop="dateModified" content="2019-07-13T20:19:07+00:00" />
+<meta itemprop="wordCount" content="1110">
+
+
+
+<meta itemprop="keywords" content="设计模式," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="对象性能 模式"/>
+<meta name="twitter:description" content="对象性能模式 面向对象很好地解决了“抽象” 的问题，但是必不可免地要付出一定的代价。对千通常情况来讲，面向对象的成本大都可以忽略不计。但是某些情"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LymanLife</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LymanLife</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">对象性能 模式</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-07-13 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
+            </div>
+          <span class="more-meta"> 1110 words </span>
+          <span class="more-meta"> 3 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h4 id="对象性能模式">对象性能模式</h4>
+<ul>
+<li>
+<p>面向对象很好地解决了“抽象” 的问题，但是必不可免地要付出一定的代价。对千通常情况来讲，面向对象的成本大都可以忽略不计。但是某些情况，面向对象所带来的成本必须谨慎处理。</p>
+</li>
+<li>
+<p>典型模式</p>
+<ul>
+<li>singleton</li>
+<li>flyweight</li>
+</ul>
+</li>
+</ul>
+<h4 id="单件模式">单件模式</h4>
+<h5 id="动机">动机</h5>
+<p>一些特殊的类,必须要表征它们在系统中只存在一个实例, 才能确保它们的逻辑正确性和良好的效率</p>
+<h5 id="模式定义">模式定义</h5>
+<p>保证一个类只有一个实例, 并提供一个该实例的全局访问点.</p>
+<pre><code class="language-cpp">class Singleton{
+private://私有
+    Singleton();//私有构造
+    Singleton(const Singleton&amp; other);//私有拷贝构造
+public:
+    static Singleton* getInstance(); //静态函数
+    static Singleton* m_instance;//静态变量
+};
+
+Singleton* Singleton::m_instance=nullptr;//静态变量初始化为null
+
+//第一个版本......线程非安全版本
+Singleton* Singleton::getInstance() {
+    if (m_instance == nullptr) {
+        m_instance = new Singleton();
+    }
+    return m_instance;
+}
+
+
+//第二种方法,加锁,,,,,线程安全版本，但锁的代价过高
+Singleton* Singleton::getInstance() {
+    Lock lock;
+    if (m_instance == nullptr) {
+        m_instance = new Singleton();
+    }
+    return m_instance;
+}
+
+
+//第三个版本,,,锁的粒度降低,,,,,,,双检查锁，但由于内存读写reorder不安全
+//内存读写reorder, 编译器会自动优化执行步骤
+Singleton* Singleton::getInstance() {
+    
+    if(m_instance==nullptr){
+        Lock lock;
+        if (m_instance == nullptr) {
+            m_instance = new Singleton();
+        }
+    }
+    return m_instance;
+}
+
+
+//C++ 11版本之后的跨平台实现 (volatile)//使用volatile关键字,让编译器不要进行优化
+std::atomic&lt;Singleton*&gt; Singleton::m_instance; //原子对象
+std::mutex Singleton::m_mutex;
+
+Singleton* Singleton::getInstance() {
+    //使用load得到原子对象的指针
+    Singleton* tmp = m_instance.load(std::memory_order_relaxed);
+       (std::memory_order_acquire);//获取内存fence
+    if (tmp == nullptr) {
+        std::lock_guard&lt;std::mutex&gt; lock(m_mutex);
+        tmp = m_instance.load(std::memory_order_relaxed);
+        if (tmp == nullptr) {
+            tmp = new Singleton;
+            std::atomic_thread_fence(std::memory_order_release);//释放内存fence
+            m_instance.store(tmp, std::memory_order_relaxed);
+        }
+    }
+    return tmp;
+}
+
+</code></pre>
+<h5 id="结构图">结构图</h5>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F.png" alt="单例模式"></p>
+<h5 id="要点总结">要点总结</h5>
+<ul>
+<li>singleton模式中的实例构造器可以设置为protected以允许子类派生</li>
+<li>singleton模式一般不要支持拷贝构造函数和clone金额口,因为这有可能导致多个对象实例</li>
+</ul>
+<h4 id="享元模式">享元模式</h4>
+<h5 id="动机-1">动机</h5>
+<ul>
+<li>在软件系统采用纯粹对象方案的问题在<strong>大量细粒度的对象</strong>会很快充斥在系统中，从而带来很高的运行时代价——主要指内存需求方面的代价。</li>
+<li>如何在避免大量细粒度对象问题的同时，让外部客户程序仍然能够透明地使用面向对象的方式来进行操作？</li>
+</ul>
+<h5 id="模式定义-1">模式定义</h5>
+<p>运用共享技术有效的支持大量细粒度的对象</p>
+<pre><code class="language-cpp">//字体对象,一篇文章中有很多字体,如果每个字一个对象,开销很大
+class Font {
+private:
+    //unique object key
+    string key;
+    //object state
+    //....
+    
+public:
+    Font(const string&amp; key){
+        //...
+    }
+};
+
+//字体工厂
+class FontFactory{
+private:
+    map&lt;string,Font* &gt; fontPool;
+    
+public:
+    Font* GetFont(const string&amp; key){
+
+        map&lt;string,Font*&gt;::iterator item=fontPool.find(key);//查找
+        //如果找到了,说明之前创建过了
+        if(item!=footPool.end()){
+            return fontPool[key];//直接返回原来创建的对象
+        }
+        else{
+            Font* font = new Font(key);//创建对象
+            fontPool[key]= font;//加入pool
+            return font;
+        }
+
+    }
+    
+    void clear(){
+        //...
+    }
+};
+</code></pre>
+<h5 id="结构图-1">结构图</h5>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/flyweight.png" alt="flyweight"></p>
+<h5 id="要点总结-1">要点总结</h5>
+<ul>
+<li></li>
+</ul>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/5.-%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E6%A8%A1%E5%BC%8F/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">接口隔离模式</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/effective-c-%E7%AC%94%E8%AE%B0/">
+            <span class="next-text nav-default">effective C&#43;&#43; 笔记</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="lyman0522@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="http://lyman.fun/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>lyman</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

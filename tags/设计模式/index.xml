@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>设计模式 on LymanLife</title>
+    <link>http://lyman.fun/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+    <description>Recent content in 设计模式 on LymanLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 14 Jul 2019 15:51:23 +0000</lastBuildDate><atom:link href="http://lyman.fun/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>设计模式总结</title>
+      <link>http://lyman.fun/post/10.-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Sun, 14 Jul 2019 15:51:23 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/10.-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93/</guid>
+      <description>设计模式总结 一个目标 管理变化,提高复用 两个手段 分解 抽象 八大原则 依赖倒置原则(DIP) 开放封闭原则(OCP) 单一职责原则(SRP) Liskov 替换原则(</description>
+    </item>
+    
+    <item>
+      <title>领域规则模式</title>
+      <link>http://lyman.fun/post/9.-%E9%A2%86%E5%9F%9F%E8%A7%84%E5%88%99%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 14 Jul 2019 15:24:42 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/9.-%E9%A2%86%E5%9F%9F%E8%A7%84%E5%88%99%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&amp;ldquo;领域规则&amp;quot;模式 在特定领域中, 某些变化虽然频繁, 但是可以抽象为某种规则. 这时候, 结合特定领域, 将问题抽象为语法规则, 从</description>
+    </item>
+    
+    <item>
+      <title>行为变化模式</title>
+      <link>http://lyman.fun/post/6.-%E8%A1%8C%E4%B8%BA%E5%8F%98%E5%8C%96%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 14 Jul 2019 13:21:22 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/6.-%E8%A1%8C%E4%B8%BA%E5%8F%98%E5%8C%96%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&amp;ldquo;行为变化&amp;quot;模式 与C++中的函数对象非常相似 在组件的构建过程中, 组件行为的变化经常导致组件本身剧烈变化. 行为变化 模式将</description>
+    </item>
+    
+    <item>
+      <title>状态变化模式</title>
+      <link>http://lyman.fun/post/8.-%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 13 Jul 2019 21:54:26 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/8.-%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&amp;ldquo;状态改变&amp;quot;模式 在组件构建过程中, 某些对象的状态经常发生变化, 如何对这些变化进行管理?同时又维护高层模块的稳定? 典型模</description>
+    </item>
+    
+    <item>
+      <title>接口隔离模式</title>
+      <link>http://lyman.fun/post/5.-%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 13 Jul 2019 20:51:46 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/5.-%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&amp;ldquo;接口隔离&amp;quot;模式 在组件构建过程中，某些接口之间直接的依赖常常会带来很多问题..采用添加一层间接欸(稳定)接口,来隔离本</description>
+    </item>
+    
+    <item>
+      <title>对象性能 模式</title>
+      <link>http://lyman.fun/post/2.-%E5%AF%B9%E8%B1%A1%E6%80%A7%E8%83%BD-%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 13 Jul 2019 20:19:07 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/2.-%E5%AF%B9%E8%B1%A1%E6%80%A7%E8%83%BD-%E6%A8%A1%E5%BC%8F/</guid>
+      <description>对象性能模式 面向对象很好地解决了“抽象” 的问题，但是必不可免地要付出一定的代价。对千通常情况来讲，面向对象的成本大都可以忽略不计。但是某些情</description>
+    </item>
+    
+    <item>
+      <title>对象创建模式</title>
+      <link>http://lyman.fun/post/7.-%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 22 Jun 2019 21:38:46 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/7.-%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&amp;ldquo;对象创建&amp;quot;模式 通过“对象创建” 模式绕开new，来避免对象创建（new）过程中所导致的紧耦合（依赖具体类），从而支持对</description>
+    </item>
+    
+    <item>
+      <title>对象创建模式</title>
+      <link>http://lyman.fun/post/%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 22 Jun 2019 21:38:46 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%BC%8F/</guid>
+      <description>通过“对象创建” 模式绕开new，来避免对象创建（new）过程中所导致的紧耦合（依赖具体类），从而支持对象创建的稳定。它是接口抽象之后的第一步</description>
+    </item>
+    
+    <item>
+      <title>单一职责模式</title>
+      <link>http://lyman.fun/post/4.-%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 19 Jun 2019 21:41:55 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/4.-%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&amp;ldquo;单一职责&amp;quot;模式: 在软件组件的设计中，如果责任划分的不清晰，使用继承得到的结果往往是随着需求的变化，子类急剧膨胀，同时</description>
+    </item>
+    
+    <item>
+      <title>组件协作模式</title>
+      <link>http://lyman.fun/post/1.-%E7%BB%84%E4%BB%B6%E5%8D%8F%E4%BD%9C%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 19 Jun 2019 21:28:21 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/1.-%E7%BB%84%E4%BB%B6%E5%8D%8F%E4%BD%9C%E6%A8%A1%E5%BC%8F/</guid>
+      <description>GOF-23 模式分类 从目的来看: 创建型（Creational）模式：将对象的部分创建工作延迟到子类或者其他对象，从而应对需求变化为对象创建时具体类型实</description>
+    </item>
+    
+    <item>
+      <title>c&#43;&#43; 设计模式</title>
+      <link>http://lyman.fun/post/0.-%E4%BD%95%E4%B8%BA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 15 Jun 2019 21:22:18 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/0.-%E4%BD%95%E4%B8%BA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</guid>
+      <description>学习目标 理解松耦合设计思想 掌握面向对象设计原则 掌握重构技法改善设计 掌握GOF核心设计模式 so, 什么是设计模式: 每个模式描述了一个不断重复发生的问</description>
+    </item>
+    
+  </channel>
+</rss>

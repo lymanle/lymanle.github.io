@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>对象创建模式 - LymanLife</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyman" /><meta name="description" content="通过“对象创建” 模式绕开new，来避免对象创建（new）过程中所导致的紧耦合（依赖具体类），从而支持对象创建的稳定。它是接口抽象之后的第一步" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.78.2 with theme even" />
+
+
+<link rel="canonical" href="http://lyman.fun/post/%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%BC%8F/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="对象创建模式" />
+<meta property="og:description" content="通过“对象创建” 模式绕开new，来避免对象创建（new）过程中所导致的紧耦合（依赖具体类），从而支持对象创建的稳定。它是接口抽象之后的第一步" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://lyman.fun/post/%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%BC%8F/" />
+<meta property="article:published_time" content="2019-06-22T21:38:46+00:00" />
+<meta property="article:modified_time" content="2019-06-22T21:38:46+00:00" />
+<meta itemprop="name" content="对象创建模式">
+<meta itemprop="description" content="通过“对象创建” 模式绕开new，来避免对象创建（new）过程中所导致的紧耦合（依赖具体类），从而支持对象创建的稳定。它是接口抽象之后的第一步">
+<meta itemprop="datePublished" content="2019-06-22T21:38:46+00:00" />
+<meta itemprop="dateModified" content="2019-06-22T21:38:46+00:00" />
+<meta itemprop="wordCount" content="2517">
+
+
+
+<meta itemprop="keywords" content="设计模式," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="对象创建模式"/>
+<meta name="twitter:description" content="通过“对象创建” 模式绕开new，来避免对象创建（new）过程中所导致的紧耦合（依赖具体类），从而支持对象创建的稳定。它是接口抽象之后的第一步"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LymanLife</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LymanLife</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">对象创建模式</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-06-22 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
+            </div>
+          <span class="more-meta"> 2517 words </span>
+          <span class="more-meta"> 6 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <ul>
+<li>
+<p>通过“对象创建” 模式绕开new，来避免对象创建（new）过程中所导致的紧耦合（依赖具体类），从而支持对象创建的稳定。它是接口抽象之后的第一步工作。</p>
+</li>
+<li>
+<h4 id="典型模式">典型模式</h4>
+<ul>
+<li>Factory Method</li>
+<li>Abstract Factory</li>
+<li>Prototype</li>
+<li>Builder</li>
+</ul>
+</li>
+</ul>
+<h4 id="factory-method">Factory Method</h4>
+<h5 id="动机">动机</h5>
+<ul>
+<li>在软件系统中，经常面临着创建对象的工作；由于需求的变化，需要创建的对象的具体类型经常变化。如何应对这种变化？如何<strong>绕过常规的对象创建方法(new)</strong>，提供一种“封装机制”来避免客户程序和这种“具体对象创建工作”的紧耦合？</li>
+</ul>
+<h5 id="定义">定义</h5>
+<ul>
+<li>定义一个用于创建对象的接口，让子类决定实例化哪一个类。 Factory Method使得一个类的实例化延迟（目的：解耦，手段：虚函数）到子类。</li>
+</ul>
+<h5 id="代码与分析">代码与分析</h5>
+<pre><code class="language-cpp">class MainForm : public Form
+{
+	TextBox* txtFilePath;
+	TextBox* txtFileNumber;
+	ProgressBar* progressBar;
+
+public:
+	void Button1_Click(){
+
+
+        
+		ISplitter * splitter = new BinarySplitter();
+        //这里对象的new中依赖具体类,如果让它可以更具后面传入的类型自己动态的创建对象
+        
+        splitter-&gt;split();
+
+	}
+};
+
+
+class ISplitter{	//基类
+public:
+    virtual void split()=0;
+    virtual ~ISplitter(){}
+};
+
+class BinarySplitter : public ISplitter{		//不同文件的分割实现
+    
+};
+
+class TxtSplitter: public ISplitter{
+    
+};
+
+class PictureSplitter: public ISplitter{
+    
+};
+
+class VideoSplitter: public ISplitter{
+    
+};
+</code></pre>
+<p>如上面所示:在根据需要创建一个具体的类的时候,需要让它在编译的时候决定</p>
+<pre><code class="language-cpp">class MainForm : public Form
+{
+    SplitterFactory*  factory;//工厂
+
+public:
+    
+    MainForm(SplitterFactory*  factory){
+        this-&gt;factory=factory;
+    }
+    
+	void Button1_Click(){
+
+        
+		ISplitter * splitter=
+            factory-&gt;CreateSplitter(); //多态new
+        
+        splitter-&gt;split();
+
+	}
+};
+
+
+//具体类
+class BinarySplitter : public ISplitter{
+    
+};
+
+class TxtSplitter: public ISplitter{
+    
+};
+
+class PictureSplitter: public ISplitter{
+    
+};
+
+class VideoSplitter: public ISplitter{
+    
+};
+
+//具体工厂
+class BinarySplitterFactory: public SplitterFactory{
+public:
+    virtual ISplitter* CreateSplitter(){
+        return new BinarySplitter();
+    }
+};
+
+class TxtSplitterFactory: public SplitterFactory{
+public:
+    virtual ISplitter* CreateSplitter(){
+        return new TxtSplitter();
+    }
+};
+
+class PictureSplitterFactory: public SplitterFactory{
+public:
+    virtual ISplitter* CreateSplitter(){
+        return new PictureSplitter();
+    }
+};
+
+class VideoSplitterFactory: public SplitterFactory{
+public:
+    virtual ISplitter* CreateSplitter(){
+        return new VideoSplitter();
+    }
+};
+
+//抽象类
+class ISplitter{
+public:
+    virtual void split()=0;
+    virtual ~ISplitter(){}
+};
+
+
+//工厂基类
+class SplitterFactory{
+public:
+    virtual ISplitter* CreateSplitter()=0;
+    virtual ~SplitterFactory(){}
+};
+</code></pre>
+<h5 id="结构图">结构图</h5>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory%20method.png%22%E7%BA%A2%E8%89%B2%E9%83%A8%E5%88%86%E4%B8%BA%E7%A8%B3%E5%AE%9A,%E8%93%9D%E8%89%B2%E4%B8%BA%E5%8F%98%E5%8C%96%E9%83%A8%E5%88%86%22" alt="Factory Method结构图"></p>
+<h5 id="要点总结">要点总结</h5>
+<ul>
+<li>Factory Method模式用于隔离类对象的使用者和具体类型之间的耦合关系。面对一个经常变化的具体类型，紧耦合关系(new)会导致软件的脆弱。</li>
+<li>Factory Method模式通过面向对象的手法，将所要创建的具体对象工作延迟到子类，从而实现一种扩展（而非更改）的策略，较好地解决了这种紧耦合关系。</li>
+<li>Factory Method模式解决“单个对象”的需求变化。缺点在于要求创建方法/参数相同。</li>
+</ul>
+<h4 id="abstract-factory">Abstract Factory</h4>
+<h5 id="动机-1">动机</h5>
+<ul>
+<li>在软件系统中，经常面临着“一系列相互依赖的对象”的创建工作；同时，由于需求的变化，往往存在更多系列对象的创建工作。如何应对这种变化？如何绕过常规的对象创建方法(new)，提供一种“封装机制”来避免客户程序和这种“多系列具体对象创建工作” 的紧耦合？</li>
+</ul>
+<h5 id="定义-1">定义</h5>
+<ul>
+<li>提供一个接口，让该接口负责创建一系列“相关或者相互依赖的对象”，无需指定它们具体的类。</li>
+</ul>
+<h5 id="代码">代码</h5>
+<pre><code class="language-cpp">// 
+class EmployeeDAO{
+    
+public:
+    vector&lt;EmployeeDO&gt; GetEmployees(){
+        SqlConnection* connection =
+            new SqlConnection();
+        connection-&gt;ConnectionString(&quot;&quot;...&quot;);
+
+        SqlCommand* command =
+            new SqlCommand();
+        command-&gt;CommandText(&quot;&quot;...&quot;);
+        command-&gt;SetConnection(connection);
+
+        SqlDataReader* reader = command-&gt;ExecuteReader();
+        while (reader-&gt;Read()){
+
+        }
+
+    }
+};
+
+                             
+                             
+//数据库访问有关的基类
+class IDBConnection{
+    
+};
+class IDBConnectionFactory{
+public:
+    virtual IDBConnection* CreateDBConnection()=0;
+};
+
+
+class IDBCommand{
+    
+};
+class IDBCommandFactory{
+public:
+    virtual IDBCommand* CreateDBCommand()=0;
+};
+
+
+class IDataReader{
+    
+};
+class IDataReaderFactory{
+public:
+    virtual IDataReader* CreateDataReader()=0;
+};
+
+
+//支持SQL Server
+class SqlConnection: public IDBConnection{
+    
+};
+class SqlConnectionFactory:public IDBConnectionFactory{
+    
+};
+
+
+class SqlCommand: public IDBCommand{
+    
+};
+class SqlCommandFactory:public IDBCommandFactory{
+    
+};
+
+
+class SqlDataReader: public IDataReader{
+    
+};
+class SqlDataReaderFactory:public IDataReaderFactory{
+    
+};
+
+//支持Oracle
+class OracleConnection: public IDBConnection{
+    
+};
+
+class OracleCommand: public IDBCommand{
+    
+};
+
+class OracleDataReader: public IDataReader{
+    
+};
+
+
+
+class EmployeeDAO{
+    IDBConnectionFactory* dbConnectionFactory;
+    IDBCommandFactory* dbCommandFactory;
+    IDataReaderFactory* dataReaderFactory;
+    
+    
+public:
+    vector&lt;EmployeeDO&gt; GetEmployees(){
+        IDBConnection* connection =
+            dbConnectionFactory-&gt;CreateDBConnection();
+        connection-&gt;ConnectionString(&quot;...&quot;);
+
+        IDBCommand* command =
+            dbCommandFactory-&gt;CreateDBCommand();
+        command-&gt;CommandText(&quot;...&quot;);
+        command-&gt;SetConnection(connection); //关联性
+
+        IDBDataReader* reader = command-&gt;ExecuteReader(); //关联性
+        while (reader-&gt;Read()){
+
+        }
+
+    }
+};
+
+</code></pre>
+<pre><code class="language-cpp">
+//数据库访问有关的基类
+class IDBConnection{
+    
+};
+
+class IDBCommand{
+    
+};
+
+class IDataReader{
+    
+};
+
+
+class IDBFactory{
+public:
+    virtual IDBConnection* CreateDBConnection()=0;
+    virtual IDBCommand* CreateDBCommand()=0;
+    virtual IDataReader* CreateDataReader()=0;
+    
+};
+
+
+//支持SQL Server
+class SqlConnection: public IDBConnection{
+    
+};
+class SqlCommand: public IDBCommand{
+    
+};
+class SqlDataReader: public IDataReader{
+    
+};
+
+
+class SqlDBFactory:public IDBFactory{
+public:
+    virtual IDBConnection* CreateDBConnection()=0;
+    virtual IDBCommand* CreateDBCommand()=0;
+    virtual IDataReader* CreateDataReader()=0;
+ 
+};
+
+//支持Oracle
+class OracleConnection: public IDBConnection{
+    
+};
+
+class OracleCommand: public IDBCommand{
+    
+};
+
+class OracleDataReader: public IDataReader{
+    
+};
+
+
+
+class EmployeeDAO{
+    IDBFactory* dbFactory;
+    
+public:
+    vector&lt;EmployeeDO&gt; GetEmployees(){
+        IDBConnection* connection =
+            dbFactory-&gt;CreateDBConnection();
+        connection-&gt;ConnectionString(&quot;...&quot;);
+
+        IDBCommand* command =
+            dbFactory-&gt;CreateDBCommand();
+        command-&gt;CommandText(&quot;...&quot;);
+        command-&gt;SetConnection(connection); //关联性
+
+        IDBDataReader* reader = command-&gt;ExecuteReader(); //关联性
+        while (reader-&gt;Read()){
+
+        }
+
+    }
+};
+
+</code></pre>
+<h5 id="结构图-1">结构图</h5>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82.png%22%E7%BA%A2%E8%89%B2%E8%A1%A8%E7%A4%BA%E7%A8%B3%E5%AE%9A,%E7%B4%AB%E8%89%B2%E4%B8%BA%E7%AC%AC%E4%B8%80%E7%A7%8D%E5%8F%98%E5%8C%96,%E7%BB%BF%E8%89%B2%E4%B8%BA%E7%AC%AC%E4%BA%8C%E7%A7%8D%E5%8F%98%E5%8C%96%22" alt="抽象工厂模式"></p>
+<h5 id="要点总结-1">要点总结</h5>
+<ul>
+<li>如果没有应对“多系列对象构建”的需求变化，则没有必要使用Abstract Factory模式，这时候使用简单的工厂完全可以。</li>
+<li>“系列对象”指的是在某一特定系列下的对象之间有相互依赖、或作用的关系。不同系列的对象之间不能相互依赖。</li>
+<li>Abstract Factory模式主要在于应对“新系列”的需求变动。其缺点在于难以应对“新对象”的需求变动。</li>
+</ul>
+<h4 id="原型模式-prototype">原型模式 prototype</h4>
+<h5 id="动机-2">动机</h5>
+<ul>
+<li>在软件系统中,经常面临<strong>某些结构复杂的对象</strong>的创建工作, 由于需求变化, 这些对象经常面临剧烈的变化,但是它们工作却拥有比较稳定一致的接口.</li>
+<li>如何向<strong>客户程序(使用这些对象的程序)隔离出</strong>这些易变对象, 使这些易变对象的客户端不随着需求的改变而改变?</li>
+</ul>
+<h5 id="模式定义">模式定义:</h5>
+<ul>
+<li>使用原型实例指定创建对象的种类, 然后通过拷贝这些原型来创建新的对象</li>
+</ul>
+<pre><code class="language-cpp">//prototype.cpp
+//抽象类
+class ISplitter{
+public:
+    virtual void split()=0;
+    virtual ISplitter* clone()=0; //通过克隆自己来创建对象
+    
+    virtual ~ISplitter(){}
+
+};
+</code></pre>
+<pre><code class="language-cpp">/具体类
+class BinarySplitter : public ISplitter{
+public:
+    virtual ISplitter* clone(){
+        return new BinarySplitter(*this);//克隆自己创建对象
+    }
+};
+
+class TxtSplitter: public ISplitter{
+public:
+    virtual ISplitter* clone(){
+        return new TxtSplitter(*this);//克隆自己创建对象
+    }
+};
+
+class PictureSplitter: public ISplitter{
+public:
+    virtual ISplitter* clone(){
+        return new PictureSplitter(*this);//克隆自己创建对象
+    }
+};
+
+class VideoSplitter: public ISplitter{
+public:
+    virtual ISplitter* clone(){
+        return new VideoSplitter(*this);//克隆自己创建对象
+    }
+};
+</code></pre>
+<pre><code class="language-cpp">//使用
+class MainForm : public Form
+{
+    ISplitter*  prototype;//原型对象
+
+public:
+    
+    MainForm(ISplitter*  prototype){
+        this-&gt;prototype=prototype;
+    }
+    
+	void Button1_Click(){
+		ISplitter * splitter=
+            prototype-&gt;clone(); //克隆原型 
+        splitter-&gt;split();
+	}
+};
+</code></pre>
+<h5 id="类图结构">类图结构</h5>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F.png" alt="原型结构"></p>
+<h5 id="要点总结-2">要点总结</h5>
+<ul>
+<li>prototype模式同样用于隔离类对象的使用者和具体类型之间的耦合关系,同样要求易变类有稳定的接口</li>
+<li>prototype模式对于<strong>如何创建易变类的实体对象</strong>采用原型克隆的方法来做,它使得我们可以非常灵活的动态创建<strong>拥有某些稳定接口</strong>的新对象&mdash;所需工作仅仅是注册一个新类的对象(原型)然后再任何需要的地方clone();</li>
+<li>prototype模式中的clone方法是深拷贝..</li>
+<li>prototype使用很少</li>
+</ul>
+<h4 id="builder-模式">builder 模式</h4>
+<h5 id="动机-3">动机</h5>
+<ul>
+<li>面临着“一个复杂对象”的创建工作，其 通常由各个部分的子对象用一定的算法构成；由于需求的变化，这 个复杂对象的各个部分经常面临着剧烈的变化，但是将它们组合在 一起的算法却相对稳定</li>
+<li>如何提供一种“封装机制”来隔离出“复杂 对象的各个部分”的变化，从而保持系统中的“稳定构建算法”不 随着需求改变而改变？</li>
+</ul>
+<h5 id="模式定义-1">模式定义</h5>
+<ul>
+<li>将一个复杂对象的构建与其表示相分离，使得同样的构建过 程(稳定)可以创建不同的表示(变化)</li>
+</ul>
+<pre><code class="language-cpp">//house对象的表示
+class House{
+    //....
+};
+//对象的构建
+class HouseBuilder {
+public:
+    House* GetResult(){
+        return pHouse;
+    }
+    virtual ~HouseBuilder(){}
+protected:
+    
+    House* pHouse;
+	virtual void BuildPart1()=0;
+    virtual void BuildPart2()=0;
+    virtual void BuildPart3()=0;
+    virtual void BuildPart4()=0;
+    virtual void BuildPart5()=0;
+	
+};
+
+class StoneHouse: public House{
+    //overwrite
+};
+
+class StoneHouseBuilder: public HouseBuilder{
+protected:
+    
+    virtual void BuildPart1(){
+        //pHouse-&gt;Part1 = ...;
+    }
+    virtual void BuildPart2(){
+        
+    }
+    virtual void BuildPart3(){
+        
+    }
+    virtual void BuildPart4(){
+        
+    }
+    virtual void BuildPart5(){
+        
+    }
+    
+};
+
+//房子的创建,,永远是稳定的
+class HouseDirector{
+    
+public:
+    HouseBuilder* pHouseBuilder;
+    
+    HouseDirector(HouseBuilder* pHouseBuilder){
+        this-&gt;pHouseBuilder=pHouseBuilder;
+    }
+    
+    House* Construct(){
+        
+        pHouseBuilder-&gt;BuildPart1();
+        
+        for (int i = 0; i &lt; 4; i++){
+            pHouseBuilder-&gt;BuildPart2();
+        }
+        
+        bool flag=pHouseBuilder-&gt;BuildPart3();
+        
+        if(flag){
+            pHouseBuilder-&gt;BuildPart4();
+        }
+        
+        pHouseBuilder-&gt;BuildPart5();
+        
+        return pHouseBuilder-&gt;GetResult();
+    }
+};
+</code></pre>
+<h5 id="结构图-2">结构图</h5>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/builder.png" alt="builder模式"></p>
+<h5 id="要点总结-3">要点总结</h5>
+<ul>
+<li>Builder 模式主要用于“分步骤构建一个复杂的对象”。在这其中 “分步骤”是一个稳定的算法，而复杂对象的各个部分则经常变化</li>
+<li>变化点在哪里，封装哪里—— Builder模式主要在于应对“复杂对 象各个部分”的频繁需求变动。其缺点在于难以应对“分步骤构建 算法”的需求变动。</li>
+<li>在Builder模式中，要注意不同语言中构造器内调用虚函数的差别 （C++ vs. C#) 。</li>
+</ul>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/7.-%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%BC%8F/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">对象创建模式</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/4.-%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E6%A8%A1%E5%BC%8F/">
+            <span class="next-text nav-default">单一职责模式</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="lyman0522@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="http://lyman.fun/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>lyman</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

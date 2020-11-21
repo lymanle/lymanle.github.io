@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>「STL」与泛型编程（GP） - LymanLife</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyman" /><meta name="description" content="仿函数 functors 什么是仿函数? 就是一个class中有重载(), 这样的class创建的对象叫做函数对象,这个对象是一个对象,但是像函数 当算法需要一些独" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.78.2 with theme even" />
+
+
+<link rel="canonical" href="http://lyman.fun/post/stl%E4%B8%8E%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8Bgp/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="「STL」与泛型编程（GP）" />
+<meta property="og:description" content="仿函数 functors 什么是仿函数? 就是一个class中有重载(), 这样的class创建的对象叫做函数对象,这个对象是一个对象,但是像函数 当算法需要一些独" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://lyman.fun/post/stl%E4%B8%8E%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8Bgp/" />
+<meta property="article:published_time" content="2019-05-31T10:43:04+00:00" />
+<meta property="article:modified_time" content="2019-05-31T10:43:04+00:00" />
+<meta itemprop="name" content="「STL」与泛型编程（GP）">
+<meta itemprop="description" content="仿函数 functors 什么是仿函数? 就是一个class中有重载(), 这样的class创建的对象叫做函数对象,这个对象是一个对象,但是像函数 当算法需要一些独">
+<meta itemprop="datePublished" content="2019-05-31T10:43:04+00:00" />
+<meta itemprop="dateModified" content="2019-05-31T10:43:04+00:00" />
+<meta itemprop="wordCount" content="2017">
+
+
+
+<meta itemprop="keywords" content="C&#43;&#43;," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="「STL」与泛型编程（GP）"/>
+<meta name="twitter:description" content="仿函数 functors 什么是仿函数? 就是一个class中有重载(), 这样的class创建的对象叫做函数对象,这个对象是一个对象,但是像函数 当算法需要一些独"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LymanLife</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LymanLife</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">「STL」与泛型编程（GP）</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-05-31 </span>
+        <div class="post-category">
+            <a href="/categories/c&#43;&#43;/"> C&#43;&#43; </a>
+            </div>
+          <span class="more-meta"> 2017 words </span>
+          <span class="more-meta"> 5 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#仿函数-functors">仿函数 functors</a></li>
+            <li><a href="#adapters-六大部件最后一个部件">adapters 六大部件最后一个部件</a></li>
+            <li><a href="#函数适配器-binder2nd">函数适配器: binder2nd</a></li>
+            <li><a href="#新型适配器-bind">新型适配器 bind</a></li>
+          </ul>
+        </li>
+        <li><a href="#勿在浮沙筑高台">勿在浮沙筑高台</a>
+          <ul>
+            <li><a href="#一个万用的hash-function">一个万用的Hash Function</a></li>
+            <li><a href="#tuple-元组用例">tuple 元组用例</a></li>
+            <li><a href="#type-traits">type traits</a></li>
+            <li><a href="#type_traits-的实现---is_void">type_traits 的实现  : is_void</a></li>
+            <li><a href="#标准输出流-cout">标准输出流 cout</a></li>
+            <li><a href="#moveable-元素对于vector速度能效的影响">moveable 元素对于vector速度能效的影响</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="仿函数-functors">仿函数 functors</h3>
+<p>什么是仿函数? 就是一个class中有重载(), 这样的class创建的对象叫做函数对象,这个对象是一个对象,但是像函数</p>
+<p>当算法需要一些独特的准则的时候,会用到functor,所以只为算法服务.</p>
+<pre><code class="language-cpp">template&lt;class T&gt;
+struct plus : public binary_function&lt;T, T, T&gt; {
+    T operator()(const T&amp; x, const T&amp; y) const 
+    { return x + y; }
+};
+
+template&lt;class T&gt;
+struct less : public binary_function&lt;T, T, bool&gt; {
+    bool operator()(const T&amp; x, const T&amp; y) const 
+    { return x &lt; y; }
+};
+</code></pre>
+<p>以上为一个加法和小于的仿函数,重载了() 操作符</p>
+<p>在算法中的应用:</p>
+<pre><code class="language-cpp">//using default comparison( operator &lt;)
+sort(myvec.begin(), muvec.end());
+
+//using function as comp
+sort(myvec.begin(), muvec.end(), mufunc);
+
+//using object as comp
+sort(myvec.begin(), muvec.end(),  );
+
+//using explicitly dafault comparison( operator &lt;)
+sort(myvec.begin(), muvec.end(), less&lt;int&gt;()); // 临时对象
+
+//using another comparison criteria( operator &gt;)
+sort(myvec.begin(), muvec.end(), greater&lt;int&gt;()); // 临时对象
+</code></pre>
+<pre><code class="language-cpp">struct myclass{// 没有binary_function,所以无法融入STL
+    bool operator() (int i, int j) {return (i &lt; j);}
+} myobj;
+
+bool myfunc(int i, int j) {return (i &lt; j);}
+</code></pre>
+<p>什么是binary_function?   STL规定每个adaptable function 都会挑选两个之一继承,因为function adapter 将会提问问题,这样就可以回答了.</p>
+<pre><code class="language-cpp">template &lt;class Arg, class Result&gt;
+struct binary_function {
+	typedef Arg1 first_argument_type;
+	typedef Arg2 second_argument_type;
+	typedef Result result_type;
+}
+
+template &lt;class Arg, class Result&gt;
+struct unary_function {
+	typedef Arg first_argument_type;
+	typedef Result result_type;
+}
+</code></pre>
+<h3 id="adapters-六大部件最后一个部件">adapters 六大部件最后一个部件</h3>
+<p>把一个既有的东西改一下,改个名字,参数的个数等等.相当于一个桥梁,真正起作用的是背后</p>
+<ul>
+<li>iterator adapters: 内含了别的iterator</li>
+<li>container adapters: 内含了别的container  例如:stack,queue由deque实现.</li>
+<li>functor adapters: 内含了别的functor</li>
+</ul>
+<h3 id="函数适配器-binder2nd">函数适配器: binder2nd</h3>
+<pre><code class="language-cpp">cout &lt;&lt; count_if(ve.begin(), ve.end(), not1(bind2nd(less&lt;int&gt;(), 40)));
+</code></pre>
+<p>not1和 bind2nd 为function adapter, less()为 function object</p>
+<pre><code class="language-cpp">//辅助函数, 让user可以方便的使用binder2nd&lt;OP&gt;;
+//编译器会自动推的OP的type
+template&lt;class Operation, class T&gt;
+inline binder2nd&lt;OPeration&gt;bind2nd(const Operation&amp; op, const T&amp; x) {
+    typedef typename Operation::second_argument_type arg2_type;
+    return binder2nd&lt;Operation&gt;(op, arg2_type(x)); //临时对象
+}
+
+//一下将某个adaptable binary function转换为unary function
+template&lt;class Operation&gt;
+class binder2nd : public unary_funtion&lt;typename Operation::first_argument_type,
+									   typename Operation::result_type&gt; {
+	protected:
+    	Operation op; //内部函数用于算式和第二参数
+        typename Operation::second_argument_type value;
+  	public:
+        //constuctor
+        binder2nd(const Operation&amp; x, const typename 				                                 Operation::second_argument_type&amp; y):op(x), value(y) {}
+        typename Operation::result_type operator() (const typename 								  Operation::first_argument_type&amp; x) const {
+            return op(x, value);  //
+        }
+};
+</code></pre>
+<h3 id="新型适配器-bind">新型适配器 bind</h3>
+<h2 id="勿在浮沙筑高台">勿在浮沙筑高台</h2>
+<h3 id="一个万用的hash-function">一个万用的Hash Function</h3>
+<p>在STL中,每个类型都有对应的hash function,但是如果是复合类型的一个对象咋办呢?</p>
+<p>共有三种解决办法:</p>
+<ul>
+<li>仿函数型</li>
+<li>函数型</li>
+<li>偏特化</li>
+</ul>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/stl/mode1%202.png" alt="mode 1 and 2"></p>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/stl/mode3.png" alt="mode 3"></p>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/stl/mode2.png" alt="mode 2 详情"></p>
+<p>这里用到了variadic templates, 把n个参数分解为1 和 n-1个参数,然后再把n - 1 分解为 1 和 n-2 个参数,直到分解到1 和 1 个参数.</p>
+<h3 id="tuple-元组用例">tuple 元组用例</h3>
+<p>可以指定任意的元素,元素可以是任意的类型</p>
+<p>For example</p>
+<p>//输出各个类型大小</p>
+<pre><code class="language-cpp">cout &lt;&lt; &quot;string sizeof = &quot; &lt;&lt; sizeof(string) &lt;&lt;endl;		//4
+cout &lt;&lt; &quot;double sizeof = &quot; &lt;&lt; sizeof(double) &lt;&lt;endl;		//8
+cout &lt;&lt; &quot;float sizeof = &quot; &lt;&lt; sizeof(float) &lt;&lt;endl;		//4
+cout &lt;&lt; &quot;int sizeof = &quot; &lt;&lt; sizeof(int) &lt;&lt;endl;		//4
+cout &lt;&lt; &quot;complex&lt;double&gt; sizeof = &quot; &lt;&lt; sizeof(complex&lt;double&gt;) &lt;&lt;endl;		//16
+
+//tuples
+
+tuple&lt;string, int, int, complex&lt;double&gt;&gt; t;
+cout &lt;&lt; &quot;sizeof = &quot; &lt;&lt; sizeof(t) &lt;&lt; endl;   //32  不是28,我也不知道
+
+tuple&lt;int, float, string&gt;t1(41, 63, &quot;nieo&quot;);
+//输出
+cout &lt;&lt; &quot;t1:&quot;&lt;&lt; get&lt;0&gt;(t1) &lt;&lt; get&lt;1&gt;(t1) &lt;&lt; get&lt;2&gt;(t1) &lt;&lt; endl;
+
+//直接声明
+auto t2 = make_tuple(22, 44, &quot;strac&quot;);
+
+//tuple重新定义了 &lt; 
+if(t1 &lt; t2){		//compares
+    cout &lt;&lt; &quot; t1 &lt; t2&quot; &lt;&lt; endl;
+}
+
+
+//取出tuple中的元素
+tuple&lt;int, float, string&gt;t3(41, 63, &quot;nieo&quot;);
+int i1;
+float f1;
+string s1;
+tie(il, f1, s1) = t3; //tie 解包tuple 把t3中的元素统一取出来赋值给i1, f1, s1
+
+</code></pre>
+<p>那么tuple如何是如何实现的呢?  递归的继承自己的后面的参数..具体可以看代码</p>
+<pre><code class="language-cpp">template&lt;typename... Vlaues&gt; class tuple;
+template&lt;&gt; class tuple&lt;&gt; {} //偏特化版本  大小为0
+
+template&lt;typename Head, typename... Tail&gt;
+class tuple&lt;Head, Tail...&gt; : private tuple &lt;Tail...&gt; { //递归的继承自己的尾巴,拍案叫绝
+	typedef tuple&lt;Tail...&gt; inherited;  	// 尾部所形成的tuple
+public:
+	tuple() {}
+	tuple(Head v, Tail... vtail) : m_head(v), inherited(vtail...){}
+	
+	typename Head::type() {return m_head;}  // head 得到头的值
+	inherited&amp; tail() { return *this;}	// 得到tail的起点的指针
+	
+protected:
+	Head m_head;
+}
+</code></pre>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/stl/tuple.png" alt="tuple"></p>
+<h3 id="type-traits">type traits</h3>
+<pre><code class="language-cpp">//STL 2.9 泛化
+template&lt; class type&gt;
+struct __type_traits {
+	typedef __ture_type this_dummy_member_must_be_first;
+	typedef __flase_type has_trivial_default_constructor;//构造  默认为flase 所以重要
+	typedef __flase_type has_trivial_copy_constructor;	//拷贝构造重要
+	typedef __flase_type has_trivial_assignment_operator;	//拷贝赋值重要
+	typedef __flase_type has_trivial_destructor;	//默认析构 重要
+	typedef __flase_type is_POD_type;			// 重要
+}
+
+//特化1
+template&lt;&gt; struct __type_traits&lt;int&gt; {
+	typedef __ture_type this_dummy_member_must_be_first;
+	typedef __ture_type has_trivial_default_constructor;//构造  不重要
+	typedef __ture_type has_trivial_copy_constructor;	//拷贝构造不重要
+	typedef __ture_type has_trivial_assignment_operator;	//拷贝赋值不重要
+	typedef __ture_type has_trivial_destructor;	//默认析构不重要
+	typedef __ture_type is_POD_type;			// 不重要
+}
+
+
+//特化2
+template&lt;&gt; struct __type_traits&lt;double&gt; {
+	typedef __ture_type this_dummy_member_must_be_first;
+	typedef __ture_type has_trivial_default_constructor;//构造  不重要
+	typedef __ture_type has_trivial_copy_constructor;	//拷贝构造不重要
+	typedef __ture_type has_trivial_assignment_operator;	//拷贝赋值不重要
+	typedef __ture_type has_trivial_destructor;	//默认析构不重要
+	typedef __ture_type is_POD_type;			// 不重要
+}
+
+//可以按照这样的规则来为自己的class写一个type_traits,,一般来说没有指针的都不太重要
+</code></pre>
+<p>现在2.0 已经内置了很多很多type_traits, 如下图</p>
+<p><a href="https://zh.cppreference.com/w/cpp/header/type_traits">内置type_traits</a></p>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/stl/type%20traits.png" alt="type traits"></p>
+<h3 id="type_traits-的实现---is_void">type_traits 的实现  : is_void</h3>
+<pre><code class="language-cpp">//is void
+template&lt;typename _Tp&gt;
+	struct is_void : public __is_void_helper&lt;typename remove_cv&lt;_TP&gt;::type&gt;::type
+	{ };
+//通过remove_cv把const和volatile关键字拿掉, 然后进入下面判断是否为void
+template&lt;&gt;
+	struct __is_void_helper&lt;void&gt;
+	:public true_type { };
+template&lt;typename&gt;
+	struct __is_void_helper
+	:public false_type { };
+	
+//remove_const 泛化版
+template&lt;typename _Tp&gt;
+	struct remove_const 
+    {return _Tp type;};
+
+//remove 偏特化版
+template&lt;typename _Tp&gt;
+	struct remove_const&lt;_Tp const&gt; 
+    {return _Tp type;};
+
+//remove volatile   //volatile 确保本条指令不会因编译器的优化而省略，且要求每次直接读值。 
+template&lt;typename _Tp&gt;
+	struct remove_volatile
+    {return _Tp  type;};
+
+template&lt;typename _Tp&gt;
+	struct remove_volatile&lt;_Tp const&gt; 
+    {return _Tp  type;};
+
+//remove_cv				
+template&lt;typename _Tp&gt;
+	struct remove_volatile
+    {
+        typedef typename
+        remove_const&lt;typename remove_volatile&lt;_Tp&gt;::type&gt;::type  type;
+    };
+
+//add_const
+template&lt;typename _Tp&gt;
+	struct add_const
+    {return _Tp cosnt  type;};
+</code></pre>
+<h3 id="标准输出流-cout">标准输出流 cout</h3>
+<p>cout是一个__IO_ostream_withassign 的一个对象,_IO_ostream_withassign 继承自ostream</p>
+<p>如下图:</p>
+<p><img src="https://gile.oss-cn-shanghai.aliyuncs.com/stl/cout.png" alt="cout"></p>
+<p>如果自己的一个对象想用cout,需要自己对&laquo;操作符重载</p>
+<h3 id="moveable-元素对于vector速度能效的影响">moveable 元素对于vector速度能效的影响</h3>
+<p>move是c++ 2.0 的一个知识点, move意味着浅拷贝,只是把指针给更改了,所以拷贝完需要断开原来的指针.所以当使用move的时候我们应该知道原来的object将不再使用.</p>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/c&#43;&#43;/">C&#43;&#43;</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/0.-%E4%BD%95%E4%B8%BA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">c&#43;&#43; 设计模式</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B8%8B-%E4%BE%AF%E6%8D%B7/">
+            <span class="next-text nav-default">C&#43;&#43; 面向对象高级编程下-侯捷</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="lyman0522@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="http://lyman.fun/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>lyman</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

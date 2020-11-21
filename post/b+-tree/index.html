@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>B-tree - LymanLife</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyman" /><meta name="description" content="B-tree 一颗B树T是具有以下性质的有根树(根为 T.root) 每个结点x 有下面属性 x.n, 当前存储在x中的关键字个数 x.n 个关键字本身 x.key1 , x.key2 , &amp;hellip;, x.keyx.n , 按照升序排序 x.leaf, 一个布尔" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.78.2 with theme even" />
+
+
+<link rel="canonical" href="http://lyman.fun/post/b&#43;-tree/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="B-tree" />
+<meta property="og:description" content="B-tree 一颗B树T是具有以下性质的有根树(根为 T.root) 每个结点x 有下面属性 x.n, 当前存储在x中的关键字个数 x.n 个关键字本身 x.key1 , x.key2 , &hellip;, x.keyx.n , 按照升序排序 x.leaf, 一个布尔" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://lyman.fun/post/b&#43;-tree/" />
+<meta property="article:published_time" content="2019-07-27T22:18:25+00:00" />
+<meta property="article:modified_time" content="2019-07-27T22:18:25+00:00" />
+<meta itemprop="name" content="B-tree">
+<meta itemprop="description" content="B-tree 一颗B树T是具有以下性质的有根树(根为 T.root) 每个结点x 有下面属性 x.n, 当前存储在x中的关键字个数 x.n 个关键字本身 x.key1 , x.key2 , &hellip;, x.keyx.n , 按照升序排序 x.leaf, 一个布尔">
+<meta itemprop="datePublished" content="2019-07-27T22:18:25+00:00" />
+<meta itemprop="dateModified" content="2019-07-27T22:18:25+00:00" />
+<meta itemprop="wordCount" content="466">
+
+
+
+<meta itemprop="keywords" content="数据结构," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="B-tree"/>
+<meta name="twitter:description" content="B-tree 一颗B树T是具有以下性质的有根树(根为 T.root) 每个结点x 有下面属性 x.n, 当前存储在x中的关键字个数 x.n 个关键字本身 x.key1 , x.key2 , &hellip;, x.keyx.n , 按照升序排序 x.leaf, 一个布尔"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LymanLife</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LymanLife</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">B-tree</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-07-27 </span>
+        
+          <span class="more-meta"> 466 words </span>
+          <span class="more-meta"> 1 min read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#b-tree">B-tree</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="b-tree">B-tree</h3>
+<p>一颗B树T是具有以下性质的有根树(根为 T.root)</p>
+<ol>
+<li>每个结点x 有下面属性
+<ol>
+<li>x.n, 当前存储在x中的关键字个数</li>
+<li>x.n 个关键字本身 x.key<sub>1</sub> , x.key<sub>2</sub> , &hellip;, x.key<sub>x.n</sub> ,  按照升序排序</li>
+<li>x.leaf, 一个布尔值, 如果x是叶节点, 则为true, 如果x为内部结点, 为false</li>
+</ol>
+</li>
+<li>每个内部节点x 还包含 x.n+1 个指向其孩子的指针 x.c<sub>1</sub> , x.c<sub>2</sub>  . ,,,,,x.c<sub>x.n+1</sub> . 叶结点没有孩子, 所以它们的ci属性没有定义</li>
+<li>关键字 x.keyi 对存储在各子树中的关键字范围加以分割: 如果ki 为任意一个存储在以 x.ci为根的子树中的关键字, 那么   k<sub>1</sub> &lt;= x.key<sub>1</sub>  &lt;= x.key<sub>2</sub> &lt;= &hellip;. &lt;= x.key<sub>x.n</sub>  &lt;= k<sub>x.n+1</sub></li>
+<li>每个叶结点具有相同的深度, 即树的高度h</li>
+<li>每个结点所包含的关键字个数有上界和下界,.. 用一个被称为B树的<strong>最小度数</strong>的固定整数 t &gt;= 2来表示这些界
+<ol>
+<li>除了根节点以外的每个结点必须至少有 <strong>t-1</strong> 个关键字.  因此除了根结点以外的每个内部结点都至少有<strong>t个孩子</strong>. 如果树非空, 根结点至少有一个关键字</li>
+<li>每个结点至多可包含 <strong>2t-1</strong> 个关键字. 因此, 一个内部结点至多可有<strong>2t</strong>个孩子. 当一个结点恰好有 2t-1个关键字时, 称该结点时<strong>满的</strong>.  t=2时, B树是最简单的, 每个内部结点有 2个, 3个, 4个孩子, 即一颗 2-3-4树. 然而在实际中, t越大, B树的高度越小,</li>
+</ol>
+</li>
+</ol>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E7%BA%BF%E7%A8%8B%E8%BF%9B%E7%A8%8B/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">线程和进程</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/more-effective-c/">
+            <span class="next-text nav-default">More Effective C&#43;&#43; 笔记</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="lyman0522@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="http://lyman.fun/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>lyman</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

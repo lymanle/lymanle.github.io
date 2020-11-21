@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>算法 on LymanLife</title>
+    <link>http://lyman.fun/tags/%E7%AE%97%E6%B3%95/</link>
+    <description>Recent content in 算法 on LymanLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 18 Jul 2019 10:26:30 +0000</lastBuildDate><atom:link href="http://lyman.fun/tags/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>递归和动态规划</title>
+      <link>http://lyman.fun/post/8.-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
+      <pubDate>Thu, 18 Jul 2019 10:26:30 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/8.-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid>
+      <description>递归和动态规划 介绍递归和动态规划 暴力递归 把问题转化为规模小了的同类问题的子问题 有明确的不需要继续进行递归的条件(base case) 有当得到了子问题的</description>
+    </item>
+    
+    <item>
+      <title>前缀树和贪心算法</title>
+      <link>http://lyman.fun/post/7.-%E5%89%8D%E7%BC%80%E6%A0%91%E5%92%8C%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Wed, 17 Jul 2019 22:12:55 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/7.-%E5%89%8D%E7%BC%80%E6%A0%91%E5%92%8C%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</guid>
+      <description>介绍前缀树 何为前缀树？ 如何生成前缀树？ 前缀树 又叫字典树、Trie 树，单词查找树或键树，是一种多叉树结构, 读的SuRF : Practical Range Query Filtering with Fast Succinct Tries 论文就</description>
+    </item>
+    
+    <item>
+      <title>一致性哈希, 并查集以及岛问题</title>
+      <link>http://lyman.fun/post/6.-%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C-%E5%B9%B6%E6%9F%A5%E9%9B%86-%E5%B2%9B%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Tue, 16 Jul 2019 09:47:11 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/6.-%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C-%E5%B9%B6%E6%9F%A5%E9%9B%86-%E5%B2%9B%E9%97%AE%E9%A2%98/</guid>
+      <description>题目一 : 设计RandomPool结构 【题目】 设计一种结构，在该结构中有如下三个功能： insert(key)：将某个key加入到该结构，做到不</description>
+    </item>
+    
+    <item>
+      <title>二叉树结构</title>
+      <link>http://lyman.fun/post/5.-%E4%BA%8C%E5%8F%89%E6%A0%91/</link>
+      <pubDate>Mon, 15 Jul 2019 21:19:15 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/5.-%E4%BA%8C%E5%8F%89%E6%A0%91/</guid>
+      <description>题目一 : 二叉树遍历 实现二叉树的先序、中序、后序遍历，包括递归方式和非递归 方式 思考 在非递归版本中,为啥要用栈结构呢? 因为二叉树没有子节点指向父</description>
+    </item>
+    
+    <item>
+      <title>排序的稳定性</title>
+      <link>http://lyman.fun/post/3.-%E6%8E%92%E5%BA%8F%E7%9A%84%E7%A8%B3%E5%AE%9A%E5%9E%8B/</link>
+      <pubDate>Sun, 14 Jul 2019 20:24:26 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/3.-%E6%8E%92%E5%BA%8F%E7%9A%84%E7%A8%B3%E5%AE%9A%E5%9E%8B/</guid>
+      <description>排序的稳定性以其汇总 稳定性: 就是相同的两个数字,排序完成会不会交换位置 稳定: 冒泡 插入 归并 基数排序 桶排序 计数排序 不稳定 选择 快排 堆排序 工程中综合</description>
+    </item>
+    
+    <item>
+      <title>排序的应用</title>
+      <link>http://lyman.fun/post/2.-%E6%8E%92%E5%BA%8F%E7%9A%84%E5%BA%94%E7%94%A8/</link>
+      <pubDate>Sat, 06 Jul 2019 21:21:40 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/2.-%E6%8E%92%E5%BA%8F%E7%9A%84%E5%BA%94%E7%94%A8/</guid>
+      <description>问题一（荷兰国旗问题） 给定一个数组arr，和一个数num，请把小于num的数放在数组的 左边，等于num的数放在数组的中间，大于num的数放在</description>
+    </item>
+    
+    <item>
+      <title>排序</title>
+      <link>http://lyman.fun/post/1.-%E6%8E%92%E5%BA%8F/</link>
+      <pubDate>Fri, 05 Jul 2019 20:18:52 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/1.-%E6%8E%92%E5%BA%8F/</guid>
+      <description>1. 算法的入门课程 剖析递归行为和递归行为时间复杂度的估算 T(N) = a*T(N/b) + O(N^d) log(b,a) &amp;gt; d -&amp;gt; 复杂度为O(N^log(b,a)) log(b,a) = d -&amp;gt; 复杂度为O(N^d * logN) log(b,a) &amp;lt;</description>
+    </item>
+    
+  </channel>
+</rss>

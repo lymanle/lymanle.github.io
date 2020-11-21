@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LymanLife</title>
+    <link>http://lyman.fun/</link>
+    <description>Recent content on LymanLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 27 Aug 2019 10:25:00 +0000</lastBuildDate><atom:link href="http://lyman.fun/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>网络IO模型</title>
+      <link>http://lyman.fun/post/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Tue, 27 Aug 2019 10:25:00 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/</guid>
+      <description>网络IO模型 IO是计算机体系中重要一部分. IO有两种操作 同步IO: 必须等到IO操作完成 ,控制权才返回给用户进程 异步IO: 无需等待IO操作完成</description>
+    </item>
+    
+    <item>
+      <title>线程和进程</title>
+      <link>http://lyman.fun/post/%E7%BA%BF%E7%A8%8B%E8%BF%9B%E7%A8%8B/</link>
+      <pubDate>Sun, 25 Aug 2019 10:22:00 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/%E7%BA%BF%E7%A8%8B%E8%BF%9B%E7%A8%8B/</guid>
+      <description>&lt;h3 id=&#34;多线程&#34;&gt;多线程&lt;/h3&gt;
+&lt;p&gt;进程是包含指令和相关资源的集合. 每个进程和其他进程一起参与调度, 竞争CPU, 内存等系统资源. 每次进程切换都存在进程资源的保存和恢复动作, 称为上下文切换.  当进程越来越多时, 产生了新的问题: 进程的频繁切换引起的额外开销可能会严重影响系统性能; 进程间通信要求复杂的系统级实现.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>B-tree</title>
+      <link>http://lyman.fun/post/b&#43;-tree/</link>
+      <pubDate>Sat, 27 Jul 2019 22:18:25 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/b&#43;-tree/</guid>
+      <description>B-tree 一颗B树T是具有以下性质的有根树(根为 T.root) 每个结点x 有下面属性 x.n, 当前存储在x中的关键字个数 x.n 个关键字本身 x.key1 , x.key2 , &amp;hellip;, x.keyx.n , 按照升序排序 x.leaf, 一个布尔</description>
+    </item>
+    
+    <item>
+      <title>More Effective C&#43;&#43; 笔记</title>
+      <link>http://lyman.fun/post/more-effective-c/</link>
+      <pubDate>Wed, 24 Jul 2019 14:05:46 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/more-effective-c/</guid>
+      <description>条款1：指针与引用的区别 二者之间的区别是：在任何情况下都不能用指向空值的引用，而指针则可以；指针可以被重新赋值以指向另一个不同的对象，但是引</description>
+    </item>
+    
+    <item>
+      <title>递归和动态规划</title>
+      <link>http://lyman.fun/post/8.-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
+      <pubDate>Thu, 18 Jul 2019 10:26:30 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/8.-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid>
+      <description>递归和动态规划 介绍递归和动态规划 暴力递归 把问题转化为规模小了的同类问题的子问题 有明确的不需要继续进行递归的条件(base case) 有当得到了子问题的</description>
+    </item>
+    
+    <item>
+      <title>前缀树和贪心算法</title>
+      <link>http://lyman.fun/post/7.-%E5%89%8D%E7%BC%80%E6%A0%91%E5%92%8C%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Wed, 17 Jul 2019 22:12:55 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/7.-%E5%89%8D%E7%BC%80%E6%A0%91%E5%92%8C%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</guid>
+      <description>介绍前缀树 何为前缀树？ 如何生成前缀树？ 前缀树 又叫字典树、Trie 树，单词查找树或键树，是一种多叉树结构, 读的SuRF : Practical Range Query Filtering with Fast Succinct Tries 论文就</description>
+    </item>
+    
+    <item>
+      <title>一致性哈希, 并查集以及岛问题</title>
+      <link>http://lyman.fun/post/6.-%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C-%E5%B9%B6%E6%9F%A5%E9%9B%86-%E5%B2%9B%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Tue, 16 Jul 2019 09:47:11 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/6.-%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C-%E5%B9%B6%E6%9F%A5%E9%9B%86-%E5%B2%9B%E9%97%AE%E9%A2%98/</guid>
+      <description>题目一 : 设计RandomPool结构 【题目】 设计一种结构，在该结构中有如下三个功能： insert(key)：将某个key加入到该结构，做到不</description>
+    </item>
+    
+    <item>
+      <title>二叉树结构</title>
+      <link>http://lyman.fun/post/5.-%E4%BA%8C%E5%8F%89%E6%A0%91/</link>
+      <pubDate>Mon, 15 Jul 2019 21:19:15 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/5.-%E4%BA%8C%E5%8F%89%E6%A0%91/</guid>
+      <description>题目一 : 二叉树遍历 实现二叉树的先序、中序、后序遍历，包括递归方式和非递归 方式 思考 在非递归版本中,为啥要用栈结构呢? 因为二叉树没有子节点指向父</description>
+    </item>
+    
+    <item>
+      <title>排序的稳定性</title>
+      <link>http://lyman.fun/post/3.-%E6%8E%92%E5%BA%8F%E7%9A%84%E7%A8%B3%E5%AE%9A%E5%9E%8B/</link>
+      <pubDate>Sun, 14 Jul 2019 20:24:26 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/3.-%E6%8E%92%E5%BA%8F%E7%9A%84%E7%A8%B3%E5%AE%9A%E5%9E%8B/</guid>
+      <description>排序的稳定性以其汇总 稳定性: 就是相同的两个数字,排序完成会不会交换位置 稳定: 冒泡 插入 归并 基数排序 桶排序 计数排序 不稳定 选择 快排 堆排序 工程中综合</description>
+    </item>
+    
+    <item>
+      <title>设计模式总结</title>
+      <link>http://lyman.fun/post/10.-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Sun, 14 Jul 2019 15:51:23 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/10.-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93/</guid>
+      <description>设计模式总结 一个目标 管理变化,提高复用 两个手段 分解 抽象 八大原则 依赖倒置原则(DIP) 开放封闭原则(OCP) 单一职责原则(SRP) Liskov 替换原则(</description>
+    </item>
+    
+    <item>
+      <title>领域规则模式</title>
+      <link>http://lyman.fun/post/9.-%E9%A2%86%E5%9F%9F%E8%A7%84%E5%88%99%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 14 Jul 2019 15:24:42 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/9.-%E9%A2%86%E5%9F%9F%E8%A7%84%E5%88%99%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&amp;ldquo;领域规则&amp;quot;模式 在特定领域中, 某些变化虽然频繁, 但是可以抽象为某种规则. 这时候, 结合特定领域, 将问题抽象为语法规则, 从</description>
+    </item>
+    
+    <item>
+      <title>行为变化模式</title>
+      <link>http://lyman.fun/post/6.-%E8%A1%8C%E4%B8%BA%E5%8F%98%E5%8C%96%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 14 Jul 2019 13:21:22 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/6.-%E8%A1%8C%E4%B8%BA%E5%8F%98%E5%8C%96%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&amp;ldquo;行为变化&amp;quot;模式 与C++中的函数对象非常相似 在组件的构建过程中, 组件行为的变化经常导致组件本身剧烈变化. 行为变化 模式将</description>
+    </item>
+    
+    <item>
+      <title>数据结构模式</title>
+      <link>http://lyman.fun/post/3.-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 14 Jul 2019 09:48:29 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/3.-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%A8%A1%E5%BC%8F/</guid>
+      <description>数据结构模式 常常有一些组件在内部具有特定的数据结构, 如果让客户程序依赖这些特定的数据结构, 将极大的破坏组件的复用. 这时候, 将这些特定数据结构</description>
+    </item>
+    
+    <item>
+      <title>状态变化模式</title>
+      <link>http://lyman.fun/post/8.-%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 13 Jul 2019 21:54:26 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/8.-%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&amp;ldquo;状态改变&amp;quot;模式 在组件构建过程中, 某些对象的状态经常发生变化, 如何对这些变化进行管理?同时又维护高层模块的稳定? 典型模</description>
+    </item>
+    
+    <item>
+      <title>接口隔离模式</title>
+      <link>http://lyman.fun/post/5.-%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 13 Jul 2019 20:51:46 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/5.-%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&amp;ldquo;接口隔离&amp;quot;模式 在组件构建过程中，某些接口之间直接的依赖常常会带来很多问题..采用添加一层间接欸(稳定)接口,来隔离本</description>
+    </item>
+    
+    <item>
+      <title>对象性能 模式</title>
+      <link>http://lyman.fun/post/2.-%E5%AF%B9%E8%B1%A1%E6%80%A7%E8%83%BD-%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 13 Jul 2019 20:19:07 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/2.-%E5%AF%B9%E8%B1%A1%E6%80%A7%E8%83%BD-%E6%A8%A1%E5%BC%8F/</guid>
+      <description>对象性能模式 面向对象很好地解决了“抽象” 的问题，但是必不可免地要付出一定的代价。对千通常情况来讲，面向对象的成本大都可以忽略不计。但是某些情</description>
+    </item>
+    
+    <item>
+      <title>effective C&#43;&#43; 笔记</title>
+      <link>http://lyman.fun/post/effective-c-%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sun, 07 Jul 2019 18:45:45 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/effective-c-%E7%AC%94%E8%AE%B0/</guid>
+      <description>1. 让自己习惯C++ 1. 视C++为一个语言联邦 C++是个多重泛型编程语言: C语言: 没有C++的面向对象，没有模板，没有异常，没有重载等。 Object-Oriented C++: 这部</description>
+    </item>
+    
+    <item>
+      <title>排序的应用</title>
+      <link>http://lyman.fun/post/2.-%E6%8E%92%E5%BA%8F%E7%9A%84%E5%BA%94%E7%94%A8/</link>
+      <pubDate>Sat, 06 Jul 2019 21:21:40 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/2.-%E6%8E%92%E5%BA%8F%E7%9A%84%E5%BA%94%E7%94%A8/</guid>
+      <description>问题一（荷兰国旗问题） 给定一个数组arr，和一个数num，请把小于num的数放在数组的 左边，等于num的数放在数组的中间，大于num的数放在</description>
+    </item>
+    
+    <item>
+      <title>排序</title>
+      <link>http://lyman.fun/post/1.-%E6%8E%92%E5%BA%8F/</link>
+      <pubDate>Fri, 05 Jul 2019 20:18:52 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/1.-%E6%8E%92%E5%BA%8F/</guid>
+      <description>1. 算法的入门课程 剖析递归行为和递归行为时间复杂度的估算 T(N) = a*T(N/b) + O(N^d) log(b,a) &amp;gt; d -&amp;gt; 复杂度为O(N^log(b,a)) log(b,a) = d -&amp;gt; 复杂度为O(N^d * logN) log(b,a) &amp;lt;</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; 11 新特性</title>
+      <link>http://lyman.fun/post/c-2-0/</link>
+      <pubDate>Thu, 27 Jun 2019 22:18:25 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/c-2-0/</guid>
+      <description>目标: 较全面的认识c++ 2.0 新特性. 2.0的新特性包括语言和标准库两个层面 一. 语言部分 1. Variadic Template 数量不定的模板参数 void print() { // 最后调用的print } template&amp;lt;typename</description>
+    </item>
+    
+    <item>
+      <title>MySQL必知必会笔记</title>
+      <link>http://lyman.fun/post/mysql%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Thu, 27 Jun 2019 22:18:25 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/mysql%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>MySQL必知必会 开篇说明: 本文为&amp;quot;MySql必知必会&amp;quot; 的读书笔记 在记录到一半的时候发现已经有人做了很完整的笔记了,按照</description>
+    </item>
+    
+    <item>
+      <title>对象创建模式</title>
+      <link>http://lyman.fun/post/7.-%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 22 Jun 2019 21:38:46 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/7.-%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&amp;ldquo;对象创建&amp;quot;模式 通过“对象创建” 模式绕开new，来避免对象创建（new）过程中所导致的紧耦合（依赖具体类），从而支持对</description>
+    </item>
+    
+    <item>
+      <title>对象创建模式</title>
+      <link>http://lyman.fun/post/%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 22 Jun 2019 21:38:46 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%BC%8F/</guid>
+      <description>通过“对象创建” 模式绕开new，来避免对象创建（new）过程中所导致的紧耦合（依赖具体类），从而支持对象创建的稳定。它是接口抽象之后的第一步</description>
+    </item>
+    
+    <item>
+      <title>单一职责模式</title>
+      <link>http://lyman.fun/post/4.-%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 19 Jun 2019 21:41:55 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/4.-%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&amp;ldquo;单一职责&amp;quot;模式: 在软件组件的设计中，如果责任划分的不清晰，使用继承得到的结果往往是随着需求的变化，子类急剧膨胀，同时</description>
+    </item>
+    
+    <item>
+      <title>组件协作模式</title>
+      <link>http://lyman.fun/post/1.-%E7%BB%84%E4%BB%B6%E5%8D%8F%E4%BD%9C%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 19 Jun 2019 21:28:21 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/1.-%E7%BB%84%E4%BB%B6%E5%8D%8F%E4%BD%9C%E6%A8%A1%E5%BC%8F/</guid>
+      <description>GOF-23 模式分类 从目的来看: 创建型（Creational）模式：将对象的部分创建工作延迟到子类或者其他对象，从而应对需求变化为对象创建时具体类型实</description>
+    </item>
+    
+    <item>
+      <title>c&#43;&#43; 设计模式</title>
+      <link>http://lyman.fun/post/0.-%E4%BD%95%E4%B8%BA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 15 Jun 2019 21:22:18 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/0.-%E4%BD%95%E4%B8%BA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</guid>
+      <description>学习目标 理解松耦合设计思想 掌握面向对象设计原则 掌握重构技法改善设计 掌握GOF核心设计模式 so, 什么是设计模式: 每个模式描述了一个不断重复发生的问</description>
+    </item>
+    
+    <item>
+      <title>「STL」与泛型编程（GP）</title>
+      <link>http://lyman.fun/post/stl%E4%B8%8E%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8Bgp/</link>
+      <pubDate>Fri, 31 May 2019 10:43:04 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/stl%E4%B8%8E%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8Bgp/</guid>
+      <description>仿函数 functors 什么是仿函数? 就是一个class中有重载(), 这样的class创建的对象叫做函数对象,这个对象是一个对象,但是像函数 当算法需要一些独</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; 面向对象高级编程下-侯捷</title>
+      <link>http://lyman.fun/post/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B8%8B-%E4%BE%AF%E6%8D%B7/</link>
+      <pubDate>Tue, 21 May 2019 10:25:00 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B8%8B-%E4%BE%AF%E6%8D%B7/</guid>
+      <description>1. Conversion function, 转换函数 class Fraction { // 函数分数 public: Fraction(int num, int den = 1) : m_numerator(num), m_denominator(den) {} operator double() const { // 转换函数 return (double) (m_numerator / m_denominator) } private: int m_numerator; //分子 int m_denominator; // 分母 }; Fraction f(3, 5); double d = 4 + f; // 调用oper</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; 面向对象高级编程上-侯捷</title>
+      <link>http://lyman.fun/post/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B8%8A-%E4%BE%AF%E6%8D%B7/</link>
+      <pubDate>Mon, 20 May 2019 10:25:00 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B8%8A-%E4%BE%AF%E6%8D%B7/</guid>
+      <description>Object Based vs. Object Oriented Object Based(基于对象):面对的是单一class的设计, 没有指针. Object Oriented(面向对象):面对的是多重classes的设计</description>
+    </item>
+    
+  </channel>
+</rss>

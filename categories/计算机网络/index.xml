@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>计算机网络 on LymanLife</title>
+    <link>http://lyman.fun/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
+    <description>Recent content in 计算机网络 on LymanLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 27 Aug 2019 10:25:00 +0000</lastBuildDate><atom:link href="http://lyman.fun/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>网络IO模型</title>
+      <link>http://lyman.fun/post/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Tue, 27 Aug 2019 10:25:00 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/</guid>
+      <description>网络IO模型 IO是计算机体系中重要一部分. IO有两种操作 同步IO: 必须等到IO操作完成 ,控制权才返回给用户进程 异步IO: 无需等待IO操作完成</description>
+    </item>
+    
+  </channel>
+</rss>

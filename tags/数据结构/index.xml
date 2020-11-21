@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>数据结构 on LymanLife</title>
+    <link>http://lyman.fun/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</link>
+    <description>Recent content in 数据结构 on LymanLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 27 Jul 2019 22:18:25 +0000</lastBuildDate><atom:link href="http://lyman.fun/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>B-tree</title>
+      <link>http://lyman.fun/post/b&#43;-tree/</link>
+      <pubDate>Sat, 27 Jul 2019 22:18:25 +0000</pubDate>
+      
+      <guid>http://lyman.fun/post/b&#43;-tree/</guid>
+      <description>B-tree 一颗B树T是具有以下性质的有根树(根为 T.root) 每个结点x 有下面属性 x.n, 当前存储在x中的关键字个数 x.n 个关键字本身 x.key1 , x.key2 , &amp;hellip;, x.keyx.n , 按照升序排序 x.leaf, 一个布尔</description>
+    </item>
+    
+  </channel>
+</rss>
